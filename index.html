@@ -1,0 +1,2895 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Culture 9</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Une question, 9 réponses à trouver : jeu de culture générale en équipes ou seul.">
+<meta name="theme-color" content="#2d3cff">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Culture 9">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;600;700;800&display=swap">
+<style>
+:root { color-scheme: dark; }
+body { background: #1424c9; }
+
+body[data-game='culture'] { background: #1a2be0; }
+.cg-app {
+  --cg-ink: #17143d; --cg-soft: #6c6a90; --cg-card: #ffffff; --cg-line: #e6e6f4;
+  --cg-yellow: #ffd23f; --cg-yellow-d: #d19a00; --cg-pink: #ff4f8b; --cg-green: #19c37d; --cg-green-d: #0f9a60; --cg-red: #ff4757;
+  --t0: #ffd23f; --t1: #ff6fa3; --t2: #35e0d0; --t3: #a5e65a;
+  --lv0: #8a8fb0; --lv1: #2aa9e0; --lv2: #19b36e; --lv3: #ff9419; --lv4: #ff4f8b;
+  --display: 'Baloo 2', 'Nunito', system-ui, sans-serif;
+  min-height: 100vh; color: #fff; font: 500 16px/1.45 'Nunito', system-ui, sans-serif;
+  background: radial-gradient(120% 60% at 50% 0%, #4256ff 0%, transparent 70%), linear-gradient(180deg, #2d3cff 0%, #1424c9 100%);
+  background-attachment: fixed; -webkit-tap-highlight-color: transparent;
+}
+.cg-app button { font-family: inherit; -webkit-tap-highlight-color: transparent; }
+.cg-app :focus-visible { outline: 3px solid var(--cg-yellow); outline-offset: 2px; }
+.cg-t0, .cg-bg0 { --tc: var(--t0); } .cg-t1, .cg-bg1 { --tc: var(--t1); } .cg-t2, .cg-bg2 { --tc: var(--t2); } .cg-t3, .cg-bg3 { --tc: var(--t3); }
+
+/* barre du haut */
+.cg-bar { position: sticky; top: 0; z-index: 5; background: rgba(45, 60, 255, 0.94); backdrop-filter: blur(8px); display: grid; grid-template-columns: 44px 1fr auto; align-items: center; gap: 10px;
+  max-width: 520px; margin: 0 auto; padding: 10px 16px; min-height: 64px; }
+.cg-bar__back { width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(255, 255, 255, 0.16); color: #fff; cursor: pointer; display: grid; place-items: center; }
+.cg-bar__back svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.cg-bar__back[hidden] { display: block !important; visibility: hidden; }
+.cg-bar__title { font: 800 19px/1 var(--display); text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cg-bar__score { padding: 7px 12px; border-radius: 999px; background: rgba(255, 255, 255, 0.16); font: 800 15px/1 var(--display); white-space: nowrap; }
+.cg-bar__switch { border: 0; background: rgba(255, 255, 255, 0.16); color: #fff; border-radius: 999px; padding: 9px 14px; font-weight: 700; font-size: 14px; cursor: pointer; }
+.cg-bar__switch[hidden], .cg-bar__score[hidden] { display: none; }
+
+.cg-main { max-width: 520px; margin: 0 auto; padding: 4px 16px 0; display: flex; flex-direction: column; gap: 14px; min-height: calc(100vh - 64px); }
+.cg-h1 { margin: 6px 0 0; font: 800 28px/1.1 var(--display); }
+.cg-h2 { margin: 10px 0 -4px; font: 800 20px/1.1 var(--display); }
+.cg-h2 small { font: 600 14px/1 'Nunito', sans-serif; opacity: 0.75; margin-left: 6px; }
+.cg-kicker { margin: 0; font-weight: 800; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cg-pink); }
+.cg-center { text-align: center; color: rgba(255, 255, 255, 0.85); }
+.cg-card { background: var(--cg-card); color: var(--cg-ink); border-radius: 22px; padding: 16px; box-shadow: 0 6px 0 rgba(10, 16, 110, 0.35); }
+
+/* boutons */
+.cg-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 58px; padding: 0 22px; border: 0; border-radius: 18px;
+  font: 800 20px/1 var(--display); cursor: pointer; transition: transform 0.08s, box-shadow 0.08s; }
+.cg-btn--go { background: var(--cg-yellow); color: var(--cg-ink); box-shadow: 0 5px 0 var(--cg-yellow-d); }
+.cg-btn--go:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--cg-yellow-d); }
+.cg-btn--ghost { background: rgba(255, 255, 255, 0.16); color: #fff; box-shadow: 0 5px 0 rgba(10, 16, 110, 0.4); }
+.cg-btn--ghost:active { transform: translateY(4px); box-shadow: 0 1px 0 rgba(10, 16, 110, 0.4); }
+.cg-link { border: 0; background: none; padding: 8px 4px; color: rgba(255, 255, 255, 0.85); font-weight: 700; font-size: 15px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.cg-dock { position: sticky; bottom: 0; z-index: 4; display: flex; gap: 10px; margin-top: auto; padding: 14px 0 calc(16px + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(to top, #1424c9 65%, rgba(20, 36, 201, 0)); }
+.cg-dock .cg-btn { flex: 1; }
+.cg-dock--two .cg-btn--ghost { flex: 0 0 38%; }
+
+/* ---------- accueil ---------- */
+.cg-home { display: flex; flex-direction: column; align-items: stretch; gap: 18px; padding-bottom: 24px; }
+.cg-logo { display: flex; flex-direction: column; align-items: center; margin-top: 4px; }
+.cg-logo__word { font: 800 46px/1 var(--display); letter-spacing: 0.02em; text-transform: uppercase; }
+.cg-logo__nine { width: 128px; height: 128px; margin-top: -2px; border-radius: 50%; display: grid; place-items: center; background: var(--cg-yellow); color: var(--cg-ink);
+  font: 800 100px/1 var(--display); padding-top: 10px; box-sizing: border-box; transform: rotate(-8deg); box-shadow: 0 8px 0 var(--cg-yellow-d); animation: cg-wobble 3s ease-in-out infinite; }
+@keyframes cg-wobble { 0%, 100% { transform: rotate(-8deg); } 50% { transform: rotate(-2deg) scale(1.03); } }
+.cg-tagline { margin: 0; text-align: center; font-size: 17px; font-weight: 600; color: rgba(255, 255, 255, 0.88); }
+.cg-modes { display: flex; flex-direction: column; gap: 14px; }
+.cg-mode { display: flex; align-items: center; gap: 14px; width: 100%; min-height: 86px; padding: 14px 18px; border: 0; border-radius: 22px; text-align: left; cursor: pointer;
+  background: #fff; color: var(--cg-ink); box-shadow: 0 6px 0 rgba(10, 16, 110, 0.4); transition: transform 0.08s, box-shadow 0.08s; }
+.cg-mode:active { transform: translateY(5px); box-shadow: 0 1px 0 rgba(10, 16, 110, 0.4); }
+.cg-mode--party { background: var(--cg-yellow); box-shadow: 0 6px 0 var(--cg-yellow-d); }
+.cg-mode--party:active { box-shadow: 0 1px 0 var(--cg-yellow-d); }
+.cg-mode__icon { flex: none; width: 54px; height: 54px; border-radius: 16px; display: grid; place-items: center; background: var(--cg-ink); color: #fff; }
+.cg-mode--solo .cg-mode__icon { background: var(--cg-pink); }
+.cg-mode__icon svg { width: 30px; height: 30px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.cg-mode__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.cg-mode__text b { font: 800 24px/1.05 var(--display); }
+.cg-mode__text small { font-size: 15px; font-weight: 600; opacity: 0.7; }
+.cg-rules { border-radius: 18px; background: rgba(255, 255, 255, 0.12); padding: 0 16px; }
+.cg-rules summary { padding: 14px 0; font-weight: 800; cursor: pointer; list-style: none; display: flex; justify-content: space-between; }
+.cg-rules summary::after { content: '+'; font-size: 20px; line-height: 1; }
+.cg-rules[open] summary::after { content: '−'; }
+.cg-rules summary::-webkit-details-marker { display: none; }
+.cg-rules p { margin: 0 0 12px; color: rgba(255, 255, 255, 0.9); font-size: 15px; }
+.cg-rules__levels { display: flex; flex-wrap: wrap; gap: 6px; }
+.cg-lv { padding: 4px 10px; border-radius: 999px; background: #fff; font-weight: 800; font-size: 13px; }
+.cg-lv--0 { color: var(--lv0); } .cg-lv--1 { color: var(--lv1); } .cg-lv--2 { color: var(--lv2); } .cg-lv--3 { color: var(--lv3); } .cg-lv--4 { color: var(--lv4); }
+.cg-foot { margin: 0; text-align: center; font-size: 14px; color: rgba(255, 255, 255, 0.7); }
+
+/* ---------- seul : thèmes ---------- */
+.cg-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.cg-tile { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 4px; min-height: 76px; padding: 12px 14px; border: 0;
+  border-radius: 18px; background: rgba(255, 255, 255, 0.14); color: #fff; text-align: left; cursor: pointer; }
+.cg-tile b { font: 800 18px/1.1 var(--display); }
+.cg-tile small { font-size: 13px; font-weight: 600; opacity: 0.8; }
+.cg-tile--wide { grid-column: 1 / -1; min-height: 64px; }
+.cg-tile.is-on { background: #fff; color: var(--cg-ink); box-shadow: 0 5px 0 rgba(10, 16, 110, 0.4); }
+
+/* ---------- seul : question ---------- */
+.cg-qcard { display: flex; flex-direction: column; gap: 8px; }
+.cg-question { margin: 0; font: 800 clamp(1.45rem, 6.4vw, 1.9rem)/1.12 var(--display); color: var(--cg-ink); text-wrap: balance; }
+.cg-hint { margin: 0; color: var(--cg-soft); font-weight: 600; font-size: 15px; }
+.cg-form { display: flex; gap: 8px; }
+.cg-input { flex: 1; min-width: 0; height: 58px; padding: 0 18px; border: 3px solid transparent; border-radius: 18px; background: #fff; color: var(--cg-ink);
+  font: 700 18px/1 'Nunito', sans-serif; outline: none; box-shadow: 0 5px 0 rgba(10, 16, 110, 0.35); }
+.cg-input:focus { border-color: var(--cg-yellow); }
+.cg-btn--send { flex: none; width: 70px; padding: 0; }
+.cg-status { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.cg-dots { display: flex; gap: 6px; }
+.cg-dots i { width: 14px; height: 14px; border-radius: 50%; background: #fff; }
+.cg-dots i.is-used { background: rgba(255, 255, 255, 0.25); }
+.cg-feedback { min-height: 1.4em; margin-top: -6px; font-weight: 800; font-size: 16px; }
+.cg-feedback--ok { color: #7dffc0; } .cg-feedback--wrong { color: #ffb0b8; } .cg-feedback--dup { color: rgba(255, 255, 255, 0.75); }
+.cg-slots { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.cg-slot { min-height: 52px; border-radius: 14px; padding: 6px 10px; display: flex; align-items: center; justify-content: space-between; gap: 6px;
+  font-weight: 800; font-size: 14px; line-height: 1.15; overflow-wrap: anywhere; }
+.cg-slot--empty { justify-content: center; border: 2px dashed rgba(255, 255, 255, 0.3); color: rgba(255, 255, 255, 0.45); font: 800 18px/1 var(--display); }
+.cg-slot--ok { background: #fff; color: var(--cg-ink); box-shadow: inset 0 -4px 0 currentColor; }
+.cg-slot.is-new { animation: cg-pop 0.3s ease-out; }
+.cg-slot--ok span { color: var(--cg-ink); }
+.cg-slot--ok b { font: 800 16px/1 var(--display); }
+.cg-slot--wrong { background: rgba(255, 71, 87, 0.25); color: rgba(255, 255, 255, 0.8); text-decoration: line-through; }
+@keyframes cg-pop { from { transform: scale(0.85); } to { transform: none; } }
+.cg-reveal h2 { margin: 0 0 6px; font: 800 20px/1.15 var(--display); }
+.cg-reveal h2 small { font: 700 14px/1 'Nunito', sans-serif; color: var(--cg-soft); }
+.cg-reveal__row { margin-top: 10px; }
+.cg-reveal__row h3 { margin: 0 0 6px; font-weight: 800; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; }
+.cg-reveal__row p { margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.cg-ans { padding: 5px 10px; border-radius: 999px; background: #f0f0f8; color: var(--cg-soft); font-size: 14px; font-weight: 700; }
+.cg-ans.is-found { background: var(--cg-green); color: #fff; }
+
+/* bilans */
+.cg-result { text-align: center; padding: 10px 0 4px; }
+.cg-result .cg-kicker { color: var(--cg-yellow); }
+.cg-result__big { margin: 4px 0 0; font: 800 96px/0.95 var(--display); }
+.cg-result__big small { display: block; font-size: 20px; opacity: 0.8; }
+.cg-result__sub { margin: 8px 0 0; font-weight: 700; color: rgba(255, 255, 255, 0.85); }
+.cg-result__win { margin: 6px 0 0; font: 800 clamp(2.2rem, 11vw, 3.4rem)/1 var(--display); color: var(--cg-yellow); overflow-wrap: anywhere; }
+.cg-recap { list-style: none; margin: 0; display: flex; flex-direction: column; }
+.cg-recap li { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--cg-line); font-weight: 700; font-size: 15px; }
+.cg-recap li:last-child { border-bottom: 0; }
+.cg-recap span { flex: 1; min-width: 0; }
+.cg-recap b { font: 800 20px/1 var(--display); color: var(--cg-pink); }
+
+/* ---------- équipes : réglages ---------- */
+.cg-teams { display: flex; flex-direction: column; gap: 10px; }
+.cg-teamrow { display: flex; align-items: center; gap: 10px; }
+.cg-swatch { flex: none; width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--tc); cursor: pointer; box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.15); }
+.cg-teamname { flex: 1; min-width: 0; height: 48px; padding: 0 14px; border: 2px solid var(--cg-line); border-radius: 14px; font: 800 17px/1 'Nunito', sans-serif;
+  color: var(--cg-ink); background: #f7f7fc; outline: none; }
+.cg-teamname:focus { border-color: var(--cg-yellow); background: #fff; }
+.cg-x { flex: none; width: 40px; height: 40px; border-radius: 50%; border: 0; background: #f0f0f8; color: var(--cg-soft); font-size: 22px; cursor: pointer; }
+.cg-addteam { height: 48px; border: 2px dashed #cfd0e6; border-radius: 14px; background: none; color: var(--cg-soft); font-weight: 800; font-size: 16px; cursor: pointer; }
+.cg-sets { padding: 4px 16px; }
+.cg-set { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 64px; border-bottom: 1px solid var(--cg-line); font-weight: 800; }
+.cg-set:last-child { border-bottom: 0; }
+.cg-set small { display: block; font-weight: 600; color: var(--cg-soft); font-size: 13px; }
+.cg-step { display: flex; align-items: center; gap: 6px; }
+.cg-step b { min-width: 58px; text-align: center; font: 800 20px/1 var(--display); }
+.cg-step button { width: 42px; height: 42px; border-radius: 50%; border: 0; background: var(--cg-ink); color: #fff; font-size: 24px; line-height: 1; cursor: pointer; }
+.cg-step button:disabled { opacity: 0.2; cursor: default; }
+.cg-switch { width: 58px; height: 34px; border-radius: 999px; border: 0; background: #dcdcec; padding: 3px; cursor: pointer; display: flex; }
+.cg-switch i { width: 28px; height: 28px; border-radius: 50%; background: #fff; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); transition: transform 0.2s; }
+.cg-switch.is-on { background: var(--cg-green); }
+.cg-switch.is-on i { transform: translateX(24px); }
+.cg-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.cg-chip { min-height: 42px; padding: 0 16px; border: 0; border-radius: 999px; background: rgba(255, 255, 255, 0.16); color: #fff; font-weight: 800; font-size: 15px; cursor: pointer; }
+.cg-chip.is-on { background: #fff; color: var(--cg-ink); }
+
+/* ---------- équipes : passage du téléphone ---------- */
+.cg-pass { display: flex; flex-direction: column; align-items: stretch; gap: 8px; }
+.cg-pass__who { border-radius: 22px; padding: 18px 20px; background: var(--tc); color: var(--cg-ink); box-shadow: 0 6px 0 rgba(10, 16, 110, 0.35);
+  display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.cg-pass__who small { font-weight: 800; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.7; }
+.cg-pass__who b { font: 800 clamp(2rem, 10vw, 2.8rem)/1 var(--display); overflow-wrap: anywhere; }
+.cg-pass__who--hold { align-items: flex-end; text-align: right; }
+.cg-pass__arrow { text-align: center; font-weight: 800; color: rgba(255, 255, 255, 0.85); padding: 6px 0; }
+.cg-pass__arrow::after { content: ''; display: block; width: 0; height: 0; margin: 6px auto 0; border: 9px solid transparent; border-top-color: rgba(255, 255, 255, 0.85); }
+.cg-mini { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.cg-mini li { display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(255, 255, 255, 0.14); font-weight: 700; font-size: 14px; }
+.cg-mini i { width: 10px; height: 10px; border-radius: 50%; background: var(--tc); }
+.cg-mini b { font-family: var(--display); }
+.cg-team { display: inline-block; padding: 5px 12px; border-radius: 999px; background: var(--tc); color: var(--cg-ink); font-weight: 800; font-size: 15px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ---------- équipes : question à cocher ---------- */
+.cg-qcard--board { padding: 14px 16px; }
+.cg-qcard__top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.cg-timer { --p: 1; flex: none; width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center;
+  background: conic-gradient(var(--cg-yellow) calc(var(--p) * 360deg), #ececf6 0); }
+.cg-timer b { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: #fff; color: var(--cg-ink); font: 800 21px/1 var(--display); font-variant-numeric: tabular-nums; }
+.cg-timer.is-low { background: conic-gradient(var(--cg-red) calc(var(--p) * 360deg), #ececf6 0); }
+.cg-timer.is-low b { color: var(--cg-red); }
+.cg-timeup { margin: 0; padding: 12px 14px; border-radius: 16px; background: var(--cg-red); color: #fff; font-weight: 800; text-align: center; }
+.cg-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+.cg-pick { width: 100%; min-height: 50px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 8px 8px 16px; border: 0;
+  border-radius: 16px; background: #fff; color: var(--cg-ink); text-align: left; cursor: pointer; font-weight: 800; font-size: 17px; line-height: 1.2;
+  box-shadow: 0 4px 0 rgba(10, 16, 110, 0.3); transition: transform 0.08s, background 0.12s; }
+.cg-pick:active { transform: translateY(3px); box-shadow: 0 1px 0 rgba(10, 16, 110, 0.3); }
+.cg-pick__name { min-width: 0; overflow-wrap: anywhere; }
+.cg-pick__pts { flex: none; min-width: 36px; height: 36px; padding: 0 6px; border-radius: 12px; display: grid; place-items: center; background: #f0f0f8; font: 800 18px/1 var(--display); }
+.cg-pick--trap .cg-pick__pts { background: #ffe3e6; color: var(--cg-red); }
+.cg-pick.is-on { background: var(--cg-green); color: #fff; box-shadow: 0 4px 0 var(--cg-green-d); }
+.cg-pick.is-on .cg-pick__pts { background: rgba(255, 255, 255, 0.25); color: #fff; }
+.cg-pick.is-on .cg-pick__name::before { content: '✓ '; }
+.cg-pick--trap.is-on { background: var(--cg-red); box-shadow: 0 4px 0 #c22a38; }
+.cg-dock--board { align-items: center; }
+.cg-live { display: flex; flex-direction: column; align-items: center; min-width: 76px; }
+.cg-live small { font-weight: 800; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.8; }
+.cg-live b { font: 800 30px/1 var(--display); }
+
+/* ---------- équipes : scores et classement ---------- */
+.cg-bars { list-style: none; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+.cg-bars li { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; font-weight: 800; }
+.cg-bars li > span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cg-bars b { font: 800 20px/1 var(--display); }
+.cg-bars__track { grid-column: 1 / -1; height: 14px; border-radius: 999px; background: #f0f0f8; overflow: hidden; }
+.cg-bars__track i { display: block; height: 100%; border-radius: inherit; background: var(--tc); transition: width 0.6s ease-out; }
+.cg-bars li.is-hl > span:first-child { color: var(--cg-pink); }
+.cg-podium { list-style: none; margin: 0; display: flex; flex-direction: column; }
+.cg-podium li { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--cg-line); font-weight: 800; font-size: 18px; }
+.cg-podium li:last-child { border-bottom: 0; }
+.cg-podium li > span:nth-child(3) { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cg-podium i { width: 14px; height: 14px; border-radius: 50%; background: var(--tc); flex: none; }
+.cg-podium b { font: 800 24px/1 var(--display); }
+.cg-podium__rank { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: #f0f0f8; font: 800 18px/1 var(--display); flex: none; }
+.cg-podium li:first-child .cg-podium__rank { background: var(--cg-yellow); }
+
+@media (prefers-reduced-motion: reduce) {
+  .cg-logo__nine, .cg-slot.is-new { animation: none; }
+  .cg-bars__track i, .cg-switch i { transition: none; }
+}
+
+/* page seule : pas de lien vers le reste du site, marges qui évitent les bords et l'encoche du téléphone */
+.cg-bar__switch { display: none !important; }
+.cg-bar { top: env(safe-area-inset-top, 0px); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.cg-main { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: #2d3cff; }
+
+/* application installée : la page commence sous la barre d'état du téléphone */
+html, body { margin: 0; }
+body { padding-top: env(safe-area-inset-top, 0px); overscroll-behavior-y: none; }
+.cg-app { min-height: calc(100vh - env(safe-area-inset-top, 0px)); }
+</style>
+</head>
+<body>
+
+<section class="cg-app" id="culture" aria-label="Culture G"></section>
+<script>
+const { escapeHtml } = (() => {
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+}
+
+return { escapeHtml };
+})();
+const { SAVED_EVENT, readJSON, writeJSON } = (() => {
+// Accès au localStorage qui ne plante jamais (navigation privée, stockage bloqué…).
+const PREFIX = 'lineup-drill:';
+/** Événement envoyé sur window après chaque sauvegarde (detail.key = la clé, sans préfixe). */
+const SAVED_EVENT = 'entlineup:saved';
+
+function readJSON(key, fallback) {
+  try {
+    const raw = localStorage.getItem(PREFIX + key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function writeJSON(key, value) {
+  try {
+    localStorage.setItem(PREFIX + key, JSON.stringify(value));
+  } catch {
+    /* stockage indisponible : la session fonctionne quand même, en mémoire */
+  }
+  // Prévient la page (succès à débloquer, récap…) : un seul point de passage pour toutes les sauvegardes.
+  if (typeof window !== 'undefined' && typeof CustomEvent !== 'undefined') {
+    window.dispatchEvent(new CustomEvent(SAVED_EVENT, { detail: { key } }));
+  }
+}
+
+return { SAVED_EVENT, readJSON, writeJSON };
+})();
+const { CATEGORIES, QUESTIONS } = (() => {
+// Banque de questions de Culture G : chaque question a une liste de réponses acceptées, rangées en 5 niveaux
+// (du plus évident au plus pointu) qui donnent les points. « A|B|C » : A est le nom affiché, B et C des variantes
+// acceptées. people: true → « Abraham Lincoln » est accepté pour « Lincoln » (on regarde la fin du nom tapé).
+// pieges : réponses plausibles mais fausses ; en mode équipes, l'une d'elles est glissée dans la liste et fait perdre des points.
+// Pour ajouter une question : un id unique, une catégorie de CATEGORIES, au moins 9 réponses au total et 2 pièges.
+
+const CATEGORIES = [
+  { id: 'geo', label: 'Géographie' },
+  { id: 'histoire', label: 'Histoire' },
+  { id: 'sciences', label: 'Sciences' },
+  { id: 'lettres', label: 'Arts & lettres' },
+  { id: 'cinema', label: 'Cinéma' },
+  { id: 'starwars', label: 'Star Wars' },
+  { id: 'sda', label: 'Le Seigneur des anneaux' },
+  { id: 'ecran', label: 'Pop culture' },
+  { id: 'sport', label: 'Sport' },
+];
+
+const QUESTIONS = [
+  // ---------- géographie ----------
+  {
+    id: 'ue', cat: 'geo', q: 'Pays membres de l\'Union européenne',
+    pieges: ['Suisse', 'Norvège', 'Royaume-Uni', 'Islande', 'Serbie'],
+    a: [
+      ['France', 'Allemagne', 'Espagne', 'Italie', 'Belgique', 'Portugal'],
+      ['Pays-Bas|Hollande', 'Grèce', 'Autriche', 'Irlande', 'Pologne', 'Suède', 'Luxembourg'],
+      ['Danemark', 'Finlande', 'Roumanie', 'Hongrie', 'Croatie', 'République tchèque|Tchéquie', 'Bulgarie'],
+      ['Slovaquie', 'Slovénie', 'Lituanie', 'Lettonie', 'Estonie', 'Malte'],
+      ['Chypre'],
+    ],
+  },
+  {
+    id: 'afrique', cat: 'geo', q: 'Pays d\'Afrique',
+    pieges: ['Haïti', 'Guyana', 'Oman', 'Papouasie-Nouvelle-Guinée'],
+    a: [
+      ['Maroc', 'Algérie', 'Tunisie', 'Égypte', 'Sénégal', 'Afrique du Sud', 'Côte d\'Ivoire'],
+      ['Mali', 'Cameroun', 'Nigeria', 'Madagascar', 'Kenya', 'Éthiopie', 'Libye', 'Ghana', 'Guinée|Guinée-Conakry',
+        'RD Congo|RDC|République démocratique du Congo|Congo-Kinshasa|Zaïre', 'Congo|République du Congo|Congo-Brazzaville',
+        'Mauritanie', 'Niger', 'Burkina Faso', 'Tchad', 'Soudan'],
+      ['Gabon', 'Bénin', 'Togo', 'Angola', 'Mozambique', 'Zimbabwe', 'Zambie', 'Tanzanie', 'Ouganda', 'Rwanda', 'Somalie',
+        'Namibie', 'Botswana', 'Centrafrique|République centrafricaine', 'Gambie', 'Liberia', 'Sierra Leone', 'Soudan du Sud',
+        'Maurice|Île Maurice', 'Cap-Vert'],
+      ['Burundi', 'Djibouti', 'Érythrée', 'Malawi', 'Lesotho', 'Eswatini|Swaziland', 'Guinée-Bissau', 'Guinée équatoriale',
+        'Seychelles', 'Comores'],
+      ['Sao Tomé-et-Principe|São Tomé|Sao Tome'],
+    ],
+  },
+  {
+    id: 'asie', cat: 'geo', q: 'Pays d\'Asie', hint: 'Turquie et Russie acceptées',
+    pieges: ['Égypte', 'Australie', 'Maroc', 'Nouvelle-Zélande'],
+    a: [
+      ['Chine', 'Japon', 'Inde', 'Corée du Sud', 'Thaïlande', 'Vietnam|Viêt Nam'],
+      ['Indonésie', 'Philippines', 'Pakistan', 'Iran', 'Irak', 'Arabie saoudite', 'Israël', 'Corée du Nord', 'Afghanistan',
+        'Malaisie', 'Singapour', 'Cambodge', 'Mongolie', 'Népal', 'Liban', 'Syrie', 'Turquie', 'Russie', 'Qatar',
+        'Émirats arabes unis|EAU|Émirats'],
+      ['Laos', 'Birmanie|Myanmar', 'Bangladesh', 'Sri Lanka', 'Jordanie', 'Koweït', 'Oman', 'Yémen', 'Bahreïn', 'Kazakhstan',
+        'Ouzbékistan', 'Taïwan', 'Palestine', 'Bhoutan', 'Maldives'],
+      ['Kirghizistan', 'Tadjikistan', 'Turkménistan', 'Brunei', 'Timor oriental|Timor-Leste', 'Géorgie', 'Arménie', 'Azerbaïdjan'],
+      ['Chypre'],
+    ],
+  },
+  {
+    id: 'amsud', cat: 'geo', q: 'Pays d\'Amérique du Sud',
+    pieges: ['Mexique', 'Cuba', 'Panama', 'Costa Rica'],
+    a: [
+      ['Brésil', 'Argentine', 'Chili', 'Colombie', 'Pérou'],
+      ['Venezuela', 'Bolivie', 'Uruguay', 'Équateur'],
+      ['Paraguay'],
+      ['Guyana'],
+      ['Suriname'],
+    ],
+  },
+  {
+    id: 'amnord', cat: 'geo', q: 'Pays d\'Amérique du Nord, d\'Amérique centrale et des Caraïbes',
+    pieges: ['Colombie', 'Venezuela', 'Guyana', 'Groenland'],
+    a: [
+      ['États-Unis|USA|Amérique', 'Canada', 'Mexique', 'Cuba'],
+      ['Jamaïque', 'Haïti', 'Costa Rica', 'Panama', 'Guatemala', 'Honduras', 'République dominicaine'],
+      ['Nicaragua', 'Salvador|El Salvador', 'Bahamas', 'Belize', 'Trinité-et-Tobago'],
+      ['Barbade', 'Grenade', 'Sainte-Lucie', 'Dominique'],
+      ['Antigua-et-Barbuda', 'Saint-Vincent-et-les-Grenadines', 'Saint-Christophe-et-Niévès|Saint-Kitts-et-Nevis'],
+    ],
+  },
+  {
+    id: 'oceanie', cat: 'geo', q: 'Pays d\'Océanie',
+    pieges: ['Indonésie', 'Philippines', 'Madagascar', 'Hawaï'],
+    a: [
+      ['Australie', 'Nouvelle-Zélande'],
+      ['Papouasie-Nouvelle-Guinée', 'Fidji'],
+      ['Samoa', 'Tonga', 'Vanuatu'],
+      ['Îles Salomon|Salomon', 'Kiribati', 'Tuvalu', 'Nauru'],
+      ['Micronésie', 'Palaos|Palau', 'Îles Marshall|Marshall'],
+    ],
+  },
+  {
+    id: 'capitales', cat: 'geo', q: 'Capitales de pays européens',
+    pieges: ['Genève', 'Barcelone', 'Milan', 'Istanbul', 'Zurich', 'Rotterdam'],
+    a: [
+      ['Paris', 'Berlin', 'Madrid', 'Rome', 'Londres', 'Lisbonne', 'Bruxelles'],
+      ['Amsterdam', 'Vienne', 'Athènes', 'Dublin', 'Berne', 'Moscou', 'Varsovie', 'Stockholm', 'Oslo', 'Copenhague', 'Prague',
+        'Budapest', 'Luxembourg', 'Monaco'],
+      ['Helsinki', 'Bucarest', 'Kiev|Kyiv', 'Belgrade', 'Zagreb', 'Sofia', 'Reykjavik', 'Bratislava', 'Ljubljana',
+        'Andorre-la-Vieille', 'Vaduz', 'Saint-Marin', 'Vatican|Cité du Vatican', 'La Valette|Valette'],
+      ['Vilnius', 'Riga', 'Tallinn', 'Minsk', 'Tirana', 'Sarajevo', 'Skopje', 'Podgorica', 'Chisinau|Kichinev', 'Nicosie', 'Ankara'],
+      ['Pristina'],
+    ],
+  },
+  {
+    id: 'usa', cat: 'geo', q: 'États des États-Unis',
+    pieges: ['Porto Rico', 'Ontario', 'Québec', 'Colombie-Britannique'],
+    a: [
+      ['Californie|California', 'Texas', 'Floride|Florida', 'New York'],
+      ['Nevada', 'Hawaï|Hawaii', 'Alaska', 'Washington', 'Arizona', 'Louisiane|Louisiana', 'Géorgie|Georgia', 'Colorado', 'Illinois',
+        'Massachusetts', 'Michigan', 'Ohio', 'Pennsylvanie|Pennsylvania', 'Caroline du Nord|North Carolina',
+        'Caroline du Sud|South Carolina', 'Virginie|Virginia', 'New Jersey', 'Utah', 'Oregon', 'Kentucky', 'Tennessee'],
+      ['Montana', 'Wyoming', 'Dakota du Nord|North Dakota', 'Dakota du Sud|South Dakota', 'Nebraska', 'Kansas', 'Oklahoma',
+        'Nouveau-Mexique|New Mexico', 'Missouri', 'Iowa', 'Minnesota', 'Wisconsin', 'Indiana', 'Alabama', 'Mississippi', 'Arkansas',
+        'Maryland', 'Virginie-Occidentale|West Virginia', 'Connecticut', 'Maine', 'Vermont', 'Idaho'],
+      ['New Hampshire', 'Rhode Island', 'Delaware'],
+      [],
+    ],
+  },
+  {
+    id: 'regions', cat: 'geo', q: 'Régions de France métropolitaine (découpage de 2016)',
+    pieges: ['Alsace', 'Picardie', 'Limousin', 'Champagne-Ardenne'],
+    a: [
+      ['Île-de-France', 'Bretagne', 'Normandie', 'Corse'],
+      ['Occitanie', 'Provence-Alpes-Côte d\'Azur|PACA|Région Sud', 'Nouvelle-Aquitaine'],
+      ['Auvergne-Rhône-Alpes', 'Hauts-de-France', 'Grand Est', 'Pays de la Loire'],
+      ['Bourgogne-Franche-Comté', 'Centre-Val de Loire|Centre'],
+      [],
+    ],
+  },
+  {
+    id: 'frontieres', cat: 'geo', q: 'Pays qui ont une frontière terrestre avec la France', hint: 'outre-mer compris',
+    pieges: ['Portugal', 'Autriche', 'Liechtenstein', 'Royaume-Uni'],
+    a: [
+      ['Espagne', 'Italie', 'Belgique', 'Allemagne', 'Suisse'],
+      ['Luxembourg', 'Monaco'],
+      ['Andorre'],
+      ['Brésil'],
+      ['Suriname', 'Pays-Bas|Hollande'],
+    ],
+  },
+  {
+    id: 'equateur', cat: 'geo', q: 'Pays traversés par l\'équateur', hint: 'terres ou eaux territoriales',
+    pieges: ['Pérou', 'Venezuela', 'Cameroun', 'Tanzanie', 'Nigeria'],
+    a: [
+      ['Équateur', 'Brésil', 'Colombie'],
+      ['Indonésie', 'Kenya', 'Gabon'],
+      ['RD Congo|RDC|République démocratique du Congo|Congo-Kinshasa|Zaïre', 'Ouganda', 'Somalie'],
+      ['Congo|République du Congo|Congo-Brazzaville', 'Kiribati'],
+      ['Sao Tomé-et-Principe|São Tomé|Sao Tome', 'Maldives'],
+    ],
+  },
+  {
+    id: 'euro', cat: 'geo', q: 'Pays de la zone euro (en 2026)', hint: 'membres de l\'UE seulement',
+    pieges: ['Suisse', 'Danemark', 'Suède', 'Pologne', 'Monaco', 'Royaume-Uni'],
+    a: [
+      ['France', 'Allemagne', 'Espagne', 'Italie', 'Belgique', 'Portugal', 'Pays-Bas|Hollande'],
+      ['Grèce', 'Autriche', 'Irlande', 'Luxembourg', 'Finlande'],
+      ['Slovénie', 'Slovaquie', 'Malte', 'Chypre', 'Croatie'],
+      ['Estonie', 'Lettonie', 'Lituanie'],
+      ['Bulgarie'],
+    ],
+  },
+  {
+    id: 'cdm98', cat: 'geo', q: 'Villes françaises qui ont accueilli des matchs de la Coupe du monde 1998',
+    pieges: ['Lille', 'Nice', 'Strasbourg', 'Rennes'],
+    a: [
+      ['Paris', 'Marseille', 'Lyon'],
+      ['Saint-Denis|St Denis', 'Bordeaux', 'Toulouse', 'Nantes'],
+      ['Lens', 'Saint-Étienne|St Etienne'],
+      ['Montpellier'],
+      [],
+    ],
+  },
+
+  // ---------- histoire ----------
+  {
+    id: 'presfr', cat: 'histoire', q: 'Présidents de la Ve République', people: true, hint: 'intérims compris',
+    pieges: ['Philippe Pétain', 'René Coty', 'Lionel Jospin', 'Édouard Balladur'],
+    a: [
+      ['Emmanuel Macron|Macron', 'Charles de Gaulle|De Gaulle', 'Jacques Chirac|Chirac', 'Nicolas Sarkozy|Sarkozy',
+        'François Mitterrand|Mitterrand', 'François Hollande|Hollande'],
+      ['Georges Pompidou|Pompidou', 'Valéry Giscard d\'Estaing|Giscard|VGE'],
+      [],
+      [],
+      ['Alain Poher|Poher'],
+    ],
+  },
+  {
+    id: 'presus', cat: 'histoire', q: 'Présidents des États-Unis', people: true, hint: 'le nom de famille suffit',
+    pieges: ['Franklin', 'Hamilton', 'Churchill', 'Kissinger'],
+    a: [
+      ['Washington', 'Lincoln', 'Kennedy|JFK', 'Obama', 'Trump', 'Bush', 'Clinton', 'Biden', 'Roosevelt'],
+      ['Nixon', 'Reagan', 'Carter', 'Jefferson'],
+      ['Eisenhower', 'Truman', 'Ford', 'Johnson', 'Wilson', 'Grant', 'Adams', 'Jackson'],
+      ['Madison', 'Monroe', 'Hoover', 'McKinley', 'Taft', 'Coolidge', 'Harding', 'Cleveland', 'Garfield'],
+      ['Van Buren', 'Harrison', 'Tyler', 'Polk', 'Taylor', 'Fillmore', 'Pierce', 'Buchanan', 'Hayes', 'Arthur'],
+    ],
+  },
+  {
+    id: 'napoleon', cat: 'histoire', q: 'Batailles de l\'époque napoléonienne (1796-1815)',
+    pieges: ['Verdun', 'Marignan', 'Alésia', 'Valmy', 'Fontenoy'],
+    a: [
+      ['Austerlitz', 'Waterloo', 'Trafalgar'],
+      ['Iéna', 'Wagram', 'Arcole', 'Pyramides', 'Bérézina', 'Moskova|Borodino', 'Marengo'],
+      ['Eylau', 'Friedland', 'Leipzig', 'Aboukir', 'Rivoli', 'Ulm', 'Lodi'],
+      ['Essling', 'Lützen', 'Bautzen', 'Dresde', 'Ligny', 'Quatre-Bras', 'Smolensk', 'Montenotte', 'Auerstaedt', 'Bailén|Baylen',
+        'Talavera'],
+      ['Montmirail', 'Champaubert', 'Arcis-sur-Aube', 'Vauchamps', 'Montereau', 'Hohenlinden', 'Aspern', 'Heilsberg', 'Abensberg',
+        'Eckmühl', 'Ratisbonne', 'Vitoria', 'Salamanque', 'Hanau', 'Craonne', 'Laon', 'Toulouse'],
+    ],
+  },
+  {
+    id: 'otan', cat: 'histoire', q: 'Pays fondateurs de l\'OTAN (1949)',
+    pieges: ['Allemagne', 'Espagne', 'Grèce', 'Turquie', 'Suisse'],
+    a: [
+      ['États-Unis|USA|Amérique', 'France', 'Royaume-Uni|Angleterre|Grande-Bretagne'],
+      ['Canada', 'Italie', 'Belgique'],
+      ['Pays-Bas|Hollande', 'Luxembourg'],
+      ['Portugal', 'Norvège', 'Danemark'],
+      ['Islande'],
+    ],
+  },
+  {
+    id: 'g20', cat: 'histoire', q: 'Membres du G20',
+    pieges: ['Espagne', 'Pays-Bas', 'Suisse', 'Nigeria', 'Égypte'],
+    a: [
+      ['États-Unis|USA|Amérique', 'Chine', 'France', 'Allemagne', 'Royaume-Uni|Angleterre|Grande-Bretagne', 'Japon'],
+      ['Italie', 'Canada', 'Russie', 'Inde', 'Brésil'],
+      ['Union européenne|UE', 'Australie', 'Mexique', 'Corée du Sud', 'Arabie saoudite'],
+      ['Afrique du Sud', 'Argentine', 'Turquie', 'Indonésie'],
+      ['Union africaine|UA'],
+    ],
+  },
+  {
+    id: 'pantheon', cat: 'histoire', q: 'Personnalités qui reposent au Panthéon', people: true,
+    pieges: ['Napoléon', 'Molière', 'Édith Piaf', 'Louis XIV'],
+    a: [
+      ['Victor Hugo|Hugo', 'Voltaire', 'Marie Curie', 'Simone Veil', 'Jean Moulin', 'Émile Zola|Zola'],
+      ['Jean-Jacques Rousseau|Rousseau', 'Pierre Curie', 'Joséphine Baker|Baker', 'Jean Jaurès|Jaurès', 'Alexandre Dumas|Dumas',
+        'André Malraux|Malraux', 'Louis Braille|Braille', 'Robert Badinter|Badinter'],
+      ['Victor Schœlcher|Schoelcher', 'Jean Monnet|Monnet', 'Missak Manouchian', 'Antoine Veil', 'Germaine Tillion|Tillion',
+        'Jean Zay', 'Condorcet', 'Maurice Genevoix|Genevoix', 'René Cassin|Cassin', 'Lazare Carnot'],
+      ['Félix Éboué|Éboué', 'Pierre Brossolette|Brossolette', 'Geneviève de Gaulle-Anthonioz|Anthonioz', 'Mélinée Manouchian',
+        'Gaspard Monge|Monge', 'Abbé Grégoire|Grégoire', 'Paul Langevin|Langevin', 'Jean Perrin|Perrin', 'Marcelin Berthelot|Berthelot',
+        'Léon Gambetta|Gambetta'],
+      ['Soufflot', 'Paul Painlevé|Painlevé', 'Sadi Carnot', 'Jean Lannes|Lannes', 'Louis Lagrange|Lagrange', 'Bougainville',
+        'Marceau|François Séverin Marceau', 'La Tour d\'Auvergne'],
+    ],
+  },
+
+  // ---------- sciences ----------
+  {
+    id: 'planetes', cat: 'sciences', q: 'Planètes et planètes naines du Système solaire',
+    pieges: ['Lune', 'Soleil', 'Titan', 'Ganymède'],
+    a: [
+      ['Terre', 'Mars', 'Jupiter', 'Saturne', 'Vénus', 'Mercure'],
+      ['Uranus', 'Neptune'],
+      ['Pluton'],
+      ['Cérès'],
+      ['Éris', 'Makémaké', 'Hauméa'],
+    ],
+  },
+  {
+    id: 'elements1', cat: 'sciences', q: 'Éléments chimiques dont le symbole est une seule lettre', hint: 'le nom, pas la lettre',
+    pieges: ['Fer', 'Or', 'Sodium', 'Calcium', 'Hélium'],
+    a: [
+      ['Hydrogène', 'Oxygène', 'Carbone', 'Azote'],
+      ['Soufre', 'Potassium', 'Phosphore', 'Fluor', 'Iode'],
+      ['Uranium', 'Bore'],
+      ['Tungstène'],
+      ['Vanadium', 'Yttrium'],
+    ],
+  },
+  {
+    id: 'cordes', cat: 'sciences', q: 'Instruments à cordes',
+    pieges: ['Flûte', 'Trompette', 'Accordéon', 'Xylophone', 'Harmonica'],
+    a: [
+      ['Guitare', 'Violon', 'Piano', 'Harpe', 'Basse|Guitare basse'],
+      ['Violoncelle', 'Contrebasse', 'Alto', 'Ukulélé', 'Banjo', 'Mandoline'],
+      ['Luth', 'Lyre', 'Clavecin', 'Cithare', 'Sitar', 'Balalaïka'],
+      ['Viole de gambe|Viole', 'Oud', 'Bouzouki', 'Koto', 'Vielle à roue|Vielle', 'Kora', 'Charango', 'Cymbalum', 'Épinette'],
+      ['Erhu', 'Théorbe', 'Psaltérion', 'Shamisen', 'Pipa', 'Guzheng', 'Nyckelharpa', 'Dulcimer'],
+    ],
+  },
+
+  // ---------- arts & lettres ----------
+  {
+    id: 'moliere', cat: 'lettres', q: 'Pièces de Molière',
+    pieges: ['Le Cid', 'Phèdre', 'Le Barbier de Séville', 'Cyrano de Bergerac'],
+    a: [
+      ['L\'Avare', 'Le Malade imaginaire', 'Le Bourgeois gentilhomme', 'Le Misanthrope', 'Tartuffe|Le Tartuffe',
+        'Les Fourberies de Scapin', 'Dom Juan|Don Juan'],
+      ['Les Femmes savantes', 'L\'École des femmes', 'Les Précieuses ridicules', 'Le Médecin malgré lui', 'George Dandin'],
+      ['Amphitryon', 'L\'École des maris', 'Le Médecin volant', 'Sganarelle|Le Cocu imaginaire', 'Monsieur de Pourceaugnac',
+        'Le Mariage forcé', 'Les Fâcheux', 'L\'Amour médecin'],
+      ['L\'Étourdi', 'Le Dépit amoureux', 'La Critique de l\'École des femmes', 'L\'Impromptu de Versailles', 'Le Sicilien', 'Psyché',
+        'La Comtesse d\'Escarbagnas', 'Les Amants magnifiques'],
+      ['Dom Garcie de Navarre', 'La Princesse d\'Élide', 'Mélicerte', 'La Jalousie du Barbouillé', 'Pastorale comique'],
+    ],
+  },
+  {
+    id: 'hugo', cat: 'lettres', q: 'Œuvres de Victor Hugo', hint: 'romans, poésie, théâtre',
+    pieges: ['Germinal', 'Les Fleurs du mal', 'Le Rouge et le Noir', 'Madame Bovary'],
+    a: [
+      ['Les Misérables', 'Notre-Dame de Paris'],
+      ['Hernani', 'Ruy Blas', 'Les Contemplations', 'Le Dernier Jour d\'un condamné', 'La Légende des siècles'],
+      ['Quatrevingt-treize|Quatre-vingt-treize', 'Les Travailleurs de la mer', 'L\'Homme qui rit', 'Les Châtiments', 'Claude Gueux',
+        'Cromwell', 'Lucrèce Borgia', 'Le roi s\'amuse'],
+      ['Marie Tudor', 'Les Orientales', 'Les Feuilles d\'automne', 'Les Rayons et les Ombres', 'Bug-Jargal', 'Han d\'Islande',
+        'L\'Art d\'être grand-père', 'Napoléon le Petit'],
+      ['Les Burgraves', 'Angelo, tyran de Padoue|Angelo', 'Marion de Lorme', 'Odes et Ballades', 'Les Chants du crépuscule',
+        'Les Voix intérieures', 'William Shakespeare', 'Choses vues', 'Le Rhin', 'Torquemada'],
+    ],
+  },
+  {
+    id: 'impressionnistes', cat: 'lettres', q: 'Peintres impressionnistes', people: true,
+    pieges: ['Van Gogh', 'Picasso', 'Gauguin', 'Delacroix', 'Dalí'],
+    a: [
+      ['Claude Monet|Monet', 'Auguste Renoir|Renoir', 'Edgar Degas|Degas'],
+      ['Édouard Manet|Manet', 'Camille Pissarro|Pissarro', 'Alfred Sisley|Sisley', 'Paul Cézanne|Cézanne'],
+      ['Berthe Morisot|Morisot', 'Gustave Caillebotte|Caillebotte', 'Frédéric Bazille|Bazille', 'Mary Cassatt|Cassatt'],
+      ['Armand Guillaumin|Guillaumin', 'Eugène Boudin|Boudin', 'Eva Gonzalès|Gonzalès', 'Johan Barthold Jongkind|Jongkind'],
+      ['Marie Bracquemond|Bracquemond', 'Gustave Loiseau|Loiseau', 'Albert Lebourg|Lebourg', 'Jean-Louis Forain|Forain'],
+    ],
+  },
+  {
+    id: 'muses', cat: 'lettres', q: 'Les Muses de la mythologie grecque',
+    pieges: ['Athéna', 'Aphrodite', 'Méduse', 'Pandore'],
+    a: [
+      ['Calliope', 'Clio'],
+      ['Uranie', 'Thalie'],
+      ['Érato', 'Euterpe'],
+      ['Terpsichore', 'Melpomène'],
+      ['Polymnie'],
+    ],
+  },
+  {
+    id: 'dieux', cat: 'lettres', q: 'Divinités de la mythologie grecque', hint: 'noms grecs, titans compris',
+    pieges: ['Jupiter', 'Odin', 'Thor', 'Osiris'],
+    a: [
+      ['Zeus', 'Poséidon', 'Hadès', 'Athéna', 'Aphrodite', 'Apollon', 'Arès'],
+      ['Héra', 'Hermès', 'Artémis', 'Dionysos', 'Héphaïstos', 'Éros', 'Cronos|Kronos', 'Gaïa'],
+      ['Déméter', 'Hestia', 'Perséphone', 'Hélios', 'Ouranos', 'Pan', 'Prométhée', 'Atlas', 'Héraclès|Hercule', 'Morphée', 'Éole'],
+      ['Rhéa', 'Séléné', 'Éos', 'Nyx', 'Hécate', 'Némésis', 'Niké|Nikè', 'Iris', 'Hypnos', 'Thanatos', 'Triton', 'Hébé', 'Asclépios',
+        'Chronos', 'Thémis', 'Tyché'],
+      ['Mnémosyne', 'Océan|Okéanos', 'Amphitrite', 'Érébos', 'Chaos', 'Tartare', 'Hypérion', 'Japet', 'Téthys', 'Phébé', 'Coéos',
+        'Crios', 'Théia', 'Épiméthée', 'Leto|Létô', 'Maïa', 'Éris', 'Harmonie', 'Priape', 'Nérée', 'Protée'],
+    ],
+  },
+  {
+    id: 'zodiaque-chinois', cat: 'lettres', q: 'Animaux de l\'astrologie chinoise',
+    pieges: ['Lion', 'Ours', 'Panda', 'Éléphant'],
+    a: [
+      ['Dragon', 'Tigre', 'Singe', 'Rat', 'Serpent'],
+      ['Cheval', 'Chien', 'Coq', 'Cochon|Porc|Sanglier'],
+      ['Lapin|Lièvre|Chat'],
+      ['Buffle|Bœuf|Boeuf'],
+      ['Chèvre|Mouton|Bouc'],
+    ],
+  },
+  {
+    id: 'langues-ue', cat: 'lettres', q: 'Langues officielles de l\'Union européenne',
+    pieges: ['Latin', 'Catalan', 'Luxembourgeois', 'Basque', 'Breton'],
+    a: [
+      ['Français', 'Anglais', 'Allemand', 'Espagnol', 'Italien', 'Portugais'],
+      ['Néerlandais|Hollandais|Flamand', 'Grec', 'Polonais', 'Suédois', 'Danois', 'Roumain'],
+      ['Hongrois', 'Tchèque', 'Finnois|Finlandais', 'Croate', 'Bulgare'],
+      ['Slovaque', 'Slovène', 'Lituanien', 'Letton', 'Estonien', 'Irlandais|Gaélique'],
+      ['Maltais'],
+    ],
+  },
+
+  // ---------- cinéma, Star Wars et pop culture ----------
+  {
+    id: 'nolan', cat: 'cinema', q: 'Films réalisés par Christopher Nolan',
+    pieges: ['Fight Club', 'Shutter Island', 'Avatar', 'Matrix'],
+    a: [
+      ['Inception', 'Interstellar', 'Oppenheimer', 'The Dark Knight|Dark Knight|Le Chevalier noir'],
+      ['Tenet', 'Dunkerque|Dunkirk', 'Batman Begins', 'The Dark Knight Rises'],
+      ['Le Prestige|The Prestige', 'Memento'],
+      ['Insomnia', 'L\'Odyssée|The Odyssey'],
+      ['Following'],
+    ],
+  },
+  {
+    id: 'pixar', cat: 'cinema', q: 'Longs métrages des studios Pixar',
+    pieges: ['Shrek', 'La Reine des neiges', 'Le Roi lion', 'Les Minions', 'Kung Fu Panda'],
+    a: [
+      ['Toy Story', 'Le Monde de Nemo|Nemo', 'Cars', 'Ratatouille', 'Les Indestructibles', 'Monstres et Cie|Monstres & Cie',
+        'Là-haut', 'Vice-versa', 'Coco', 'WALL-E|Wall E'],
+      ['Toy Story 2', 'Toy Story 3', 'Toy Story 4', 'Le Monde de Dory|Dory', 'Rebelle', 'Monstres Academy', 'Cars 2', 'Cars 3',
+        'Les Indestructibles 2', 'Soul', 'Vice-versa 2', '1001 pattes|Mille et une pattes'],
+      ['Luca', 'Le Voyage d\'Arlo|Arlo', 'En avant', 'Alerte rouge', 'Buzz l\'Éclair', 'Élémentaire'],
+      ['Elio', 'Toy Story 5'],
+      ['Hoppers'],
+    ],
+  },
+  {
+    id: 'starwars', cat: 'starwars', q: 'Films de cinéma Star Wars', hint: 'titres français ou numéros d\'épisode',
+    pieges: ['Andor', 'Ahsoka', 'Star Trek', 'Dune'],
+    a: [
+      ['Un nouvel espoir|La Guerre des étoiles|Épisode 4|Épisode IV', 'L\'Empire contre-attaque|Épisode 5|Épisode V',
+        'Le Retour du Jedi|Épisode 6|Épisode VI', 'La Menace fantôme|Épisode 1|Épisode I'],
+      ['L\'Attaque des clones|Épisode 2|Épisode II', 'La Revanche des Sith|Épisode 3|Épisode III',
+        'Le Réveil de la Force|Épisode 7|Épisode VII'],
+      ['Les Derniers Jedi|Épisode 8|Épisode VIII', 'L\'Ascension de Skywalker|Épisode 9|Épisode IX', 'Rogue One'],
+      ['Solo|Solo: A Star Wars Story', 'The Mandalorian and Grogu|Mandalorian et Grogu'],
+      ['The Clone Wars|Clone Wars'],
+    ],
+  },
+  {
+    id: 'pokemon', cat: 'ecran', q: 'Pokémon de la première génération (les 151 de Rouge et Bleu)', hint: 'noms français',
+    pieges: ['Germignon', 'Héricendre', 'Kaiminus', 'Togepi', 'Marill', 'Lugia'],
+    a: [
+      ['Pikachu', 'Dracaufeu', 'Salamèche', 'Bulbizarre', 'Carapuce', 'Mewtwo', 'Mew', 'Évoli', 'Ronflex', 'Ectoplasma',
+        'Rondoudou', 'Miaouss', 'Magicarpe', 'Léviator', 'Psykokwak', 'Tortank', 'Florizarre'],
+      ['Raichu', 'Roucool', 'Rattata', 'Abo', 'Arbok', 'Goupix', 'Feunard', 'Nosferapti', 'Racaillou', 'Onix', 'Ponyta', 'Galopa',
+        'Ramoloss', 'Magnéti', 'Fantominus', 'Spectrum', 'Voltorbe', 'Osselait', 'Smogo', 'Leveinard', 'Lokhlass', 'Aquali',
+        'Voltali', 'Pyroli', 'Artikodin', 'Électhor', 'Sulfura', 'Minidraco', 'Dracolosse', 'Caninos', 'Arcanin', 'Abra', 'Kadabra',
+        'Alakazam', 'Machoc', 'Mackogneur', 'Tauros', 'Insécateur', 'Krabby', 'Métamorph', 'Chenipan', 'Aspicot', 'Herbizarre',
+        'Reptincel', 'Carabaffe', 'Tentacool', 'Mélofée', 'Taupiqueur', 'Grolem', 'Excelangue', 'Porygon', 'Draco', 'Kangourex',
+        'Staross', 'Stari', 'Mystherbe', 'Paras', 'Nidoran', 'Persian'],
+      ['Papilusion', 'Dardargnan', 'Roucoups', 'Roucarnage', 'Rattatac', 'Piafabec', 'Rapasdepic', 'Sabelette', 'Nidoking',
+        'Nidoqueen', 'Mélodelfe', 'Grodoudou', 'Nosferalto', 'Ortide', 'Rafflesia', 'Mimitoss', 'Triopikeur', 'Akwakwak', 'Férosinge',
+        'Ptitard', 'Tartard', 'Machopeur', 'Chétiflor', 'Empiflor', 'Tentacruel', 'Gravalanch', 'Flagadoss', 'Magnéton', 'Doduo',
+        'Otaria', 'Tadmorv', 'Kokiyas', 'Soporifik', 'Électrode', 'Noeunoeuf', 'Ossatueur', 'Kicklee', 'Tygnon', 'Rhinocorne',
+        'Hypotrempe', 'Poissirène', 'M. Mime|Mr Mime|M Mime', 'Lippoutou', 'Élektek', 'Magmar', 'Scarabrute', 'Kabuto', 'Amonita',
+        'Ptéra'],
+      ['Chrysacier', 'Coconfort', 'Sablaireau', 'Nidorina', 'Nidorino', 'Aéromite', 'Parasect', 'Colossinge', 'Têtarte',
+        'Boustiflor', 'Canarticho', 'Dodrio', 'Lamantine', 'Grotadmorv', 'Crustabri', 'Hypnomade', 'Krabboss', 'Noadkoko',
+        'Smogogo', 'Rhinoféros', 'Saquedeneu', 'Hypocéan', 'Poissoroy', 'Amonistar', 'Kabutops'],
+      [],
+    ],
+  },
+
+  // ---------- Star Wars ----------
+  {
+    id: 'sw-jedi', cat: 'starwars', q: 'Jedi de Star Wars (films et séries)', people: true,
+    pieges: ['Han Solo', 'Chewbacca', 'Boba Fett', 'Lando Calrissian'],
+    a: [
+      ['Luke Skywalker|Luke', 'Obi-Wan Kenobi|Obi-Wan|Kenobi|Ben Kenobi', 'Yoda', 'Anakin Skywalker|Anakin'],
+      ['Qui-Gon Jinn|Qui-Gon', 'Mace Windu|Windu', 'Rey', 'Ahsoka Tano|Ahsoka', 'Grogu|Baby Yoda'],
+      ['Ki-Adi-Mundi', 'Plo Koon', 'Kit Fisto', 'Aayla Secura', 'Cal Kestis', 'Kanan Jarrus|Kanan', 'Ezra Bridger|Ezra', 'Shaak Ti'],
+      ['Luminara Unduli', 'Barriss Offee', 'Depa Billaba', 'Yaddle', 'Saesee Tiin', 'Agen Kolar', 'Eeth Koth', 'Even Piell',
+        'Oppo Rancisis', 'Quinlan Vos', 'Adi Gallia', 'Stass Allie'],
+      ['Cere Junda', 'Jocasta Nu', 'Indara', 'Coleman Trebor', 'Sol', 'Jecki Lon', 'Yord Fandar', 'Ben Solo'],
+    ],
+  },
+  {
+    id: 'sw-sith', cat: 'starwars', q: 'Seigneurs Sith (films, séries, jeux et romans)',
+    pieges: ['Kylo Ren', 'Grand Moff Tarkin|Tarkin', 'Général Grievous|Grievous', 'Snoke'],
+    a: [
+      ['Dark Vador|Vador|Darth Vader|Vader', 'Dark Sidious|Palpatine|Sidious|Darth Sidious|L\'Empereur', 'Dark Maul|Maul|Darth Maul'],
+      ['Dark Tyranus|Comte Dooku|Dooku|Tyranus'],
+      ['Dark Plagueis|Plagueis'],
+      ['Dark Bane|Bane', 'Dark Revan|Revan', 'Dark Malak|Malak'],
+      ['Dark Zannah|Zannah', 'Dark Nihilus|Nihilus', 'Dark Sion|Sion', 'Dark Traya|Traya|Kreia', 'Dark Malgus|Malgus',
+        'Dark Krayt|Krayt', 'Dark Caedus|Caedus|Jacen Solo', 'Dark Marr|Marr', 'Dark Andeddu|Andeddu'],
+    ],
+  },
+  {
+    id: 'sw-planetes', cat: 'starwars', q: 'Planètes et lunes de Star Wars',
+    pieges: ['Étoile de la mort', 'Vulcain', 'Arrakis', 'Pandora'],
+    a: [
+      ['Tatooine', 'Naboo', 'Coruscant', 'Hoth', 'Endor', 'Dagobah'],
+      ['Mustafar', 'Kashyyyk', 'Kamino', 'Géonosis', 'Alderaan', 'Bespin', 'Yavin 4|Yavin', 'Jakku'],
+      ['Scarif', 'Utapau', 'Mandalore', 'Lothal', 'Crait', 'Exegol', 'Ahch-To', 'Jedha', 'Felucia', 'Mygeeto', 'Takodana'],
+      ['Ilum', 'Dathomir', 'Moraband|Korriban', 'Ryloth', 'Kessel', 'Corellia', 'Mon Cala', 'Nevarro', 'Ord Mantell',
+        'Hosnian Prime', 'Starkiller|Base Starkiller'],
+      ['Batuu', 'Canto Bight|Cantonica', 'Eadu', 'Lah\'mu', 'Ferrix', 'Aldhani', 'Morak', 'Kijimi', 'Pasaana', 'Sullust',
+        'Christophsis', 'Mortis', 'Zeffo', 'Bogano'],
+    ],
+  },
+  {
+    id: 'sw-vaisseaux', cat: 'starwars', q: 'Vaisseaux de Star Wars',
+    pieges: ['Enterprise', 'Serenity', 'Nostromo', 'Normandy'],
+    a: [
+      ['Faucon Millenium|Millennium Falcon|Faucon Millénium', 'X-wing', 'Chasseur TIE|TIE fighter|TIE', 'Destroyer stellaire|Star Destroyer',
+        'Étoile de la mort|Death Star'],
+      ['Y-wing', 'A-wing', 'B-wing', 'Slave I|Slave 1', 'Navette impériale|Navette Lambda', 'Super Destroyer|Executor',
+        'TIE Interceptor', 'TIE Advanced|TIE de Vador'],
+      ['Razor Crest', 'Ghost', 'Tantive IV|Tantive 4', 'Infiltrator Sith|Scimitar', 'Chasseur Jedi|Delta-7', 'Chasseur Naboo|N-1',
+        'TIE Silencer', 'U-wing', 'Bombardier TIE|TIE Bomber'],
+      ['Home One', 'Ebon Hawk', 'Outrider', 'Raddus', 'Supremacy', 'Vaisseau de Padmé|Yacht royal de Naboo', 'Twilight',
+        'Chasseur ARC-170|ARC-170', 'V-wing'],
+      ['Stinger Mantis|Mantis', 'Fondor Haulcraft', 'Profundity', 'Lucrehulk', 'Malevolence', 'Invisible Hand|Main invisible',
+        'Havoc Marauder', 'Onyx Cinder'],
+    ],
+  },
+  {
+    id: 'sw-trilogie', cat: 'starwars', q: 'Personnages de la trilogie originale (épisodes IV, V et VI)', people: true,
+    pieges: ['Jar Jar Binks', 'Padmé Amidala|Padmé', 'Rey', 'Grogu'],
+    a: [
+      ['Luke Skywalker|Luke', 'Leia Organa|Leia|Princesse Leia', 'Han Solo|Han', 'Chewbacca|Chewie', 'Dark Vador|Vador|Darth Vader',
+        'Yoda', 'R2-D2', 'C-3PO|Z-6PO'],
+      ['Obi-Wan Kenobi|Obi-Wan|Ben Kenobi', 'L\'Empereur|Palpatine', 'Jabba le Hutt|Jabba', 'Boba Fett', 'Lando Calrissian|Lando'],
+      ['Grand Moff Tarkin|Tarkin', 'Wedge Antilles|Wedge', 'Amiral Ackbar|Ackbar', 'Wicket', 'Greedo', 'Mon Mothma', 'Oncle Owen|Owen Lars',
+        'Tante Beru|Beru'],
+      ['Biggs Darklighter|Biggs', 'Bib Fortuna', 'Salacious Crumb', 'Amiral Piett|Piett', 'Général Veers|Veers', 'Lobot', 'Bossk',
+        'IG-88', 'Nien Nunb', 'Max Rebo', 'Moff Jerjerrod|Jerjerrod'],
+      ['Porkins', 'Ponda Baba', 'Dengar', 'Zuckuss', '4-LOM', 'Amiral Ozzel|Ozzel', 'Oola', 'Sy Snootles', 'Dak Ralter|Dak',
+        'Général Madine|Madine'],
+    ],
+  },
+  {
+    id: 'sw-droides', cat: 'starwars', q: 'Droïdes de Star Wars',
+    pieges: ['WALL-E', 'Terminator', 'HAL 9000', 'Bender'],
+    a: [
+      ['R2-D2', 'C-3PO|Z-6PO', 'BB-8'],
+      ['K-2SO', 'IG-11', 'Droïde de combat|B1', 'Droïdeka|Droideka', 'Chopper|C1-10P'],
+      ['BD-1', 'IG-88', 'L3-37', 'Super droïde de combat|B2', 'Droïde sonde|Viper', 'Gonk|Droïde Gonk', 'R5-D4', 'D-O'],
+      ['BB-9E', '4-LOM', 'AP-5', 'Huyang', '2-1B', 'EV-9D9', 'MagnaGarde|Magnaguard', 'B2EMO', 'Q9-0|Zero', 'Droïde chirurgien'],
+      ['R4-P17', 'DJ R-3X|R-3X|Rex', 'Kalani', 'Chasseur droïde|Vulture', 'Droïde araignée', 'Droïde tri-chasseur', 'Mouse droid|Droïde souris',
+        'R3-S6|Goldie', 'Pit droid|Droïde de stand'],
+    ],
+  },
+  {
+    id: 'sw-acteurs', cat: 'starwars', q: 'Acteurs et actrices des films Star Wars', people: true,
+    pieges: ['Leonardo DiCaprio|DiCaprio', 'Tom Cruise|Cruise', 'Brad Pitt|Pitt', 'Keanu Reeves|Reeves'],
+    a: [
+      ['Harrison Ford|Ford', 'Mark Hamill|Hamill', 'Carrie Fisher|Fisher'],
+      ['Ewan McGregor|McGregor', 'Natalie Portman|Portman', 'Hayden Christensen|Christensen', 'Daisy Ridley|Ridley', 'Adam Driver|Driver',
+        'John Boyega|Boyega', 'Liam Neeson|Neeson', 'Samuel L. Jackson|Jackson'],
+      ['Alec Guinness|Guinness', 'Christopher Lee', 'Oscar Isaac|Isaac', 'Ian McDiarmid|McDiarmid', 'Felicity Jones', 'Diego Luna',
+        'Billy Dee Williams|Williams', 'Alden Ehrenreich|Ehrenreich', 'Pedro Pascal|Pascal'],
+      ['Anthony Daniels|Daniels', 'Peter Mayhew|Mayhew', 'Kenny Baker', 'James Earl Jones', 'Ray Park', 'Domhnall Gleeson|Gleeson',
+        'Gwendoline Christie', 'Laura Dern|Dern', 'Kelly Marie Tran', 'Mads Mikkelsen|Mikkelsen', 'Forest Whitaker|Whitaker',
+        'Donald Glover|Glover', 'Temuera Morrison', 'Ahmed Best', 'Woody Harrelson|Harrelson', 'Emilia Clarke'],
+      ['David Prowse|Prowse', 'Peter Cushing|Cushing', 'Jimmy Smits|Smits', 'Pernilla August', 'Frank Oz', 'Lupita Nyong\'o|Nyong\'o',
+        'Benicio del Toro|Del Toro', 'Paul Bettany|Bettany', 'Ben Mendelsohn|Mendelsohn', 'Alan Tudyk|Tudyk', 'Riz Ahmed'],
+    ],
+  },
+  {
+    id: 'sw-especes', cat: 'starwars', q: 'Espèces et créatures de Star Wars',
+    pieges: ['Hobbit', 'Klingon', 'Na\'vi', 'Xénomorphe'],
+    a: [
+      ['Wookiee|Wookie', 'Ewok', 'Jawa', 'Hutt'],
+      ['Gungan', 'Twi\'lek', 'Tusken|Homme des sables|Hommes des sables', 'Rancor', 'Sarlacc', 'Tauntaun', 'Wampa', 'Porg'],
+      ['Rodien|Rodian', 'Mon Calamari', 'Bantha', 'Mynock', 'Togruta', 'Zabrak', 'Géonosien', 'Kaminoen', 'Gamorréen', 'Dewback',
+        'Ugnaught', 'Toydarien', 'Trandoshan'],
+      ['Bothan', 'Sullustéen', 'Dug', 'Acklay', 'Nexu', 'Reek', 'Varactyl', 'Rathtar', 'Fathier', 'Dianoga', 'Chiss', 'Kowakien',
+        'Loth-chat'],
+      ['Ithorien', 'Duros', 'Aqualish', 'Quarren', 'Nautolan', 'Cerean', 'Pau\'an', 'Lasat', 'Mudhorn', 'Krayt|Dragon krayt', 'Purrgil',
+        'Convor', 'Loth-loup'],
+    ],
+  },
+
+  // ---------- Le Seigneur des anneaux ----------
+  {
+    id: 'sda-communaute', cat: 'sda', q: 'Membres de la Communauté de l\'Anneau',
+    pieges: ['Gollum', 'Bilbon', 'Faramir', 'Elrond'],
+    a: [
+      ['Frodon|Frodo', 'Gandalf'],
+      ['Aragorn|Grands-Pas', 'Legolas'],
+      ['Gimli', 'Sam|Samsagace|Sam Gamegie|Sam Gamgee'],
+      ['Boromir'],
+      ['Merry|Meriadoc', 'Pippin|Peregrin'],
+    ],
+  },
+  {
+    id: 'sda-hobbits', cat: 'sda', q: 'Hobbits de l\'œuvre de Tolkien', people: true,
+    pieges: ['Tom Bombadil', 'Gimli', 'Thorin', 'Radagast'],
+    a: [
+      ['Frodon Sacquet|Frodon|Frodo', 'Bilbon Sacquet|Bilbon|Bilbo', 'Sam Gamegie|Sam|Samsagace'],
+      ['Merry|Meriadoc Brandebouc', 'Pippin|Peregrin Touque'],
+      ['Sméagol|Gollum', 'Rosie Chaumine|Rosie', 'Lobelia Sacquet-de-Besace|Lobelia'],
+      ['Fermier Maggot|Maggot', 'Déagol', 'Fredegar Bolger|Fatty Bolger', 'Ancien Gamegie|Hamfast Gamegie|Gaffer',
+        'Lotho Sacquet-de-Besace|Lotho', 'Elanor'],
+      ['Otho Sacquet-de-Besace|Otho', 'Belladonna Touque|Belladonna', 'Bungo Sacquet|Bungo', 'Vieux Touque|Gerontius Touque',
+        'Bandobras Touque', 'Folco Boffin', 'Ted Sandyman', 'Tom Chaumine'],
+    ],
+  },
+  {
+    id: 'sda-lieux', cat: 'sda', q: 'Lieux de la Terre du Milieu',
+    pieges: ['Poudlard', 'Narnia', 'Westeros', 'Tatooine'],
+    a: [
+      ['Mordor', 'Comté|La Comté', 'Fondcombe|Rivendell', 'Gondor', 'Montagne du Destin|Mont du Destin|Orodruin', 'Isengard'],
+      ['Rohan', 'Minas Tirith', 'Moria|Khazad-dûm', 'Lothlórien|Lorien', 'Gouffre de Helm|Fort-le-Cor|Helm\'s Deep', 'Hobbitebourg|Hobbiton',
+        'Erebor|Montagne Solitaire'],
+      ['Minas Morgul', 'Barad-dûr', 'Orthanc', 'Edoras', 'Fangorn|Forêt de Fangorn', 'Bree', 'Forêt Noire|Grand\'Peur|Mirkwood',
+        'Osgiliath', 'Cul-de-Sac'],
+      ['Cirith Ungol', 'Pelennor|Champs du Pelennor', 'Mont Venteux|Amon Sûl|Weathertop', 'Dol Guldur', 'Havres Gris', 'Esgaroth|Lacville',
+        'Dale|Val', 'Monts Brumeux', 'Morannon|Porte Noire', 'Argonath'],
+      ['Gondolin', 'Númenor', 'Valinor', 'Beleriand', 'Angmar', 'Harad', 'Rhûn', 'Dunharrow|Dunhart', 'Dol Amroth', 'Pelargir',
+        'Tol Brandir', 'Fornost', 'Annúminas', 'Henneth Annûn'],
+    ],
+  },
+  {
+    id: 'sda-persos', cat: 'sda', q: 'Personnages du Seigneur des anneaux qui ne sont pas des hobbits', people: true,
+    pieges: ['Dumbledore', 'Thorin', 'Smaug', 'Merlin'],
+    a: [
+      ['Gandalf', 'Aragorn', 'Legolas', 'Gimli', 'Sauron', 'Saroumane|Saruman'],
+      ['Boromir', 'Faramir', 'Elrond', 'Galadriel', 'Arwen', 'Éowyn', 'Théoden', 'Gríma|Langue de Serpent|Grima'],
+      ['Éomer', 'Denethor', 'Sylvebarbe|Treebeard', 'Tom Bombadil|Bombadil', 'Roi-Sorcier|Roi-Sorcier d\'Angmar', 'Arachne|Shelob',
+        'Haldir', 'Celeborn', 'Isildur', 'Radagast'],
+      ['Glorfindel', 'Gothmog', 'Lurtz', 'Bouche de Sauron', 'Elendil', 'Poiredebeurré|Prosper Poiredebeurré|Barliman', 'Glóin',
+        'Háma', 'Beregond', 'Imrahil', 'Shagrat', 'Gorbag', 'Uglúk'],
+      ['Círdan', 'Gamling', 'Ghân-buri-Ghân', 'Erkenbrand', 'Halbarad', 'Elladan', 'Elrohir', 'Grishnákh', 'Quickbeam|Vif-Sorbier',
+        'Goldberry|Baie d\'Or', 'Bill Fougeron|Fougeron', 'Hirgon', 'Ingold'],
+    ],
+  },
+  {
+    id: 'sda-acteurs', cat: 'sda', q: 'Acteurs de la trilogie du Seigneur des anneaux (2001-2003)', people: true,
+    pieges: ['Martin Freeman|Freeman', 'Richard Armitage|Armitage', 'Daniel Radcliffe|Radcliffe', 'Benedict Cumberbatch|Cumberbatch'],
+    a: [
+      ['Elijah Wood', 'Ian McKellen|McKellen', 'Viggo Mortensen|Mortensen', 'Orlando Bloom|Bloom'],
+      ['Sean Astin|Astin', 'Sean Bean|Bean', 'Liv Tyler|Tyler', 'Cate Blanchett|Blanchett', 'Andy Serkis|Serkis', 'Christopher Lee'],
+      ['John Rhys-Davies|Rhys-Davies', 'Billy Boyd|Boyd', 'Dominic Monaghan|Monaghan', 'Hugo Weaving|Weaving', 'Miranda Otto',
+        'Karl Urban|Urban', 'Ian Holm|Holm'],
+      ['David Wenham|Wenham', 'Bernard Hill', 'Brad Dourif|Dourif', 'John Noble'],
+      ['Marton Csokas|Csokas', 'Craig Parker', 'Lawrence Makoare|Makoare', 'Sala Baker', 'Bruce Hopkins', 'Sarah McLeod',
+        'Thomas Robins', 'Harry Sinclair'],
+    ],
+  },
+  {
+    id: 'sda-peuples', cat: 'sda', q: 'Peuples et créatures de la Terre du Milieu',
+    pieges: ['Centaures', 'Licornes', 'Sirènes', 'Cyclopes'],
+    a: [
+      ['Hobbits', 'Elfes', 'Nains', 'Hommes|Humains', 'Orques|Orcs'],
+      ['Uruk-hai', 'Trolls', 'Ents', 'Nazgûl|Spectres de l\'Anneau|Cavaliers noirs', 'Balrog', 'Aigles|Grands Aigles', 'Dragons'],
+      ['Wargs', 'Gobelins', 'Oliphants|Mûmakil|Mûmak', 'Araignées géantes|Araignées', 'Mages|Magiciens|Istari', 'Armée des Morts|Morts'],
+      ['Huorns', 'Dúnedain|Rôdeurs', 'Haradrim|Suderons', 'Orientaux|Easterlings', 'Bêtes ailées|Bête ailée', 'Ainur', 'Maiar'],
+      ['Valar', 'Esprits des Galgals|Êtres des Galgals', 'Woses|Drúedain', 'Dunlendings|Dunlandais', 'Corsaires d\'Umbar|Corsaires',
+        'Crebain', 'Vampires', 'Loups-garous'],
+    ],
+  },
+  {
+    id: 'sda-objets', cat: 'sda', q: 'Armes et objets célèbres de la Terre du Milieu',
+    pieges: ['Excalibur', 'Mjöllnir', 'Baguette de sureau', 'Sabre laser'],
+    a: [
+      ['Anneau unique|L\'Anneau', 'Dard|Sting'],
+      ['Andúril', 'Narsil', 'Palantír|Palantir', 'Cotte de mithril|Mithril', 'Phiole de Galadriel|Fiole de Galadriel'],
+      ['Glamdring', 'Orcrist', 'Arkenstone|Arkenjoyau', 'Lembas', 'Silmarils|Silmaril', 'Cor du Gondor|Cor de Boromir'],
+      ['Vilya', 'Nenya', 'Narya', 'Grond', 'Herugrim', 'Elessar|Pierre elfique', 'Bâton de Gandalf'],
+      ['Anneaux de pouvoir', 'Anneau de Barahir', 'Gurthang', 'Anglachel', 'Aeglos', 'Ringil', 'Hadhafang', 'Sceptre d\'Annúminas',
+        'Étoile d\'Elendil', 'Couronne de fer'],
+    ],
+  },
+  {
+    id: 'sda-nains', cat: 'sda', q: 'Les nains de la compagnie de Thorin (Bilbo le Hobbit)',
+    pieges: ['Gimli', 'Dáin', 'Durin', 'Grincheux'],
+    a: [
+      ['Thorin|Thorin Écu-de-Chêne'],
+      ['Balin', 'Fili', 'Kili'],
+      ['Dwalin', 'Bombur', 'Glóin|Gloin', 'Bofur'],
+      ['Óin|Oin', 'Ori', 'Dori', 'Nori'],
+      ['Bifur'],
+    ],
+  },
+
+  // ---------- cinéma ----------
+  {
+    id: 'tarantino', cat: 'cinema', q: 'Films réalisés par Quentin Tarantino',
+    pieges: ['Sin City', 'Fight Club', 'Le Parrain', 'Une nuit en enfer'],
+    a: [
+      ['Pulp Fiction', 'Kill Bill|Kill Bill volume 1|Kill Bill 1', 'Django Unchained'],
+      ['Reservoir Dogs', 'Inglourious Basterds', 'Once Upon a Time in Hollywood'],
+      ['Kill Bill volume 2|Kill Bill 2', 'Les Huit Salopards|The Hateful Eight|Hateful Eight'],
+      ['Jackie Brown'],
+      ['Boulevard de la mort|Death Proof'],
+    ],
+  },
+  {
+    id: 'spielberg', cat: 'cinema', q: 'Films réalisés par Steven Spielberg',
+    pieges: ['Retour vers le futur', 'Gremlins', 'Les Goonies', 'Indiana Jones et le Cadran de la destinée'],
+    a: [
+      ['Jurassic Park', 'E.T. l\'extra-terrestre|E.T.|ET', 'Les Dents de la mer|Jaws', 'Indiana Jones|Les Aventuriers de l\'arche perdue'],
+      ['La Liste de Schindler', 'Il faut sauver le soldat Ryan', 'Arrête-moi si tu peux', 'Indiana Jones et le Temple maudit|Le Temple maudit',
+        'Indiana Jones et la Dernière Croisade|La Dernière Croisade', 'Ready Player One'],
+      ['Rencontres du troisième type', 'Minority Report', 'La Guerre des mondes', 'Le Terminal', 'Lincoln', 'Hook',
+        'Indiana Jones et le Royaume du crâne de cristal|Le Royaume du crâne de cristal', 'Les Aventures de Tintin|Tintin',
+        'Le Monde perdu|Le Monde perdu : Jurassic Park'],
+      ['Munich', 'Cheval de guerre', 'Le Pont des espions', 'West Side Story', 'The Fabelmans|Fabelmans', 'A.I. Intelligence artificielle|A.I.',
+        'Amistad', 'Duel', 'Le Bon Gros Géant|Le BGG', 'Pentagon Papers|The Post', 'La Couleur pourpre', 'Empire du soleil'],
+      ['1941', 'Always', 'Sugarland Express', 'Disclosure Day'],
+    ],
+  },
+  {
+    id: 'oscars', cat: 'cinema', q: 'Oscars du meilleur film, de Gladiator (2000) à Anora (2024)',
+    pieges: ['Titanic', 'La La Land', 'Avatar', 'Inception'],
+    a: [
+      ['Gladiator', 'Oppenheimer', 'Parasite', 'Le Retour du roi|Le Seigneur des anneaux : Le Retour du roi'],
+      ['The Artist', 'Slumdog Millionaire', 'Les Infiltrés|The Departed', 'Le Discours d\'un roi', 'Everything Everywhere All at Once'],
+      ['Green Book', 'Argo', '12 Years a Slave', 'Million Dollar Baby', 'Birdman', 'La Forme de l\'eau', 'No Country for Old Men'],
+      ['Chicago', 'Un homme d\'exception|A Beautiful Mind', 'Démineurs|The Hurt Locker', 'Spotlight', 'Moonlight', 'Nomadland'],
+      ['Collision|Crash', 'CODA', 'Anora'],
+    ],
+  },
+  {
+    id: 'dicaprio', cat: 'cinema', q: 'Films avec Leonardo DiCaprio',
+    pieges: ['Fight Club', 'Forrest Gump', 'Seven', 'Gladiator'],
+    a: [
+      ['Titanic', 'Inception', 'Le Loup de Wall Street', 'Shutter Island', 'The Revenant'],
+      ['Les Infiltrés', 'Arrête-moi si tu peux', 'Django Unchained', 'Gatsby le Magnifique', 'Once Upon a Time in Hollywood', 'Don\'t Look Up'],
+      ['Blood Diamond', 'Aviator', 'Gangs of New York', 'Roméo + Juliette|Romeo + Juliet', 'La Plage', 'Killers of the Flower Moon',
+        'Une bataille après l\'autre|One Battle After Another'],
+      ['Les Noces rebelles|Revolutionary Road', 'J. Edgar', 'Mensonges d\'État|Body of Lies', 'Gilbert Grape', 'L\'Homme au masque de fer',
+        'Basketball Diaries'],
+      ['Celebrity', 'Rimbaud Verlaine|Total Eclipse', 'Critters 3', 'Blessures secrètes|This Boy\'s Life', 'Mort ou vif|The Quick and the Dead',
+        'Simples Secrets|Marvin\'s Room'],
+    ],
+  },
+  {
+    id: 'harrypotter', cat: 'cinema', q: 'Films du monde des sorciers (Harry Potter et Les Animaux fantastiques)',
+    hint: 'le sous-titre suffit',
+    pieges: ['Le Monde de Narnia', 'Percy Jackson', 'À la croisée des mondes', 'Les Chroniques de Spiderwick'],
+    a: [
+      ['À l\'école des sorciers|Harry Potter à l\'école des sorciers|École des sorciers', 'La Chambre des secrets|Chambre des secrets',
+        'Le Prisonnier d\'Azkaban|Prisonnier d\'Azkaban'],
+      ['La Coupe de feu|Coupe de feu', 'Les Reliques de la Mort partie 1|Reliques de la mort 1|Les Reliques de la Mort 1',
+        'Les Reliques de la Mort partie 2|Reliques de la mort 2|Les Reliques de la Mort 2'],
+      ['L\'Ordre du Phénix|Ordre du Phénix', 'Le Prince de sang-mêlé|Prince de sang mêlé', 'Les Animaux fantastiques|Animaux fantastiques'],
+      ['Les Crimes de Grindelwald|Crimes de Grindelwald'],
+      ['Les Secrets de Dumbledore|Secrets de Dumbledore'],
+    ],
+  },
+  {
+    id: 'mcu', cat: 'cinema', q: 'Super-héros des films Marvel Studios (MCU)',
+    pieges: ['Batman', 'Superman', 'Wonder Woman', 'Aquaman', 'Flash'],
+    a: [
+      ['Iron Man', 'Captain America', 'Thor', 'Hulk', 'Spider-Man', 'Black Widow|Veuve noire'],
+      ['Black Panther', 'Doctor Strange|Docteur Strange', 'Captain Marvel', 'Ant-Man', 'Hawkeye|Œil-de-faucon', 'Groot', 'Star-Lord'],
+      ['Scarlet Witch|Sorcière rouge|Wanda', 'Vision', 'Rocket', 'Gamora', 'Drax', 'Falcon|Faucon', 'Winter Soldier|Soldat de l\'hiver|Bucky',
+        'Guêpe|Wasp', 'Shang-Chi'],
+      ['War Machine', 'Mantis', 'Nebula', 'Valkyrie', 'Okoye', 'Wong', 'Quicksilver|Vif-Argent', 'Ms. Marvel|Miss Marvel', 'Eternals',
+        'Yelena Belova|Yelena'],
+      ['Sersi', 'Ikaris', 'Shuri', 'Monica Rambeau', 'Red Guardian', 'Sentry', 'U.S. Agent|US Agent', 'Ghost', 'Thena'],
+    ],
+  },
+  {
+    id: 'defunes', cat: 'cinema', q: 'Films avec Louis de Funès',
+    pieges: ['Les Bronzés', 'Le Dîner de cons', 'Les Visiteurs', 'La Cité de la peur'],
+    a: [
+      ['La Grande Vadrouille', 'Le Corniaud', 'Le Gendarme de Saint-Tropez', 'Les Aventures de Rabbi Jacob|Rabbi Jacob', 'La Folie des grandeurs'],
+      ['Fantômas', 'L\'Aile ou la Cuisse', 'Oscar', 'La Soupe aux choux', 'Le Gendarme et les Extra-terrestres', 'Le Gendarme à New York'],
+      ['Le Grand Restaurant', 'Hibernatus', 'L\'Avare', 'Fantômas se déchaîne', 'Fantômas contre Scotland Yard', 'Le Gendarme se marie',
+        'Le Gendarme en balade', 'Le Gendarme et les Gendarmettes'],
+      ['Le Petit Baigneur', 'Jo', 'La Zizanie', 'Le Tatoué', 'Pouic-Pouic', 'Sur un arbre perché', 'Le Mur de l\'Atlantique'],
+      ['La Traversée de Paris', 'Ni vu, ni connu', 'Faites sauter la banque', 'Le Diable et les Dix Commandements', 'Les Veinards',
+        'Carambolages', 'Taxi, Roulotte et Corrida'],
+    ],
+  },
+
+  // ---------- sport ----------
+  {
+    id: 'cdm', cat: 'sport', q: 'Pays qui ont joué une finale de Coupe du monde de football (hommes)',
+    pieges: ['Portugal', 'Belgique', 'Mexique', 'Pologne'],
+    a: [
+      ['Brésil', 'France', 'Argentine', 'Allemagne|RFA|Allemagne de l\'Ouest', 'Italie'],
+      ['Espagne', 'Pays-Bas|Hollande', 'Croatie'],
+      ['Angleterre', 'Uruguay'],
+      ['Suède', 'Hongrie'],
+      ['Tchécoslovaquie'],
+    ],
+  },
+  {
+    id: 'bleus2018', cat: 'sport', q: 'Joueurs de l\'équipe de France championne du monde en 2018', people: true, hint: 'les 23 de la liste',
+    pieges: ['Karim Benzema|Benzema', 'Franck Ribéry|Ribéry', 'Dimitri Payet|Payet', 'Laurent Koscielny|Koscielny'],
+    a: [
+      ['Kylian Mbappé|Mbappé', 'Antoine Griezmann|Griezmann', 'Paul Pogba|Pogba', 'Hugo Lloris|Lloris', 'N\'Golo Kanté|Kanté'],
+      ['Raphaël Varane|Varane', 'Olivier Giroud|Giroud', 'Benjamin Pavard|Pavard', 'Samuel Umtiti|Umtiti',
+        'Lucas Hernandez|Hernandez', 'Blaise Matuidi|Matuidi'],
+      ['Ousmane Dembélé|Dembélé', 'Steve Mandanda|Mandanda', 'Corentin Tolisso|Tolisso', 'Presnel Kimpembe|Kimpembe',
+        'Nabil Fekir|Fekir', 'Thomas Lemar|Lemar'],
+      ['Benjamin Mendy|Mendy', 'Florian Thauvin|Thauvin', 'Alphonse Areola|Areola', 'Steven N\'Zonzi|N\'Zonzi|Nzonzi'],
+      ['Djibril Sidibé|Sidibé', 'Adil Rami|Rami'],
+    ],
+  },
+  {
+    id: 'f1', cat: 'sport', q: 'Pilotes champions du monde de Formule 1', people: true, hint: 'le nom de famille suffit',
+    pieges: ['Charles Leclerc|Leclerc', 'Daniel Ricciardo|Ricciardo', 'Valtteri Bottas|Bottas', 'Pierre Gasly|Gasly'],
+    a: [
+      ['Lewis Hamilton|Hamilton', 'Michael Schumacher|Schumacher', 'Ayrton Senna|Senna', 'Alain Prost|Prost',
+        'Max Verstappen|Verstappen', 'Fernando Alonso|Alonso'],
+      ['Sebastian Vettel|Vettel', 'Niki Lauda|Lauda', 'Kimi Räikkönen|Räikkönen', 'Mika Häkkinen|Häkkinen', 'Lando Norris|Norris',
+        'Nico Rosberg|Rosberg', 'Jenson Button|Button'],
+      ['Juan Manuel Fangio|Fangio', 'Nigel Mansell|Mansell', 'Jacques Villeneuve|Villeneuve', 'Hill|Damon Hill|Graham Hill|Phil Hill',
+        'Nelson Piquet|Piquet', 'Jackie Stewart|Stewart', 'James Hunt|Hunt'],
+      ['Jim Clark|Clark', 'Emerson Fittipaldi|Fittipaldi', 'Jack Brabham|Brabham', 'Mario Andretti|Andretti',
+        'Jody Scheckter|Scheckter', 'Alan Jones|Jones', 'Alberto Ascari|Ascari'],
+      ['Denny Hulme|Hulme', 'Jochen Rindt|Rindt', 'John Surtees|Surtees', 'Giuseppe Farina|Farina', 'Mike Hawthorn|Hawthorn'],
+    ],
+  },
+  {
+    id: 'jo2024', cat: 'sport', q: 'Sports et disciplines des Jeux olympiques de Paris 2024',
+    pieges: ['Ski', 'Karaté', 'Baseball', 'Cricket', 'Pétanque'],
+    a: [
+      ['Football', 'Athlétisme', 'Natation', 'Judo', 'Tennis', 'Basketball|Basket', 'Handball|Hand', 'Rugby|Rugby à 7',
+        'Cyclisme|Vélo', 'Boxe', 'Volley-ball|Volley'],
+      ['Escrime', 'Gymnastique', 'Tennis de table|Ping-pong', 'Équitation', 'Aviron', 'Voile', 'Canoë-kayak|Canoë|Kayak',
+        'Tir à l\'arc', 'Lutte', 'Haltérophilie', 'Badminton', 'Surf', 'Skateboard|Skate', 'Escalade', 'Plongeon', 'Water-polo',
+        'Beach-volley'],
+      ['Triathlon', 'Pentathlon moderne|Pentathlon', 'Taekwondo', 'Golf', 'Hockey sur gazon|Hockey', 'Tir', 'Breaking|Breakdance',
+        'BMX', 'VTT'],
+      ['Natation artistique|Natation synchronisée', 'Trampoline', 'Natation en eau libre|Eau libre', 'Gymnastique rythmique',
+        'Basket 3x3|3x3'],
+      [],
+    ],
+  },
+
+  // ---------- ajout : géographie ----------
+  {
+    id: 'fleuves3000', cat: 'geo', q: 'Fleuves et rivières de plus de 3 000 km',
+    pieges: ['Danube', 'Rhin', 'Gange', 'Seine', 'Loire'],
+    a: [
+      ['Nil', 'Amazone', 'Mississippi'],
+      ['Yangzi|Yangtsé|Yang-Tsé-Kiang|Fleuve Bleu', 'Fleuve Jaune|Huang He', 'Congo', 'Volga', 'Niger', 'Mékong'],
+      ['Missouri', 'Ienisseï|Ienissei', 'Ob', 'Amour', 'Léna|Lena', 'Paraná|Parana', 'Indus'],
+      ['Mackenzie', 'Yukon', 'Saint-Laurent', 'Irtych'],
+      ['Madeira', 'Purus', 'Rio Grande'],
+    ],
+  },
+  {
+    id: 'iles-med', cat: 'geo', q: 'Îles de la Méditerranée',
+    pieges: ['Madère', 'Tenerife', 'Açores', 'Jersey', 'Islande'],
+    a: [
+      ['Corse', 'Sicile', 'Sardaigne', 'Crète', 'Chypre', 'Malte', 'Majorque'],
+      ['Ibiza', 'Minorque', 'Rhodes', 'Djerba', 'Capri', 'Santorin', 'Mykonos', 'Corfou'],
+      ['Elbe', 'Formentera', 'Gozo', 'Lesbos', 'Eubée', 'Céphalonie', 'Zante|Zakynthos', 'Naxos', 'Ithaque', 'Lampedusa', 'Ischia',
+        'Porquerolles', 'Stromboli'],
+      ['Paros', 'Chios', 'Samos', 'Kos', 'Hvar', 'Brač|Brac', 'Krk', 'Port-Cros', 'Sainte-Marguerite', 'Lipari', 'Pantelleria', 'Délos',
+        'Hydra', 'Égine', 'Patmos', 'Milos'],
+      ['Lemnos', 'Thassos', 'Kerkennah', 'Vulcano', 'Salina', 'Ventotene', 'Cabrera', 'Korčula|Korcula', 'Vis', 'Mljet', 'Îles d\'Hyères',
+        'Saint-Honorat', 'Île du Levant|Levant'],
+    ],
+  },
+  {
+    id: 'montagnes', cat: 'geo', q: 'Chaînes et massifs de montagnes',
+    pieges: ['Sahara', 'Gobi', 'Amazonie', 'Camargue'],
+    a: [
+      ['Alpes', 'Pyrénées', 'Himalaya', 'Andes', 'Rocheuses|Montagnes Rocheuses'],
+      ['Massif central', 'Jura', 'Vosges', 'Atlas', 'Oural', 'Carpates', 'Caucase', 'Appalaches', 'Apennins'],
+      ['Balkans', 'Dolomites', 'Karakoram', 'Hindou Kouch', 'Pamir', 'Tatras', 'Sierra Nevada', 'Alpes scandinaves', 'Cévennes', 'Ardennes',
+        'Drakensberg', 'Altaï'],
+      ['Tian Shan', 'Zagros', 'Taurus', 'Pinde', 'Rhodopes', 'Morvan', 'Vercors', 'Chartreuse', 'Hoggar', 'Tibesti', 'Ruwenzori',
+        'Ghats', 'Alpes dinariques', 'Monts Métallifères'],
+      ['Sierra Madre', 'Kunlun', 'Elbourz', 'Monts Saïan', 'Grand Khingan', 'Cordillère cantabrique', 'Sierra Morena',
+        'Monts du Forez', 'Aubrac', 'Margeride'],
+    ],
+  },
+  {
+    id: 'pays-b', cat: 'geo', q: 'Pays dont le nom commence par B', hint: 'en français',
+    pieges: ['Bermudes', 'Bretagne', 'Bavière', 'Bali'],
+    a: [
+      ['Belgique', 'Brésil'],
+      ['Bulgarie', 'Bolivie', 'Biélorussie|Bélarus', 'Bosnie-Herzégovine|Bosnie', 'Birmanie'],
+      ['Bangladesh', 'Bénin', 'Burkina Faso', 'Bahamas'],
+      ['Botswana', 'Burundi', 'Bahreïn', 'Bhoutan'],
+      ['Barbade', 'Belize', 'Brunei'],
+    ],
+  },
+  {
+    id: 'pays-m', cat: 'geo', q: 'Pays dont le nom commence par M', hint: 'en français',
+    pieges: ['Martinique', 'Mayotte', 'Madère', 'Manche'],
+    a: [
+      ['Maroc', 'Mexique'],
+      ['Mali', 'Madagascar', 'Malte', 'Monaco', 'Mongolie'],
+      ['Mauritanie', 'Mozambique', 'Malaisie', 'Maldives', 'Maurice'],
+      ['Moldavie', 'Monténégro', 'Malawi', 'Myanmar', 'Macédoine du Nord|Macédoine'],
+      ['Micronésie', 'Marshall|Îles Marshall'],
+    ],
+  },
+  {
+    id: 'outremer', cat: 'geo', q: 'Territoires français d\'outre-mer',
+    pieges: ['Madagascar', 'Haïti', 'Québec', 'Maurice', 'Seychelles'],
+    a: [
+      ['Guadeloupe', 'Martinique', 'La Réunion|Réunion', 'Guyane|Guyane française'],
+      ['Mayotte', 'Nouvelle-Calédonie', 'Polynésie française|Polynésie|Tahiti'],
+      ['Saint-Pierre-et-Miquelon', 'Saint-Martin', 'Saint-Barthélemy|Saint-Barth'],
+      ['Wallis-et-Futuna'],
+      ['Terres australes et antarctiques françaises|TAAF|Kerguelen|Terres australes', 'Clipperton', 'Îles Éparses'],
+    ],
+  },
+
+  // ---------- ajout : histoire ----------
+  {
+    id: 'surnoms-rois', cat: 'histoire', q: 'Surnoms des rois de France', hint: '« le Bel », « le Hutin »…',
+    pieges: ['le Conquérant', 'le Magnifique', 'Cœur de Lion', 'le Terrible'],
+    a: [
+      ['le Roi-Soleil|Roi-Soleil|le Grand', 'le Bel', 'Saint Louis|le Saint'],
+      ['le Bien-Aimé', 'le Hutin', 'le Chauve', 'le Bon', 'Auguste', 'le Juste'],
+      ['le Fainéant|Rois fainéants', 'le Pieux|le Débonnaire', 'le Bègue', 'le Gros', 'le Simple', 'le Long', 'le Fou'],
+      ['le Sage', 'le Victorieux', 'le Hardi', 'le Lion', 'le Jeune', 'le Batailleur', 'Père du peuple', 'le Prudent|l\'Universelle Aragne'],
+      ['l\'Affable', 'le Posthume', 'le Désiré', 'le Chevalier|le Roi-Chevalier', 'le Roi-Citoyen|Roi des Français'],
+    ],
+  },
+  {
+    id: 'empereurs', cat: 'histoire', q: 'Empereurs romains',
+    pieges: ['Jules César', 'Spartacus', 'Cicéron', 'Pompée'],
+    a: [
+      ['Auguste|Octave', 'Néron', 'Caligula'],
+      ['Tibère', 'Claude', 'Marc Aurèle', 'Trajan', 'Hadrien', 'Constantin'],
+      ['Vespasien', 'Titus', 'Domitien', 'Commode', 'Caracalla', 'Dioclétien', 'Septime Sévère'],
+      ['Galba', 'Othon', 'Vitellius', 'Nerva', 'Antonin le Pieux|Antonin', 'Héliogabale|Élagabal', 'Aurélien', 'Julien|Julien l\'Apostat',
+        'Théodose', 'Romulus Augustule'],
+      ['Lucius Verus', 'Pertinax', 'Didius Julianus', 'Alexandre Sévère', 'Maximin le Thrace', 'Gordien', 'Philippe l\'Arabe', 'Dèce',
+        'Valérien', 'Gallien', 'Probus', 'Maximien', 'Galère', 'Licinius', 'Valentinien', 'Valens', 'Honorius', 'Géta', 'Macrin'],
+    ],
+  },
+  {
+    id: 'revolution', cat: 'histoire', q: 'Personnages de la Révolution française (1789-1799)', people: true,
+    pieges: ['Louis XIV', 'Napoléon III', 'Jeanne d\'Arc', 'Richelieu'],
+    a: [
+      ['Robespierre|Maximilien de Robespierre', 'Louis XVI', 'Marie-Antoinette', 'Danton|Georges Danton'],
+      ['Marat|Jean-Paul Marat', 'Saint-Just', 'La Fayette|Lafayette', 'Mirabeau', 'Charlotte Corday|Corday', 'Camille Desmoulins|Desmoulins',
+        'Napoléon Bonaparte|Bonaparte'],
+      ['Olympe de Gouges', 'Sieyès|Abbé Sieyès', 'Condorcet', 'Hébert|Jacques-René Hébert', 'Fouché', 'Talleyrand', 'Necker', 'Barras',
+        'Lazare Carnot|Carnot', 'Fouquier-Tinville'],
+      ['Couthon', 'Brissot', 'Barnave', 'Madame Roland|Manon Roland', 'Babeuf|Gracchus Babeuf', 'Tallien', 'Bailly', 'Pétion', 'Vergniaud',
+        'Philippe Égalité', 'Charette', 'Cadoudal'],
+      ['Collot d\'Herbois', 'Billaud-Varenne', 'Fabre d\'Églantine', 'Lepeletier|Le Peletier', 'Théroigne de Méricourt', 'Cathelineau',
+        'La Rochejaquelein', 'Santerre', 'Drouet', 'Hoche', 'Kellermann'],
+    ],
+  },
+  {
+    id: 'pharaons', cat: 'histoire', q: 'Pharaons d\'Égypte',
+    pieges: ['Osiris', 'Moïse', 'Imhotep', 'Anubis'],
+    a: [
+      ['Toutânkhamon|Toutankhamon', 'Ramsès II|Ramsès', 'Cléopâtre', 'Khéops'],
+      ['Akhenaton|Akhénaton', 'Hatchepsout', 'Khéphren', 'Mykérinos'],
+      ['Thoutmôsis III|Thoutmosis|Thoutmôsis', 'Aménophis III|Aménophis|Amenhotep', 'Séthi Ier|Séthi', 'Djéser', 'Ptolémée', 'Narmer|Ménès'],
+      ['Snéfrou', 'Sésostris', 'Amenemhat', 'Horemheb', 'Ay', 'Mérenptah'],
+      ['Smenkhkarê', 'Ounas', 'Pépi II|Pépi', 'Taharqa', 'Psammétique', 'Nectanébo', 'Néchao', 'Chéchonq', 'Ahmôsis|Ahmosis'],
+    ],
+  },
+  {
+    id: 'explorateurs', cat: 'histoire', q: 'Grands explorateurs et navigateurs', people: true,
+    pieges: ['Jules Verne', 'Phileas Fogg', 'Indiana Jones', 'Napoléon'],
+    a: [
+      ['Christophe Colomb|Colomb', 'Magellan|Fernand de Magellan', 'Vasco de Gama', 'Marco Polo'],
+      ['James Cook|Cook', 'Jacques Cartier|Cartier', 'Amerigo Vespucci|Vespucci', 'Amundsen|Roald Amundsen', 'Champlain|Samuel de Champlain',
+        'La Pérouse|Lapérouse'],
+      ['Bartolomeu Dias|Dias', 'Bougainville', 'Livingstone', 'Stanley', 'Shackleton', 'Robert Scott|Scott', 'Cortés|Hernán Cortés',
+        'Pizarro|Francisco Pizarro', 'Erik le Rouge', 'Ibn Battuta', 'Dumont d\'Urville'],
+      ['Cabral|Pedro Álvares Cabral', 'Leif Erikson|Leif Ericsson', 'Zheng He', 'Abel Tasman|Tasman', 'Jean Cabot|Cabot', 'Henry Hudson|Hudson',
+        'Humboldt', 'Cavelier de La Salle|La Salle', 'Savorgnan de Brazza|Brazza', 'René Caillié|Caillié', 'Paul-Émile Victor',
+        'Robert Peary|Peary', 'Edmund Hillary|Hillary', 'Alexandra David-Néel'],
+      ['Vitus Béring|Béring', 'Balboa', 'Orellana', 'Lewis et Clark|Lewis|Clark', 'Jacques-Yves Cousteau|Cousteau', 'Nansen',
+        'Jean-Baptiste Charcot|Charcot', 'Burton|Richard Burton', 'Speke'],
+    ],
+  },
+  {
+    id: 'urss', cat: 'histoire', q: 'Pays issus de l\'ex-URSS',
+    pieges: ['Pologne', 'Mongolie', 'Finlande', 'Roumanie'],
+    a: [
+      ['Russie', 'Ukraine'],
+      ['Biélorussie|Bélarus', 'Géorgie', 'Kazakhstan', 'Lituanie'],
+      ['Lettonie', 'Estonie', 'Arménie', 'Ouzbékistan', 'Moldavie'],
+      ['Azerbaïdjan', 'Kirghizistan'],
+      ['Tadjikistan', 'Turkménistan'],
+    ],
+  },
+
+  // ---------- ajout : sciences ----------
+  {
+    id: 'os', cat: 'sciences', q: 'Os du corps humain',
+    pieges: ['Biceps', 'Ménisque', 'Tendon d\'Achille', 'Cartilage'],
+    a: [
+      ['Fémur', 'Crâne', 'Côte|Côtes', 'Tibia', 'Vertèbre|Vertèbres|Colonne vertébrale'],
+      ['Humérus', 'Péroné|Fibula', 'Radius', 'Cubitus|Ulna', 'Rotule|Patella', 'Clavicule', 'Omoplate|Scapula', 'Sternum',
+        'Mandibule|Mâchoire', 'Bassin|Os iliaque'],
+      ['Phalange|Phalanges', 'Coccyx', 'Sacrum', 'Atlas', 'Métacarpe|Métacarpiens', 'Métatarse|Métatarsiens', 'Calcanéum', 'Maxillaire'],
+      ['Astragale|Talus', 'Scaphoïde', 'Hyoïde|Os hyoïde', 'Étrier', 'Marteau', 'Enclume', 'Occipital', 'Pariétal', 'Frontal', 'Temporal',
+        'Axis', 'Sphénoïde', 'Ethmoïde'],
+      ['Pisiforme', 'Trapèze', 'Trapézoïde', 'Capitatum|Grand os', 'Hamatum|Os crochu', 'Lunatum|Semi-lunaire', 'Triquetrum|Pyramidal',
+        'Cuboïde', 'Cunéiforme', 'Naviculaire', 'Vomer', 'Zygomatique|Os malaire', 'Lacrymal', 'Palatin', 'Ischion', 'Pubis', 'Ilion'],
+    ],
+  },
+  {
+    id: 'organes', cat: 'sciences', q: 'Organes du corps humain',
+    pieges: ['Fémur', 'Biceps', 'Rotule', 'Cartilage'],
+    a: [
+      ['Cœur', 'Poumon|Poumons', 'Foie', 'Cerveau', 'Estomac', 'Rein|Reins'],
+      ['Intestin|Intestin grêle', 'Côlon|Gros intestin', 'Peau', 'Pancréas', 'Vessie', 'Rate', 'Œil|Yeux', 'Langue'],
+      ['Thyroïde', 'Vésicule biliaire', 'Œsophage', 'Utérus', 'Prostate', 'Ovaire|Ovaires', 'Testicule|Testicules', 'Appendice', 'Trachée'],
+      ['Larynx', 'Pharynx', 'Duodénum', 'Surrénales|Glande surrénale', 'Hypophyse', 'Thymus', 'Rectum', 'Moelle épinière', 'Cervelet'],
+      ['Épiphyse|Glande pinéale', 'Cæcum|Caecum', 'Hypothalamus', 'Parathyroïdes|Parathyroïde', 'Trompe de Fallope|Trompes', 'Uretère',
+        'Urètre', 'Épiglotte', 'Bulbe rachidien', 'Iléon', 'Jéjunum'],
+    ],
+  },
+  {
+    id: 'metaux', cat: 'sciences', q: 'Métaux du tableau périodique', hint: 'éléments chimiques, pas d\'alliages',
+    pieges: ['Bronze', 'Acier', 'Laiton', 'Carbone', 'Silicium'],
+    a: [
+      ['Fer', 'Or', 'Argent', 'Cuivre', 'Aluminium', 'Zinc', 'Plomb'],
+      ['Étain', 'Nickel', 'Platine', 'Mercure', 'Titane', 'Chrome', 'Uranium', 'Lithium', 'Sodium', 'Potassium', 'Magnésium', 'Calcium'],
+      ['Cobalt', 'Manganèse', 'Tungstène', 'Plutonium', 'Radium', 'Baryum', 'Césium', 'Iridium', 'Palladium', 'Osmium', 'Vanadium',
+        'Zirconium', 'Bismuth'],
+      ['Gallium', 'Indium', 'Rhodium', 'Ruthénium', 'Molybdène', 'Cadmium', 'Strontium', 'Rubidium', 'Béryllium', 'Thorium', 'Tantale',
+        'Niobium', 'Hafnium', 'Scandium', 'Yttrium', 'Lanthane', 'Cérium', 'Néodyme', 'Europium', 'Gadolinium', 'Américium', 'Thallium'],
+      ['Rhénium', 'Francium', 'Polonium', 'Technétium', 'Prométhium', 'Samarium', 'Terbium', 'Dysprosium', 'Holmium', 'Erbium', 'Thulium',
+        'Ytterbium', 'Lutécium', 'Praséodyme', 'Actinium', 'Protactinium', 'Neptunium', 'Curium', 'Berkélium', 'Californium', 'Einsteinium',
+        'Fermium', 'Mendélévium', 'Nobélium', 'Lawrencium'],
+    ],
+  },
+  {
+    id: 'savants-fr', cat: 'sciences', q: 'Savants et inventeurs français', people: true,
+    pieges: ['Albert Einstein|Einstein', 'Isaac Newton|Newton', 'Charles Darwin|Darwin', 'Galilée', 'Thomas Edison|Edison'],
+    a: [
+      ['Louis Pasteur|Pasteur', 'Marie Curie', 'Blaise Pascal|Pascal', 'René Descartes|Descartes'],
+      ['Pierre Curie', 'Lavoisier|Antoine Lavoisier', 'André-Marie Ampère|Ampère', 'Frères Lumière|Lumière|Louis Lumière|Auguste Lumière',
+        'Louis Braille|Braille', 'Frères Montgolfier|Montgolfier'],
+      ['Pierre de Fermat|Fermat', 'Coulomb', 'Laplace', 'Lagrange', 'Fourier', 'Henri Becquerel|Becquerel', 'Léon Foucault|Foucault',
+        'Niépce|Nicéphore Niépce', 'Daguerre', 'Lamarck', 'Henri Poincaré|Poincaré', 'Évariste Galois|Galois', 'Denis Papin|Papin'],
+      ['Cauchy', 'Sadi Carnot', 'Fresnel', 'Buffon', 'Cuvier', 'Laennec', 'Claude Bernard', 'Charcot|Jean-Martin Charcot', 'Paul Broca|Broca',
+        'Cugnot', 'Irène Joliot-Curie|Frédéric Joliot-Curie|Joliot-Curie', 'Pierre-Gilles de Gennes|de Gennes', 'Clément Ader|Ader'],
+      ['Gay-Lussac', 'Fizeau', 'Le Verrier', 'Monge', 'Legendre', 'Lazare Carnot', 'Charles Cros|Cros', 'Jacquard', 'Bichat', 'Jean Perrin|Perrin',
+        'Louis de Broglie|de Broglie', 'Laveran', 'Alfred Kastler|Kastler', 'Albert Fert|Fert', 'Serge Haroche|Haroche'],
+    ],
+  },
+  {
+    id: 'constellations', cat: 'sciences', q: 'Constellations',
+    pieges: ['Étoile polaire', 'Voie lactée', 'Sirius', 'Pléiades', 'Bételgeuse'],
+    a: [
+      ['Grande Ourse', 'Petite Ourse', 'Orion', 'Cassiopée'],
+      ['Scorpion', 'Lion', 'Taureau', 'Gémeaux', 'Cygne', 'Andromède', 'Croix du Sud', 'Pégase', 'Persée', 'Sagittaire', 'Vierge', 'Balance',
+        'Bélier', 'Capricorne', 'Verseau', 'Poissons', 'Cancer|Crabe'],
+      ['Lyre', 'Aigle', 'Dragon', 'Hercule', 'Céphée', 'Bouvier', 'Cocher', 'Grand Chien', 'Petit Chien', 'Lièvre', 'Licorne', 'Hydre',
+        'Couronne boréale', 'Centaure', 'Baleine', 'Éridan', 'Ophiuchus|Serpentaire', 'Dauphin'],
+      ['Lynx', 'Girafe', 'Petit Lion', 'Chiens de chasse', 'Chevelure de Bérénice', 'Corbeau', 'Coupe', 'Sextant', 'Flèche', 'Petit Renard',
+        'Lézard', 'Triangle', 'Poisson austral', 'Grue', 'Phénix', 'Paon', 'Toucan', 'Caméléon', 'Colombe', 'Carène', 'Voiles', 'Poupe'],
+      ['Boussole', 'Machine pneumatique', 'Fourneau', 'Burin', 'Horloge', 'Réticule', 'Dorade', 'Poisson volant', 'Hydre mâle', 'Indien',
+        'Octant', 'Oiseau de paradis', 'Mouche', 'Compas', 'Règle', 'Autel', 'Couronne australe', 'Télescope', 'Microscope', 'Sculpteur',
+        'Peintre', 'Table', 'Triangle austral', 'Loup', 'Écu de Sobieski', 'Serpent', 'Petit Cheval'],
+    ],
+  },
+  {
+    id: 'unites', cat: 'sciences', q: 'Unités de mesure qui portent le nom d\'un savant',
+    pieges: ['Mètre', 'Seconde', 'Litre', 'Mole', 'Candela'],
+    a: [
+      ['Newton', 'Watt', 'Volt', 'Ampère', 'Degré Celsius|Celsius'],
+      ['Joule', 'Pascal', 'Kelvin', 'Ohm', 'Hertz', 'Degré Fahrenheit|Fahrenheit'],
+      ['Coulomb', 'Tesla', 'Becquerel', 'Sievert', 'Farad', 'Décibel|Bel'],
+      ['Weber', 'Henry', 'Siemens', 'Gray', 'Gauss', 'Curie', 'Röntgen|Roentgen', 'Ångström|Angstrom', 'Dalton'],
+      ['Maxwell', 'Debye', 'Rankine', 'Réaumur', 'Œrsted|Oersted', 'Poise', 'Stokes', 'Gal', 'Darcy', 'Jansky', 'Einstein'],
+    ],
+  },
+
+  // ---------- ajout : arts & lettres ----------
+  {
+    id: 'verne', cat: 'lettres', q: 'Romans de Jules Verne',
+    pieges: ['Les Trois Mousquetaires', 'L\'Île au trésor', 'Robinson Crusoé', 'La Machine à explorer le temps'],
+    a: [
+      ['Vingt mille lieues sous les mers|20 000 lieues sous les mers', 'Le Tour du monde en quatre-vingts jours|Le Tour du monde en 80 jours',
+        'Voyage au centre de la Terre'],
+      ['De la Terre à la Lune', 'Michel Strogoff', 'L\'Île mystérieuse', 'Cinq Semaines en ballon'],
+      ['Les Enfants du capitaine Grant', 'Deux Ans de vacances', 'Autour de la Lune', 'Robur le Conquérant', 'Un capitaine de quinze ans',
+        'Le Château des Carpathes'],
+      ['Le Rayon vert', 'Mathias Sandorf', 'Le Phare du bout du monde', 'Les Tribulations d\'un Chinois en Chine', 'Les Cinq Cents Millions de la Bégum',
+        'Hector Servadac', 'Kéraban-le-Têtu', 'Le Sphinx des glaces', 'Voyages et aventures du capitaine Hatteras|Capitaine Hatteras'],
+      ['Paris au XXe siècle', 'Maître du monde', 'Le Superbe Orénoque', 'Nord contre Sud', 'Famille-sans-nom', 'La Jangada', 'César Cascabel',
+        'L\'Étoile du sud', 'Le Pilote du Danube', 'Clovis Dardentor'],
+    ],
+  },
+  {
+    id: 'asterix', cat: 'lettres', q: 'Personnages d\'Astérix',
+    pieges: ['Tintin', 'Milou', 'Lucky Luke', 'Gargamel'],
+    a: [
+      ['Astérix', 'Obélix', 'Idéfix', 'Panoramix'],
+      ['Abraracourcix', 'Assurancetourix', 'Jules César|César', 'Bonemine', 'Falbala', 'Cléopâtre'],
+      ['Agecanonix', 'Cétautomatix', 'Ordralfabétix', 'Numérobis', 'Barbe-Rouge', 'Triple-Patte', 'Baba', 'Amonbofis', 'Tragicomix'],
+      ['Iélosubmarine', 'Goudurix', 'Détritus', 'Brutus', 'Zérozérosix', 'Homéopatix', 'Prolix', 'Pirates'],
+      ['Moralélastix', 'Ocatarinetabellatchitchix', 'Caïus Bonus',
+        'Pépé', 'Alambix', 'Madame Agecanonix'],
+    ],
+  },
+  {
+    id: 'tintin', cat: 'lettres', q: 'Personnages des Aventures de Tintin',
+    pieges: ['Spirou', 'Gaston Lagaffe', 'Astérix', 'Lucky Luke'],
+    a: [
+      ['Tintin', 'Milou', 'Capitaine Haddock|Haddock', 'Professeur Tournesol|Tournesol'],
+      ['Dupond', 'Dupont', 'Bianca Castafiore|Castafiore', 'Rastapopoulos', 'Nestor'],
+      ['Tchang', 'Séraphin Lampion|Lampion', 'Général Alcazar|Alcazar', 'Abdallah', 'Docteur Müller|Müller', 'Oliveira da Figueira'],
+      ['Allan', 'Irma', 'Wagner', 'Szut', 'Laszlo Carreidas|Carreidas', 'Mohammed Ben Kalish Ezab|Ben Kalish Ezab', 'Rackham le Rouge',
+        'Chevalier de Hadoque|François de Hadoque', 'Général Tapioca|Tapioca', 'Colonel Sponsz|Sponsz', 'Mitsuhirato'],
+      ['Zorrino', 'Coco', 'Wolff', 'Baxter', 'Bergamotte', 'Ridgewell', 'Jolyon Wagg', 'Omar Ben Salaad', 'Docteur Krollspell|Krollspell',
+        'Ramon Bada', 'Alonso Perez'],
+    ],
+  },
+  {
+    id: 'renaissance', cat: 'lettres', q: 'Peintres de la Renaissance', people: true,
+    pieges: ['Rembrandt', 'Le Caravage|Caravage', 'Picasso', 'Monet', 'Vermeer'],
+    a: [
+      ['Léonard de Vinci|Vinci|Léonard', 'Michel-Ange', 'Raphaël', 'Botticelli'],
+      ['Titien', 'Albrecht Dürer|Dürer', 'Jan van Eyck|Van Eyck', 'Jérôme Bosch|Bosch', 'Bruegel|Brueghel'],
+      ['Giotto', 'Mantegna', 'Fra Angelico', 'Masaccio', 'Le Tintoret|Tintoret', 'Véronèse', 'Le Corrège|Corrège', 'Holbein', 'Le Greco|Greco'],
+      ['Giovanni Bellini|Bellini', 'Giorgione', 'Cranach', 'Piero della Francesca', 'Paolo Uccello|Uccello', 'Filippo Lippi|Lippi',
+        'Ghirlandaio', 'Le Pérugin|Pérugin', 'Arcimboldo', 'Jean Fouquet|Fouquet', 'Memling'],
+      ['Bronzino', 'Pontormo', 'Rogier van der Weyden|Van der Weyden', 'François Clouet|Jean Clouet|Clouet', 'Andrea del Sarto|Del Sarto',
+        'Parmesan|Le Parmesan', 'Carpaccio', 'Antonello de Messine', 'Verrocchio', 'Signorelli', 'Rosso Fiorentino|Rosso'],
+    ],
+  },
+  {
+    id: 'compositeurs', cat: 'lettres', q: 'Compositeurs de musique classique', people: true,
+    pieges: ['Johnny Hallyday', 'Elvis Presley', 'Freddie Mercury', 'Daft Punk'],
+    a: [
+      ['Wolfgang Amadeus Mozart|Mozart', 'Ludwig van Beethoven|Beethoven', 'Jean-Sébastien Bach|Bach', 'Frédéric Chopin|Chopin', 'Vivaldi'],
+      ['Tchaïkovski|Tchaikovski', 'Claude Debussy|Debussy', 'Maurice Ravel|Ravel', 'Verdi', 'Wagner', 'Schubert', 'Haendel', 'Erik Satie|Satie',
+        'Georges Bizet|Bizet', 'Johann Strauss|Strauss'],
+      ['Haydn', 'Liszt', 'Brahms', 'Mahler', 'Berlioz', 'Puccini', 'Rachmaninov', 'Stravinsky', 'Rossini', 'Dvořák|Dvorak', 'Grieg',
+        'Saint-Saëns', 'Offenbach', 'Lully'],
+      ['Prokofiev', 'Chostakovitch', 'Mendelssohn', 'Schumann', 'Gounod', 'Fauré', 'Rameau', 'Couperin', 'Monteverdi', 'Purcell',
+        'Sibelius', 'Moussorgski', 'Rimski-Korsakov', 'Elgar', 'Holst', 'Bartók|Bartok', 'Paganini', 'Telemann', 'Massenet', 'Poulenc'],
+      ['Smetana', 'Scarlatti', 'Gluck', 'Messiaen', 'Boulez', 'Philip Glass|Glass', 'Arvo Pärt|Pärt', 'Bruckner', 'Dukas',
+        'César Franck|Franck', 'Albéniz', 'Granados', 'Manuel de Falla|Falla', 'Delibes', 'Borodine'],
+    ],
+  },
+  {
+    id: 'shakespeare', cat: 'lettres', q: 'Pièces de William Shakespeare',
+    pieges: ['Le Cid', 'Faust', 'Don Quichotte', 'Cyrano de Bergerac'],
+    a: [
+      ['Roméo et Juliette', 'Hamlet', 'Macbeth'],
+      ['Othello', 'Le Roi Lear', 'Le Songe d\'une nuit d\'été', 'La Tempête', 'Le Marchand de Venise', 'Jules César'],
+      ['Richard III', 'Beaucoup de bruit pour rien', 'La Mégère apprivoisée', 'Comme il vous plaira', 'La Nuit des rois',
+        'Antoine et Cléopâtre', 'Henri V'],
+      ['Henri IV', 'Henri VI', 'Henri VIII', 'Richard II', 'Le Roi Jean', 'Coriolan', 'Titus Andronicus', 'Mesure pour mesure',
+        'Les Joyeuses Commères de Windsor', 'Le Conte d\'hiver', 'La Comédie des erreurs'],
+      ['Timon d\'Athènes', 'Troïlus et Cressida', 'Tout est bien qui finit bien', 'Les Deux Gentilshommes de Vérone', 'Peines d\'amour perdues',
+        'Cymbeline', 'Périclès', 'Les Deux Nobles Cousins'],
+    ],
+  },
+
+  // ---------- ajout : cinéma ----------
+  {
+    id: 'ghibli', cat: 'cinema', q: 'Films du studio Ghibli',
+    pieges: ['Akira', 'Your Name', 'Ghost in the Shell', 'Paprika'],
+    a: [
+      ['Le Voyage de Chihiro|Chihiro', 'Mon voisin Totoro|Totoro', 'Princesse Mononoké|Mononoké'],
+      ['Le Château ambulant', 'Kiki la petite sorcière|Kiki', 'Ponyo sur la falaise|Ponyo', 'Le Château dans le ciel|Laputa'],
+      ['Porco Rosso', 'Le Tombeau des lucioles', 'Le vent se lève', 'Arrietty|Arrietty, le petit monde des chapardeurs', 'Le Garçon et le Héron'],
+      ['Souvenirs de Marnie', 'Le Conte de la princesse Kaguya', 'La Colline aux coquelicots', 'Pompoko', 'Si tu tends l\'oreille',
+        'Le Royaume des chats', 'Les Contes de Terremer', 'Souvenirs goutte à goutte'],
+      ['Mes voisins les Yamada', 'Je peux entendre l\'océan', 'Earwig et la Sorcière'],
+    ],
+  },
+  {
+    id: 'cameron', cat: 'cinema', q: 'Films réalisés par James Cameron',
+    pieges: ['Alien', 'Predator', 'RoboCop', 'Jurassic Park'],
+    a: [
+      ['Titanic', 'Avatar', 'Terminator'],
+      ['Terminator 2|Terminator 2 : Le Jugement dernier', 'Aliens|Aliens, le retour', 'Avatar 2|Avatar : La Voie de l\'eau'],
+      ['True Lies', 'Abyss|The Abyss'],
+      ['Avatar 3|Avatar : De feu et de cendres'],
+      ['Piranha 2|Piranha 2 : Les Tueurs volants'],
+    ],
+  },
+
+  // ---------- ajout : pop culture ----------
+  {
+    id: 'simpson', cat: 'ecran', q: 'Personnages des Simpson',
+    pieges: ['Stewie', 'Peter Griffin', 'Cartman', 'Bob l\'éponge'],
+    a: [
+      ['Homer', 'Marge', 'Bart', 'Lisa', 'Maggie'],
+      ['Mr Burns|Monsieur Burns|Burns', 'Ned Flanders|Flanders', 'Milhouse', 'Moe', 'Apu', 'Krusty', 'Smithers', 'Grand-père Simpson|Abraham|Abe',
+        'Nelson', 'Principal Skinner|Skinner', 'Ralph Wiggum|Ralph', 'Chef Wiggum|Wiggum'],
+      ['Barney', 'Lenny', 'Carl', 'Otto', 'Edna Krapabelle|Edna', 'Patty', 'Selma', 'Tahiti Bob|Sideshow Bob', 'Martin Prince|Martin',
+        'Professeur Frink|Frink', 'Docteur Hibbert|Hibbert', 'Willie|Jardinier Willie', 'Troy McClure', 'Itchy et Scratchy|Itchy|Scratchy',
+        'Kent Brockman', 'Petit Papa Noël|Santa\'s Little Helper', 'Boule de neige|Snowball', 'Le Vendeur de BD|Comic Book Guy'],
+      ['Rod', 'Todd', 'Maude Flanders|Maude', 'Lionel Hutz|Hutz', 'Gros Tony|Fat Tony', 'Docteur Nick|Dr Nick', 'Disco Stu', 'Hans Taupeman|Hans Moleman',
+        'Cletus', 'Jimbo', 'Kearney', 'Dolph', 'Sherri et Terri|Sherri|Terri', 'Révérend Lovejoy|Lovejoy', 'Jasper', 'Agnès Skinner', 'Duffman',
+        'Chalmers', 'Luann', 'Kirk Van Houten|Kirk'],
+      ['L\'Homme abeille|Bumblebee Man', 'Capitaine McCallister|Le Capitaine', 'Gil', 'Lou', 'Eddie', 'Uter', 'Ling', 'Mona Simpson|Mona',
+        'Herb Powell|Herb', 'Kang', 'Kodos', 'Rainier Wolfcastle|McBain', 'Akira', 'Database', 'Lunchlady Doris|Doris', 'Helen Lovejoy|Helen'],
+    ],
+  },
+  {
+    id: 'friends', cat: 'ecran', q: 'Personnages de la série Friends',
+    pieges: ['Ted Mosby', 'Barney Stinson', 'Sheldon Cooper|Sheldon', 'Michael Scott'],
+    a: [
+      ['Rachel', 'Ross', 'Monica', 'Chandler', 'Joey', 'Phoebe'],
+      ['Gunther', 'Janice', 'Ben', 'Emma', 'Mike|Mike Hannigan', 'Richard|Richard Burke'],
+      ['Carol', 'Susan', 'Ursula', 'Emily', 'Jack Geller', 'Judy Geller', 'Marcel', 'Frank Junior|Frank Jr', 'Tag', 'Charlie', 'Mr Heckles|Heckles',
+        'Le Gros Tout Nu|Ugly Naked Guy', 'Estelle', 'Paolo'],
+      ['Eddie', 'Julie', 'Kathy', 'Janine', 'Gavin', 'Joshua', 'Pete Becker|Pete', 'David', 'Barry', 'Mona', 'Elizabeth', 'Erica',
+        'Mr Treeger|Treeger', 'Alice', 'Jill', 'Amy', 'Nora Bing', 'Charles Bing'],
+      ['Mark', 'Kip', 'Lowell', 'Fun Bobby', 'Bonnie', 'Gary', 'Leslie', 'Aurora', 'Kristin',
+        'Joanna', 'Mr Zelner|Zelner', 'Phoebe Senior|Phoebe Abbott'],
+    ],
+  },
+  {
+    id: 'mario', cat: 'ecran', q: 'Personnages de l\'univers de Mario',
+    pieges: ['Kirby', 'Link', 'Sonic', 'Pikachu', 'Samus'],
+    a: [
+      ['Mario', 'Luigi', 'Peach|Princesse Peach', 'Bowser', 'Yoshi', 'Toad', 'Donkey Kong'],
+      ['Wario', 'Waluigi', 'Daisy|Princesse Daisy', 'Harmonie|Rosalina', 'Bowser Jr|Bowser Junior', 'Toadette', 'Goomba', 'Koopa|Koopa Troopa',
+        'Diddy Kong', 'Boo|Bouh'],
+      ['Lakitu', 'Maskass|Shy Guy', 'Kamek', 'Birdo', 'Roi Boo', 'Skelerex|Dry Bones', 'Bob-omb', 'Chomp|Chain Chomp', 'Plante Piranha',
+        'Pauline', 'Cappy', 'Capitaine Toad', 'Thwomp', 'Bill Balle|Bullet Bill', 'Cheep Cheep'],
+      ['Larry', 'Lemmy', 'Ludwig', 'Morton', 'Roy', 'Iggy', 'Wendy', 'Wiggler', 'Professeur K. Tastroff|Tastroff', 'Funky Kong', 'Cranky Kong',
+        'Nabbit', 'Pianta', 'Kinopio', 'Spike'],
+      ['Polterpup', 'Fawful|Gracowitz', 'Petey Piranha|Flora Piranha', 'Roi Bob-omb', 'Wart', 'Tatanga', 'Cackletta',
+        'Dimentio', 'Comte Niark|Count Bleck', 'Starlow', 'Lubba', 'Foreman Spike'],
+    ],
+  },
+  {
+    id: 'netflix', cat: 'ecran', q: 'Séries originales Netflix',
+    pieges: ['Breaking Bad', 'Game of Thrones', 'The Office', 'Friends', 'Dix pour cent'],
+    a: [
+      ['Stranger Things', 'La Casa de Papel', 'Squid Game', 'Mercredi|Wednesday', 'The Crown'],
+      ['Narcos', 'The Witcher', 'La Chronique des Bridgerton|Bridgerton', 'Lupin', 'Dark', 'Ozark', 'House of Cards', 'Emily in Paris', 'Arcane'],
+      ['Orange Is the New Black', 'The Umbrella Academy', 'Sex Education', 'Élite|Elite', 'Le Jeu de la dame|The Queen\'s Gambit', 'Mindhunter',
+        '13 Reasons Why', 'Adolescence', 'One Piece', 'Mon petit renne|Baby Reindeer'],
+      ['The Haunting of Hill House', 'Poupée russe|Russian Doll', 'Unbelievable', 'Marseille', 'Glow', 'Sense8', 'BoJack Horseman',
+        'Love, Death & Robots|Love Death and Robots', 'Big Mouth', 'Atypical', 'Beef', '3 Body Problem|Le Problème à trois corps'],
+      ['Mes premières fois|Never Have I Ever', 'Ginny & Georgia|Ginny et Georgia', 'Maid', 'Inventing Anna', 'Dahmer', 'Ripley',
+        'Tiger King', 'Bodies', 'The OA', 'Drôle'],
+    ],
+  },
+  {
+    id: 'got', cat: 'ecran', q: 'Personnages de Game of Thrones', people: true,
+    pieges: ['Gandalf', 'Geralt', 'Aragorn', 'Ragnar Lothbrok|Ragnar'],
+    a: [
+      ['Jon Snow', 'Daenerys|Daenerys Targaryen', 'Tyrion|Tyrion Lannister', 'Cersei|Cersei Lannister', 'Arya|Arya Stark', 'Sansa|Sansa Stark',
+        'Ned Stark|Eddard Stark|Ned', 'Jaime|Jaime Lannister', 'Joffrey'],
+      ['Bran|Bran Stark', 'Robb|Robb Stark', 'Catelyn|Catelyn Stark', 'Theon|Theon Greyjoy', 'Khal Drogo|Drogo', 'Le Limier|Sandor Clegane',
+        'Littlefinger|Petyr Baelish', 'Varys', 'Brienne|Brienne de Torth', 'Ramsay|Ramsay Bolton', 'Tywin|Tywin Lannister', 'Jorah|Jorah Mormont',
+        'Hodor', 'Robert Baratheon|Robert', 'Stannis', 'Melisandre', 'Ygritte', 'Le Roi de la Nuit|Roi de la Nuit', 'Oberyn', 'Margaery',
+        'Davos', 'Samwell Tarly|Sam Tarly|Samwell'],
+      ['Tormund', 'Gendry', 'Bronn', 'Missandei', 'Ver Gris|Grey Worm', 'Daario', 'Olenna|Olenna Tyrell', 'Gilly', 'Jaqen H\'ghar|Jaqen',
+        'Lysa Arryn', 'Roose Bolton', 'Walder Frey', 'Euron', 'Yara|Yara Greyjoy', 'La Montagne|Gregor Clegane', 'Podrick', 'Shae',
+        'Viserys', 'Grand Moineau|High Sparrow', 'Renly', 'Tommen', 'Myrcella', 'Loras'],
+      ['Rickon', 'Benjen', 'Mance Rayder', 'Qyburn', 'Talisa', 'Ellaria Sand|Ellaria', 'Beric Dondarrion|Beric', 'Thoros', 'Osha', 'Meera',
+        'Tourte chaude|Hot Pie', 'Septa Unella|Unella', 'Lancel', 'Kevan Lannister', 'Pycelle|Grand Mestre Pycelle', 'Mestre Aemon|Aemon',
+        'Alliser Thorne|Thorne', 'Syrio Forel|Syrio', 'Ser Barristan|Barristan Selmy'],
+      ['Jojen', 'Ros', 'Craster', 'Karl Tanner', 'Ilyn Payne', 'Doran Martell', 'Trystane', 'Edmure Tully|Edmure', 'Le Silure|Brynden Tully',
+        'Lyanna Mormont', 'Rhaegar', 'Hizdahr', 'Xaro Xhoan Daxos|Xaro', 'Pyat Pree', 'Shireen', 'Selyse', 'Olly', 'Lothar Frey', 'Black Walder'],
+    ],
+  },
+  {
+    id: 'dc', cat: 'ecran', q: 'Super-héros DC Comics',
+    pieges: ['Spider-Man', 'Iron Man', 'Wolverine', 'Hulk', 'Deadpool'],
+    a: [
+      ['Batman', 'Superman', 'Wonder Woman', 'Flash'],
+      ['Aquaman', 'Green Lantern', 'Robin', 'Supergirl', 'Cyborg', 'Catwoman', 'Shazam'],
+      ['Batgirl', 'Green Arrow', 'Martian Manhunter|Limier martien', 'Nightwing', 'Black Canary', 'Harley Quinn', 'Constantine', 'Blue Beetle'],
+      ['Hawkman', 'Zatanna', 'Booster Gold', 'Firestorm', 'Atom', 'Plastic Man', 'Starfire', 'Raven', 'Beast Boy', 'Swamp Thing', 'Huntress',
+        'Hawkgirl', 'Static|Static Shock', 'Doctor Fate', 'Stargirl', 'Peacemaker'],
+      ['Mister Miracle', 'Big Barda', 'Captain Atom', 'Jonah Hex', 'Spectre', 'Animal Man', 'Vixen',
+        'Red Hood', 'Batwoman', 'Orion', 'Metamorpho', 'Mera', 'Deathstroke'],
+    ],
+  },
+  {
+    id: 'disney', cat: 'ecran', q: 'Grands classiques d\'animation Disney', hint: 'hors Pixar',
+    pieges: ['Shrek', 'Toy Story', 'Anastasia', 'Le Prince d\'Égypte', 'Le Monde de Nemo'],
+    a: [
+      ['Blanche-Neige|Blanche-Neige et les Sept Nains', 'Le Roi lion', 'La Reine des neiges', 'Aladdin', 'Cendrillon', 'La Belle et la Bête',
+        'Le Livre de la jungle', 'La Petite Sirène'],
+      ['Bambi', 'Dumbo', 'Pinocchio', 'Peter Pan', 'Les 101 Dalmatiens|Les Cent un Dalmatiens', 'Les Aristochats', 'Raiponce', 'Mulan',
+        'Hercule', 'Tarzan', 'Pocahontas', 'Lilo et Stitch', 'Vaiana', 'Zootopie', 'La Belle au bois dormant'],
+      ['Alice au pays des merveilles', 'La Belle et le Clochard', 'Robin des Bois', 'Le Bossu de Notre-Dame', 'Kuzco|Kuzco, l\'empereur mégalo',
+        'Encanto', 'Les Mondes de Ralph', 'Les Nouveaux Héros', 'La Princesse et la Grenouille', 'Rox et Rouky', 'La Reine des neiges 2',
+        'Fantasia', 'Vaiana 2', 'Zootopie 2'],
+      ['Merlin l\'enchanteur', 'Les Aventures de Bernard et Bianca|Bernard et Bianca', 'Taram et le Chaudron magique', 'Basil, détective privé|Basil',
+        'Oliver et Compagnie', 'Atlantide|Atlantide, l\'empire perdu', 'La Planète au trésor', 'Frère des ours', 'Volt', 'Ralph 2.0',
+        'Raya et le dernier dragon', 'Wish|Wish, Asha et la bonne étoile', 'Dinosaure', 'Bienvenue chez les Robinson', 'Chicken Little',
+        'Winnie l\'ourson', 'Fantasia 2000'],
+      ['Bernard et Bianca au pays des kangourous', 'La Ferme se rebelle', 'Avalonia|Avalonia, l\'étrange voyage', 'Saludos Amigos', 'Les Trois Caballeros',
+        'Coquin de printemps', 'Mélodie Cocktail', 'Le Crapaud et le Maître d\'école', 'Les Aventures de Winnie l\'ourson'],
+    ],
+  },
+
+  // ---------- ajout : sport ----------
+  {
+    id: 'ligue1', cat: 'sport', q: 'Clubs de Ligue 1 lors de la saison 2025-2026',
+    pieges: ['Saint-Étienne', 'Bordeaux', 'Montpellier', 'Reims'],
+    a: [
+      ['Paris Saint-Germain|PSG|Paris SG', 'Olympique de Marseille|Marseille|OM', 'Olympique lyonnais|Lyon|OL'],
+      ['Monaco|AS Monaco', 'Lille|LOSC', 'Nice|OGC Nice', 'Lens|RC Lens', 'Rennes|Stade rennais'],
+      ['Nantes|FC Nantes', 'Strasbourg|RC Strasbourg', 'Toulouse|TFC', 'Brest|Stade brestois'],
+      ['Auxerre|AJ Auxerre', 'Angers|SCO Angers', 'Le Havre|HAC', 'Lorient|FC Lorient'],
+      ['Metz|FC Metz', 'Paris FC|PFC'],
+    ],
+  },
+  {
+    id: 'euro-foot', cat: 'sport', q: 'Pays vainqueurs de l\'Euro de football (hommes)',
+    pieges: ['Angleterre', 'Belgique', 'Croatie', 'Brésil'],
+    a: [
+      ['France', 'Espagne'],
+      ['Allemagne|RFA', 'Italie', 'Portugal'],
+      ['Pays-Bas|Hollande', 'Grèce'],
+      ['Danemark'],
+      ['Tchécoslovaquie', 'URSS|Union soviétique'],
+    ],
+  },
+  {
+    id: 'grandchelem', cat: 'sport', q: 'Vainqueurs d\'un tournoi du Grand Chelem en simple messieurs depuis 2000', people: true,
+    pieges: ['Gaël Monfils|Monfils', 'Jo-Wilfried Tsonga|Tsonga', 'Alexander Zverev|Zverev', 'Casper Ruud|Ruud'],
+    a: [
+      ['Roger Federer|Federer', 'Rafael Nadal|Nadal', 'Novak Djokovic|Djokovic'],
+      ['Carlos Alcaraz|Alcaraz', 'Jannik Sinner|Sinner', 'Andy Murray|Murray'],
+      ['Stan Wawrinka|Wawrinka', 'Daniil Medvedev|Medvedev', 'Andre Agassi|Agassi', 'Pete Sampras|Sampras', 'Juan Martín del Potro|Del Potro'],
+      ['Marin Čilić|Cilic', 'Dominic Thiem|Thiem', 'Marat Safin|Safin', 'Andy Roddick|Roddick', 'Lleyton Hewitt|Hewitt', 'Gustavo Kuerten|Kuerten'],
+      ['Juan Carlos Ferrero|Ferrero', 'Gastón Gaudio|Gaudio', 'Thomas Johansson|Johansson', 'Albert Costa|Costa', 'Goran Ivanišević|Ivanisevic'],
+    ],
+  },
+  {
+    id: 'collectifs', cat: 'sport', q: 'Sports collectifs',
+    pieges: ['Tennis', 'Judo', 'Golf', 'Escrime', 'Boxe'],
+    a: [
+      ['Football', 'Rugby', 'Basketball|Basket', 'Handball|Hand', 'Volley-ball|Volley'],
+      ['Water-polo', 'Hockey sur glace|Hockey', 'Football américain', 'Baseball', 'Futsal', 'Beach-volley', 'Hockey sur gazon'],
+      ['Cricket', 'Polo', 'Curling', 'Ultimate', 'Softball', 'Rugby à XIII|Rugby à 13', 'Rugby à 7', 'Beach soccer', 'Netball', 'Kin-ball'],
+      ['Lacrosse|Crosse', 'Korfball', 'Hurling', 'Football gaélique', 'Football australien', 'Kabaddi', 'Sepak takraw', 'Tchoukball', 'Bandy',
+        'Roller hockey|Rink hockey', 'Hockey subaquatique'],
+      ['Floorball|Unihockey', 'Horse-ball', 'Ringuette', 'Pelote basque', 'Quidditch|Quadball', 'Cyclo-balle|Cycle-ball', 'Bossaball',
+        'Kayak-polo', 'Shinty', 'Underwater rugby|Rugby subaquatique'],
+    ],
+  },
+  {
+    id: 'tour', cat: 'sport', q: 'Vainqueurs du Tour de France', people: true,
+    pieges: ['Raymond Poulidor|Poulidor', 'Lance Armstrong|Armstrong', 'Richard Virenque|Virenque', 'Julian Alaphilippe|Alaphilippe'],
+    a: [
+      ['Bernard Hinault|Hinault', 'Eddy Merckx|Merckx', 'Jacques Anquetil|Anquetil', 'Miguel Indurain|Indurain', 'Tadej Pogačar|Pogacar'],
+      ['Chris Froome|Froome', 'Jonas Vingegaard|Vingegaard', 'Laurent Fignon|Fignon', 'Greg LeMond|LeMond|Lemond', 'Alberto Contador|Contador'],
+      ['Bradley Wiggins|Wiggins', 'Vincenzo Nibali|Nibali', 'Geraint Thomas|Thomas', 'Egan Bernal|Bernal', 'Marco Pantani|Pantani',
+        'Jan Ullrich|Ullrich', 'Cadel Evans|Evans', 'Louison Bobet|Bobet', 'Fausto Coppi|Coppi'],
+      ['Carlos Sastre|Sastre', 'Bjarne Riis|Riis', 'Stephen Roche|Roche', 'Pedro Delgado|Delgado', 'Gino Bartali|Bartali',
+        'Bernard Thévenet|Thévenet', 'Felice Gimondi|Gimondi', 'Joop Zoetemelk|Zoetemelk', 'Lucien Van Impe|Van Impe', 'Luis Ocaña|Ocana'],
+      ['Óscar Pereiro|Pereiro', 'Charly Gaul|Gaul', 'Federico Bahamontes|Bahamontes', 'Roger Pingeon|Pingeon', 'Lucien Aimar|Aimar',
+        'Roger Walkowiak|Walkowiak', 'Jean Robic|Robic', 'Ferdi Kübler|Kubler', 'Hugo Koblet|Koblet', 'Maurice Garin|Garin',
+        'Octave Lapize|Lapize', 'André Leducq|Leducq', 'Antonin Magne|Magne'],
+    ],
+  },
+  {
+    id: 'athle', cat: 'sport', q: 'Épreuves de l\'athlétisme aux Jeux olympiques',
+    pieges: ['Biathlon', 'Saut à ski', 'Plongeon', 'Lancer de hache'],
+    a: [
+      ['100 m', 'Marathon', 'Saut en hauteur', 'Saut en longueur', 'Saut à la perche|Perche'],
+      ['200 m', '400 m', '110 m haies', 'Lancer du javelot|Javelot', 'Lancer du poids|Poids', 'Lancer du disque|Disque', 'Relais 4 x 100 m|4 x 100|Relais 4x100'],
+      ['800 m', '1 500 m|1500 m', 'Triple saut', 'Décathlon', 'Heptathlon', 'Lancer du marteau|Marteau', '100 m haies', '400 m haies',
+        'Relais 4 x 400 m|4 x 400|Relais 4x400'],
+      ['5 000 m|5000 m', '10 000 m|10000 m', '3 000 m steeple|Steeple', '20 km marche|Marche'],
+      ['Relais mixte 4 x 400 m|Relais mixte', 'Marathon relais mixte|Relais marche mixte'],
+    ],
+  },
+  {
+    id: 'nba', cat: 'sport', q: 'Franchises de la NBA', people: true, hint: 'le surnom suffit (Lakers, Bulls…)',
+    pieges: ['SuperSonics|Seattle SuperSonics', 'Yankees|New York Yankees', 'Patriots', 'Canadiens|Canadiens de Montréal'],
+    a: [
+      ['Lakers|Los Angeles Lakers', 'Celtics|Boston Celtics', 'Bulls|Chicago Bulls', 'Warriors|Golden State Warriors'],
+      ['Heat|Miami Heat', 'Spurs|San Antonio Spurs', 'Knicks|New York Knicks', 'Nets|Brooklyn Nets', 'Mavericks|Dallas Mavericks|Mavs',
+        'Rockets|Houston Rockets', 'Clippers|Los Angeles Clippers', 'Cavaliers|Cleveland Cavaliers|Cavs'],
+      ['Suns|Phoenix Suns', 'Bucks|Milwaukee Bucks', '76ers|Philadelphia 76ers|Sixers', 'Raptors|Toronto Raptors', 'Nuggets|Denver Nuggets',
+        'Jazz|Utah Jazz', 'Thunder|Oklahoma City Thunder', 'Pistons|Detroit Pistons', 'Magic|Orlando Magic'],
+      ['Trail Blazers|Portland Trail Blazers|Blazers', 'Kings|Sacramento Kings', 'Timberwolves|Minnesota Timberwolves|Wolves',
+        'Pelicans|New Orleans Pelicans', 'Grizzlies|Memphis Grizzlies', 'Hawks|Atlanta Hawks', 'Pacers|Indiana Pacers'],
+      ['Hornets|Charlotte Hornets', 'Wizards|Washington Wizards'],
+    ],
+  },
+
+  // ---------- ajout 3 ----------
+  {
+    id: "sw-series", cat: "starwars", q: "Séries Star Wars (en prises de vues réelles ou animées)",
+    pieges: ["Rogue One", "Solo", "The Expanse", "Star Trek: Discovery"],
+    a: [
+      ["The Mandalorian|Mandalorian", "Andor", "The Clone Wars|Clone Wars"],
+      ["Ahsoka", "Obi-Wan Kenobi|Obi-Wan", "Le Livre de Boba Fett|The Book of Boba Fett|Boba Fett", "Rebels|Star Wars Rebels"],
+      ["The Bad Batch|Bad Batch", "The Acolyte|Acolyte", "Skeleton Crew", "Visions|Star Wars Visions", "Resistance|Star Wars Resistance"],
+      ["Tales of the Jedi|Les Contes des Jedi", "Tales of the Empire|Les Contes de l'Empire", "Clone Wars (2003)|Clone Wars de Tartakovsky", "Les Aventures des Petits Jedi|Young Jedi Adventures", "Tales of the Underworld"],
+      ["Droids", "Ewoks", "Forces of Destiny", "Galaxy of Adventures", "LEGO Star Wars : Reconstruire la galaxie|Rebuild the Galaxy", "Star Wars Holiday Special|Holiday Special"],
+    ],
+  },
+  {
+    id: "sw-prelogie", cat: "starwars", q: "Personnages de la prélogie (épisodes I, II et III)", people: true,
+    pieges: ["Han Solo", "Lando Calrissian|Lando", "Rey", "Kylo Ren"],
+    a: [
+      ["Anakin Skywalker|Anakin", "Padmé Amidala|Padmé|Amidala", "Obi-Wan Kenobi|Obi-Wan", "Yoda", "Jar Jar Binks|Jar Jar", "Dark Maul|Maul", "Palpatine|Dark Sidious"],
+      ["Qui-Gon Jinn|Qui-Gon", "Mace Windu|Windu", "Comte Dooku|Dooku", "Général Grievous|Grievous", "Jango Fett", "Boba Fett", "R2-D2", "C-3PO|Z-6PO"],
+      ["Watto", "Sebulba", "Shmi Skywalker|Shmi", "Nute Gunray", "Bail Organa", "Capitaine Panaka|Panaka", "Boss Nass", "Ki-Adi-Mundi", "Kit Fisto", "Plo Koon", "Commandant Cody|Cody", "Zam Wesell"],
+      ["Aayla Secura", "Shaak Ti", "Dexter Jettster", "Lama Su", "Taun We", "Poggle le Bref|Poggle", "Mas Amedda", "Cliegg Lars", "Owen Lars", "Beru", "Jocasta Nu", "Sabé", "Sio Bibble", "Wat Tambor", "San Hill"],
+      ["Rune Haako", "Tion Medon", "Ric Olié", "Valorum|Chancelier Valorum", "Tarfful", "Luminara Unduli", "Barriss Offee", "Captain Typho|Capitaine Typho", "Dormé", "Jobal Naberrie", "Ruwee Naberrie"],
+    ],
+  },
+  {
+    id: "sw-postlogie", cat: "starwars", q: "Personnages de la postlogie (épisodes VII, VIII et IX)", people: true,
+    pieges: ["Anakin Skywalker", "Padmé Amidala|Padmé", "Jar Jar Binks", "Grogu"],
+    a: [
+      ["Rey", "Finn", "Kylo Ren|Ben Solo", "Poe Dameron|Poe", "BB-8"],
+      ["Han Solo", "Leia Organa|Leia", "Luke Skywalker|Luke", "Chewbacca", "Snoke", "Général Hux|Hux", "Capitaine Phasma|Phasma", "Palpatine", "Maz Kanata|Maz"],
+      ["Rose Tico|Rose", "Amiral Holdo|Holdo", "DJ", "Lando Calrissian|Lando", "C-3PO|Z-6PO", "R2-D2", "Zorii Bliss|Zorii", "Jannah", "Babu Frik", "D-O"],
+      ["Lor San Tekka", "Unkar Plutt", "Général Pryde|Pryde", "Chevaliers de Ren|Knights of Ren", "Paige Tico", "Kaydel Connix|Connix", "Snap Wexley", "Amiral Ackbar|Ackbar", "Nien Nunb", "Wedge Antilles|Wedge"],
+      ["Ochi", "Boolio", "Bazine Netal", "Tasu Leech", "Statura|Amiral Statura", "Larma D'Acy", "Vober Dand", "Beaumont Kin", "Ello Asty"],
+    ],
+  },
+  {
+    id: "sw-primes", cat: "starwars", q: "Chasseurs de primes de Star Wars", people: true,
+    pieges: ["Han Solo", "Lando Calrissian|Lando", "Jabba", "Chewbacca"],
+    a: [
+      ["Boba Fett", "Jango Fett", "Din Djarin|Mando|Le Mandalorien"],
+      ["Bossk", "IG-88", "Greedo", "Cad Bane", "Fennec Shand|Fennec"],
+      ["Dengar", "Zuckuss", "4-LOM", "Aurra Sing", "Embo", "Zam Wesell", "IG-11"],
+      ["Black Krrsantan|Krrsantan", "Toro Calican", "Boushh", "Sugi", "Latts Razzi", "Bazine Netal", "Durge", "Ochi"],
+      ["Moralo Eval", "Robonino", "Shahan Alama", "Highsinger", "Rako Hardeen", "Sy Snootles", "Boc Aseca", "Hunter (Bad Batch)|Hunter"],
+    ],
+  },
+  {
+    id: "sda-hobbit", cat: "sda", q: "Personnages du Hobbit (livre et films)",
+    pieges: ["Frodon", "Sam", "Aragorn", "Boromir"],
+    a: [
+      ["Bilbon|Bilbo", "Gandalf", "Thorin|Thorin Écu-de-Chêne", "Smaug", "Gollum"],
+      ["Bard|Bard l'Archer", "Thranduil", "Legolas", "Tauriel", "Balin", "Kili", "Fili", "Azog"],
+      ["Elrond", "Galadriel", "Saroumane|Saruman", "Radagast", "Beorn", "Bolg", "Grand Gobelin|Le Grand Gobelin", "Bombur", "Dáin|Dain", "Dwalin"],
+      ["Maître de Lacville|Le Maître", "Alfrid", "Bofur", "Glóin|Gloin", "Óin|Oin", "Ori", "Dori", "Nori", "Bifur", "Nécromancien|Le Nécromancien", "Sauron"],
+      ["Tom (troll)|Tom", "Bert", "William", "Roäc|Roac", "Thrór|Thror", "Thráin|Thrain", "Bain", "Sigrid", "Tilda", "Percy|Percy"],
+    ],
+  },
+  {
+    id: "sda-elfes", cat: "sda", q: "Elfes de l'œuvre de Tolkien",
+    pieges: ["Dobby", "Gimli", "Gandalf", "Aragorn"],
+    a: [
+      ["Legolas", "Galadriel", "Elrond", "Arwen"],
+      ["Thranduil", "Tauriel", "Celeborn", "Haldir", "Glorfindel"],
+      ["Gil-galad", "Celebrimbor", "Lúthien|Luthien", "Fëanor|Feanor", "Círdan|Cirdan", "Elladan", "Elrohir", "Lindir"],
+      ["Thingol", "Finrod", "Fingolfin", "Turgon", "Idril", "Eärendil|Earendil", "Elwing", "Maedhros", "Finwë|Finwe", "Erestor", "Celebrían|Celebrian", "Beleg"],
+      ["Gwindor", "Galdor", "Fingon", "Maglor", "Aredhel", "Eöl|Eol", "Maeglin", "Ingwë|Ingwe", "Olwë|Olwe", "Amroth", "Nimrodel", "Gildor", "Ecthelion", "Rúmil|Rumil", "Orophin"],
+    ],
+  },
+  {
+    id: "sda-titres", cat: "sda", q: "Livres, films et séries tirés de l'œuvre de Tolkien",
+    pieges: ["Le Monde de Narnia", "Eragon", "Le Trône de fer", "La Belgariade"],
+    a: [
+      ["Le Hobbit|Bilbo le Hobbit", "La Communauté de l'anneau", "Les Deux Tours", "Le Retour du roi"],
+      ["Le Silmarillion", "Un voyage inattendu", "La Désolation de Smaug", "La Bataille des cinq armées", "Les Anneaux de pouvoir"],
+      ["Les Enfants de Húrin|Les Enfants de Hurin", "Contes et légendes inachevés", "La Guerre des Rohirrim", "Beren et Lúthien|Beren et Luthien", "La Chute de Gondolin"],
+      ["Le Fermier Gilles de Ham", "Les Aventures de Tom Bombadil", "Lettres du Père Noël", "Roverandom", "Feuille, de Niggle|Feuille de Niggle", "Le Livre des contes perdus", "La Chute de Númenor|La Chute de Numenor"],
+      ["Smith de Grand Wootton|Smith of Wootton Major", "La Chasse au Gollum", "Le Seigneur des anneaux de Ralph Bakshi|Bakshi", "Mr. Bliss|Monsieur Merveille", "La Légende de Sigurd et Gudrún|Sigurd et Gudrun", "La Chute d'Arthur"],
+    ],
+  },
+  {
+    id: "scorsese", cat: "cinema", q: "Films réalisés par Martin Scorsese",
+    pieges: ["Le Parrain", "Pulp Fiction", "Scarface", "Heat"],
+    a: [
+      ["Taxi Driver", "Les Affranchis|Goodfellas", "Le Loup de Wall Street", "Les Infiltrés"],
+      ["Shutter Island", "Casino", "Raging Bull", "Gangs of New York", "The Irishman"],
+      ["Aviator", "Hugo Cabret", "Killers of the Flower Moon", "Les Nerfs à vif"],
+      ["Mean Streets", "After Hours", "La Valse des pantins", "La Dernière Tentation du Christ", "Le Temps de l'innocence", "Silence", "La Couleur de l'argent"],
+      ["Kundun", "À tombeau ouvert", "Alice n'est plus ici", "New York, New York", "Boxcar Bertha", "Who's That Knocking at My Door"],
+    ],
+  },
+  {
+    id: "bond", cat: "cinema", q: "Films officiels de James Bond",
+    pieges: ["Mission impossible", "Jason Bourne", "Kingsman", "OSS 117"],
+    a: [
+      ["Casino Royale", "Skyfall", "Goldfinger", "GoldenEye"],
+      ["James Bond 007 contre Dr No|Dr No", "Spectre", "Mourir peut attendre|No Time to Die", "Quantum of Solace", "Moonraker"],
+      ["Bons baisers de Russie", "Demain ne meurt jamais", "Le monde ne suffit pas", "Meurs un autre jour", "L'Espion qui m'aimait", "Octopussy", "Permis de tuer"],
+      ["Opération Tonnerre", "On ne vit que deux fois", "Les diamants sont éternels", "Vivre et laisser mourir", "L'Homme au pistolet d'or", "Rien que pour vos yeux", "Dangereusement vôtre"],
+      ["Au service secret de Sa Majesté", "Tuer n'est pas jouer"],
+    ],
+  },
+  {
+    id: "dreamworks", cat: "cinema", q: "Personnages des films d'animation DreamWorks",
+    pieges: ["Gru", "Woody", "Elsa", "Stitch", "Minion"],
+    a: [
+      ["Shrek", "Fiona", "L'Âne|Âne", "Le Chat potté|Chat potté", "Po"],
+      ["Krokmou", "Harold", "Alex", "Marty", "Gloria", "Melman", "Roi Julian|Julian", "Maître Shifu|Shifu", "Tigresse"],
+      ["Lord Farquaad|Farquaad", "Astrid", "Les Pingouins|Pingouins|Skipper", "Tai Lung", "Mégamind", "Baby Boss|Le Baby Boss", "Poppy", "Branche", "Roz|Le Robot sauvage", "Spirit"],
+      ["Stoïck|Stoick", "Gueulfor", "Oscar", "Moïse", "Ti Biscuit|Gingy", "Le Prince Charmant|Prince Charmant", "Dragonne", "Mort (Madagascar)|Mort", "Lenny", "Mr Wolf|M. Loup", "Kai", "Shen|Lord Shen"],
+      ["Mr Snake|M. Serpent", "Tighten", "Jack Frost", "Le Marchand de sable|Sab", "Eep", "Grug", "Guy", "Rumplestiltskin|Tracassin", "Mei Mei"],
+    ],
+  },
+  {
+    id: "besson", cat: "cinema", q: "Films réalisés par Luc Besson",
+    pieges: ["Taxi", "Le Transporteur", "Les Visiteurs", "Le Fabuleux Destin d'Amélie Poulain|Amélie Poulain"],
+    a: [
+      ["Le Grand Bleu", "Léon", "Le Cinquième Élément", "Lucy"],
+      ["Nikita", "Arthur et les Minimoys", "Jeanne d'Arc|Jeanne d'Arc (1999)"],
+      ["Valérian et la Cité des mille planètes|Valérian", "Subway", "Les Aventures extraordinaires d'Adèle Blanc-Sec|Adèle Blanc-Sec", "Malavita"],
+      ["Le Dernier Combat", "Angel-A", "Anna", "DogMan", "Dracula|Dracula : A Love Tale"],
+      ["Atlantis", "The Lady", "Arthur et la Vengeance de Maltazard", "Arthur et la Guerre des deux mondes"],
+    ],
+  },
+  {
+    id: "hp-persos", cat: "ecran", q: "Personnages de Harry Potter",
+    pieges: ["Gandalf", "Merlin", "Percy Jackson", "Frodon"],
+    a: [
+      ["Harry Potter|Harry", "Hermione|Hermione Granger", "Ron|Ron Weasley", "Dumbledore|Albus Dumbledore", "Voldemort|Tom Jedusor", "Rogue|Severus Rogue", "Hagrid"],
+      ["Drago Malefoy|Drago|Malefoy", "McGonagall|Minerva McGonagall", "Sirius Black|Sirius", "Dobby", "Neville|Neville Londubat", "Luna|Luna Lovegood", "Ginny|Ginny Weasley", "Bellatrix|Bellatrix Lestrange", "Fred Weasley|Fred", "George Weasley|George", "Lupin|Remus Lupin", "Hedwige"],
+      ["Lucius Malefoy|Lucius", "Cho Chang|Cho", "Cedric Diggory|Cedric", "Maugrey Fol Œil|Fol Œil|Maugrey", "Quirrell", "Gilderoy Lockhart|Lockhart", "Dolores Ombrage|Ombrage", "Queudver|Peter Pettigrow|Pettigrow", "Rusard|Argus Rusard", "Slughorn", "Kreattur", "Fleur Delacour|Fleur", "Viktor Krum|Krum", "Arthur Weasley", "Molly Weasley", "Tonks", "Dudley", "Croûtard", "Nagini", "Buck", "Mimi Geignarde"],
+      ["Percy Weasley|Percy", "Bill Weasley|Bill", "Charlie Weasley|Charlie", "Kingsley Shacklebolt|Kingsley", "Crabbe", "Goyle", "Pansy Parkinson|Pansy", "Firenze", "Graup", "Aragog", "Pattenrond", "Grindelwald", "Narcissa Malefoy|Narcissa", "Flitwick", "Chourave", "Trelawney", "Peeves", "Nick Quasi-Sans-Tête", "Vernon Dursley|Vernon", "Pétunia Dursley|Pétunia", "Ollivander", "Cornelius Fudge|Fudge", "Lily Potter|Lily", "James Potter", "Mme Pomfresh|Pomfresh"],
+      ["Mme Bibine|Bibine", "Binns", "Scrimgeour", "Lee Jordan", "Seamus Finnigan|Seamus", "Dean Thomas", "Lavande Brown|Lavande", "Olivier Dubois", "Colin Crivey", "Barty Croupton|Croupton", "Ludo Verpey|Verpey", "Xenophilius Lovegood", "Abelforth", "Mondingus Fletcher|Mondingus", "Fenrir Greyback", "Winky", "Mme Maxime", "Karkaroff", "Hokey", "Gregorovitch"],
+    ],
+  },
+  {
+    id: "onepiece", cat: "ecran", q: "Personnages de One Piece",
+    pieges: ["Naruto", "Sangoku|Goku", "Ichigo", "Light Yagami"],
+    a: [
+      ["Luffy|Monkey D. Luffy", "Zoro|Roronoa Zoro", "Nami", "Sanji", "Usopp"],
+      ["Chopper|Tony Tony Chopper", "Robin|Nico Robin", "Franky", "Brook", "Ace|Portgas D. Ace", "Shanks", "Barbe Blanche", "Barbe Noire", "Jinbe"],
+      ["Kaido", "Big Mom", "Doflamingo", "Crocodile", "Mihawk", "Boa Hancock|Hancock", "Law|Trafalgar Law", "Buggy", "Garp", "Sabo", "Gol D. Roger|Gold Roger|Roger", "Rayleigh", "Kid|Eustass Kid", "Akainu", "Aokiji", "Kizaru"],
+      ["Vivi", "Smoker", "Tashigi", "Coby|Kobby", "Arlong", "Ener|Enel", "Rob Lucci|Lucci", "Ivankov", "Marco", "Yamato", "Kinemon", "Momonosuke", "Kuma|Bartholomew Kuma", "Moria|Gecko Moria", "Dragon|Monkey D. Dragon", "Vegapunk", "Bon Clay|Mr. 2", "Carrot", "Pekoms"],
+      ["Kuro", "Don Krieg", "Wapol", "Hody Jones", "Caesar Clown", "Katakuri", "Magellan", "Sengoku", "Fujitora", "Ryokugyu", "Kozuki Oden|Oden", "Shirahoshi", "Rebecca", "Perona", "Hachi|Octo", "Laboon", "Pandaman"],
+    ],
+  },
+  {
+    id: "dragonball", cat: "ecran", q: "Personnages de Dragon Ball",
+    pieges: ["Naruto", "Luffy", "Saitama", "Pikachu"],
+    a: [
+      ["Sangoku|Goku|Son Goku", "Vegeta", "Sangohan|Gohan", "Piccolo", "Krilin", "Bulma", "Freezer"],
+      ["Cell", "Boo|Majin Boo", "Trunks", "Sangoten|Goten", "Tortue Géniale|Kamé Sennin", "Yamcha", "Ten Shin Han", "Chichi", "Shenron", "Gotenks", "Vegeto|Végéto", "Gogeta"],
+      ["Chaozu", "Videl", "Mister Satan|Hercule Satan", "Beerus", "Whis", "Broly", "Raditz", "Nappa", "Bardock", "C-17|C17", "C-18|C18", "Dende", "Kaio|Maître Kaio", "Oolong", "Plume|Puar", "Ginyu|Capitaine Ginyu"],
+      ["C-16|C16", "Lunch", "Yajirobe", "Karin|Maître Karin", "Tao Pai Pai", "Zarbon", "Dodoria", "Jiren", "Zeno", "Hit", "Babidi", "Dabra", "Pilaf", "Pan", "Marron", "Gyumao|Gyuma", "Kaioshin", "Recoom", "Burter", "Jeice", "Guldo"],
+      ["Mai", "Shu", "Upa", "Bora", "Arale", "Nail", "Dr Gero|Docteur Gero", "Cooler", "Janemba", "Hildegarn", "Baby", "Goku Black", "Zamasu", "Toppo", "Cabba", "Caulifla", "Kale", "Granolah"],
+    ],
+  },
+  {
+    id: "mechants-disney", cat: "ecran", q: "Méchants des dessins animés Disney",
+    pieges: ["Dark Vador", "Voldemort", "Joker", "Lord Farquaad"],
+    a: [
+      ["Ursula", "Maléfique", "Scar", "Jafar", "Cruella|Cruella d'Enfer", "Hadès", "Capitaine Crochet|Crochet"],
+      ["Frollo", "Gaston", "La Reine|La Méchante Reine|Reine de Blanche-Neige", "Lady Trémaine|La Marâtre|Belle-mère de Cendrillon", "Mère Gothel|Gothel", "Shere Khan", "Hans", "Yzma", "Reine de Cœur", "Kaa"],
+      ["Docteur Facilier|Facilier", "Ratigan", "Le Prince Jean|Prince Jean", "Shan Yu", "Madame Médusa|Médusa", "Clayton", "Gouverneur Ratcliffe|Ratcliffe", "Madame Mim|Mim", "Pat Hibulaire|Pat", "Edgar", "Te Kā|Te Ka", "Tamatoa", "Magnifico|Roi Magnifico"],
+      ["Le Seigneur des Ténèbres|Horned King", "Sykes", "Chernabog", "Sir Hiss|Siffle", "Callaghan|Yokai", "Le Roi Candy|Roi Candy|Turbo", "Bellwether|Mme Bellwether", "Percival McLeach|McLeach", "Scroop", "Sabor", "Rourke", "Le Grand Méchant Loup|Grand Méchant Loup", "Stromboli"],
+      ["Le Cocher|Cocher", "Monstro", "Amos Slade|Slade", "Lucifer (chat)|Lucifer", "Le Chasseur (Bambi)|Chasseur", "Si et Am", "Flotsam et Jetsam|Flotsam", "Pain et Panique|Pain|Panique", "Ronno"],
+    ],
+  },
+  {
+    id: "kaamelott", cat: "ecran", q: "Personnages de Kaamelott",
+    pieges: ["Robin des Bois", "Ivanhoé", "Jacquouille", "Astérix"],
+    a: [
+      ["Arthur", "Perceval", "Karadoc", "Lancelot", "Merlin", "Léodagan"],
+      ["Guenièvre", "Bohort", "Gauvain", "Yvain", "Kadoc", "Séli", "Dame du Lac", "Père Blaise"],
+      ["Élias de Kelliwic'h|Élias", "Venec", "Loth|Roi Loth", "Galessin", "Calogrenant", "Méléagant", "Mevanwi", "Goustan", "Lucius Sillius Sallustius|Lucius", "Uther|Uther Pendragon", "Ygerne", "Le Roi Burgonde|Burgonde", "Maître d'armes|Le Maître d'armes", "Jules César|César", "Angharad", "Dagonet", "Guethenoc", "Roparzh", "Anna"],
+      ["Démétra", "Aconia", "Cryda de Tintagel|Cryda", "Manilius", "Prisca", "Attila", "Jacca", "Vérinus", "Grüdü", "Le Tavernier|Tavernier", "Breccan", "Spurius Cordius Frontinius|Spurius", "Caius Camillus|Caius", "Glaucia"],
+      ["Capito", "Le Duc d'Aquitaine|Duc d'Aquitaine", "Le Roi Pellinor|Pellinor"],
+    ],
+  },
+  {
+    id: "ballondor", cat: "sport", q: "Lauréats du Ballon d'or (hommes)", people: true,
+    pieges: ["Pelé", "Diego Maradona|Maradona", "Thierry Henry|Henry", "Kylian Mbappé|Mbappé", "Neymar"],
+    a: [
+      ["Lionel Messi|Messi", "Cristiano Ronaldo", "Zinédine Zidane|Zidane", "Michel Platini|Platini", "Karim Benzema|Benzema"],
+      ["Ronaldo|Ronaldo Nazário", "Ronaldinho", "Kaká|Kaka", "Luka Modrić|Modric", "Ousmane Dembélé|Dembélé", "Johan Cruyff|Cruyff", "Marco van Basten|Van Basten", "Franz Beckenbauer|Beckenbauer"],
+      ["Rodri", "Luís Figo|Figo", "Rivaldo", "Michael Owen|Owen", "Pavel Nedvěd|Nedved", "Andriy Shevchenko|Shevchenko|Chevtchenko", "Fabio Cannavaro|Cannavaro", "Jean-Pierre Papin|Papin", "George Weah|Weah", "Roberto Baggio|Baggio", "Lothar Matthäus|Matthäus", "Ruud Gullit|Gullit", "Raymond Kopa|Kopa", "Alfredo Di Stéfano|Di Stéfano", "Eusébio"],
+      ["Gerd Müller", "Karl-Heinz Rummenigge|Rummenigge", "Kevin Keegan|Keegan", "Paolo Rossi|Rossi", "Matthias Sammer|Sammer", "Bobby Charlton|Charlton", "George Best|Best", "Lev Yachine|Yachine", "Stanley Matthews|Matthews"],
+      ["Igor Belanov|Belanov", "Oleg Blokhine|Blokhine", "Allan Simonsen|Simonsen", "Denis Law|Law", "Gianni Rivera|Rivera", "Omar Sívori|Sivori", "Josef Masopust|Masopust", "Flórián Albert|Albert", "Luis Suárez Miramontes|Luis Suárez"],
+    ],
+  },
+  {
+    id: "c1", cat: "sport", q: "Clubs vainqueurs de la Coupe d'Europe des clubs champions ou de la Ligue des champions",
+    pieges: ["Arsenal", "Atlético de Madrid|Atletico Madrid", "Tottenham", "Saint-Étienne"],
+    a: [
+      ["Real Madrid", "Barcelone|FC Barcelone|Barça", "Bayern Munich|Bayern", "Liverpool", "Paris Saint-Germain|PSG"],
+      ["AC Milan|Milan AC", "Manchester United", "Chelsea", "Juventus|Juve", "Marseille|Olympique de Marseille|OM", "Inter Milan|Inter", "Ajax|Ajax Amsterdam", "Manchester City"],
+      ["Porto|FC Porto", "Borussia Dortmund|Dortmund", "Benfica", "Nottingham Forest", "Celtic|Celtic Glasgow"],
+      ["Hambourg|Hambourg SV", "PSV Eindhoven|PSV", "Feyenoord", "Aston Villa", "Steaua Bucarest|Steaua"],
+      ["Étoile rouge de Belgrade|Étoile rouge"],
+    ],
+  },
+  {
+    id: "top14", cat: "sport", q: "Clubs du Top 14 lors de la saison 2025-2026",
+    pieges: ["Brive", "Biarritz", "Agen", "Grenoble", "Vannes"],
+    a: [
+      ["Stade toulousain|Toulouse", "Stade rochelais|La Rochelle", "Toulon|RC Toulon|RCT"],
+      ["Racing 92|Racing", "Stade français|Stade français Paris", "Bordeaux-Bègles|UBB|Bordeaux", "Clermont|ASM Clermont|ASM"],
+      ["Castres|Castres olympique", "Montpellier|MHR", "Bayonne|Aviron bayonnais", "Lyon|LOU"],
+      ["Pau|Section paloise", "Perpignan|USAP"],
+      ["Montauban"],
+    ],
+  },
+  {
+    id: "jo-hiver", cat: "sport", q: "Sports et disciplines des Jeux olympiques d'hiver",
+    pieges: ["Ski nautique", "Kitesurf", "Raquettes", "Escalade"],
+    a: [
+      ["Ski alpin|Ski", "Biathlon", "Patinage artistique", "Hockey sur glace|Hockey", "Snowboard"],
+      ["Bobsleigh|Bob", "Luge", "Curling", "Saut à ski", "Ski de fond", "Patinage de vitesse"],
+      ["Skeleton", "Combiné nordique", "Short-track|Patinage de vitesse sur piste courte", "Ski acrobatique|Freestyle", "Ski de bosses|Bosses", "Descente", "Slalom"],
+      ["Ski cross|Skicross", "Snowboard cross|Boardercross", "Halfpipe", "Slopestyle", "Big Air", "Slalom géant", "Super-G|Super géant"],
+      ["Ski-alpinisme|Ski de montagne", "Saut acrobatique|Sauts", "Combiné alpin", "Mass start", "Danse sur glace"],
+    ],
+  },
+  {
+    id: "departements", cat: "geo", q: "Départements français",
+    pieges: ["Bretagne", "Normandie", "Provence", "Alsace", "Picardie"],
+    a: [
+      ["Paris", "Nord", "Gironde", "Bouches-du-Rhône", "Rhône", "Var", "Savoie", "Haute-Savoie", "Finistère", "Corse-du-Sud", "Haute-Corse", "Calvados", "Vendée", "Alpes-Maritimes"],
+      ["Pas-de-Calais", "Hérault", "Haute-Garonne", "Loire-Atlantique", "Seine-Saint-Denis", "Hauts-de-Seine", "Val-de-Marne", "Essonne", "Yvelines", "Val-d'Oise", "Seine-et-Marne", "Isère", "Landes", "Morbihan", "Manche", "Somme", "Marne", "Moselle", "Bas-Rhin", "Haut-Rhin", "Jura", "Vosges", "Dordogne", "Gard", "Vaucluse", "Ardèche", "Guadeloupe", "Martinique", "Guyane", "La Réunion|Réunion", "Mayotte"],
+      ["Ain", "Aisne", "Allier", "Hautes-Alpes", "Alpes-de-Haute-Provence", "Ardennes", "Ariège", "Aube", "Aude", "Aveyron", "Cantal", "Charente", "Charente-Maritime", "Cher", "Corrèze", "Côte-d'Or", "Côtes-d'Armor", "Creuse", "Doubs", "Drôme", "Eure", "Gers", "Ille-et-Vilaine", "Indre", "Loire", "Loiret", "Lot", "Lozère", "Mayenne", "Meuse", "Nièvre", "Oise", "Orne", "Puy-de-Dôme", "Pyrénées-Atlantiques", "Hautes-Pyrénées", "Pyrénées-Orientales", "Sarthe", "Seine-Maritime", "Tarn", "Vienne", "Yonne"],
+      ["Eure-et-Loir", "Indre-et-Loire", "Loir-et-Cher", "Haute-Loire", "Lot-et-Garonne", "Maine-et-Loire", "Haute-Marne", "Meurthe-et-Moselle", "Haute-Saône", "Saône-et-Loire", "Deux-Sèvres", "Tarn-et-Garonne", "Haute-Vienne", "Territoire de Belfort|Belfort"],
+      [],
+    ],
+  },
+  {
+    id: "capitales-afrique", cat: "geo", q: "Capitales de pays africains",
+    pieges: ["Lagos", "Casablanca", "Johannesburg", "Marrakech"],
+    a: [
+      ["Le Caire", "Rabat", "Alger", "Tunis", "Dakar"],
+      ["Nairobi", "Abidjan|Yamoussoukro", "Kinshasa", "Tripoli", "Addis-Abeba", "Bamako", "Pretoria|Le Cap|Bloemfontein", "Antananarivo|Tananarive", "Brazzaville", "Libreville", "Yaoundé", "Abuja", "Accra"],
+      ["Ouagadougou", "Niamey", "Nouakchott", "Conakry", "Lomé", "Porto-Novo", "Kigali", "Kampala", "Khartoum", "Mogadiscio", "Luanda", "Maputo", "Harare", "Lusaka", "Djibouti", "Bangui", "N'Djaména", "Port-Louis"],
+      ["Dodoma", "Windhoek", "Gaborone", "Lilongwe", "Bujumbura", "Asmara", "Monrovia", "Freetown", "Banjul", "Bissau", "Malabo", "Moroni", "Victoria", "Djouba|Juba"],
+      ["Maseru", "Mbabane|Lobamba", "Praia", "São Tomé|Sao Tomé"],
+    ],
+  },
+  {
+    id: "europe-hors-ue", cat: "geo", q: "Pays d'Europe qui ne sont pas dans l'Union européenne",
+    pieges: ["Autriche", "Irlande", "Grèce", "Danemark", "Portugal"],
+    a: [
+      ["Suisse", "Royaume-Uni|Angleterre", "Norvège", "Russie", "Ukraine"],
+      ["Islande", "Serbie", "Turquie", "Monaco", "Vatican", "Biélorussie|Bélarus"],
+      ["Albanie", "Andorre", "Saint-Marin", "Liechtenstein", "Bosnie-Herzégovine|Bosnie", "Monténégro", "Moldavie"],
+      ["Macédoine du Nord|Macédoine", "Kosovo", "Géorgie"],
+      ["Arménie", "Azerbaïdjan", "Kazakhstan"],
+    ],
+  },
+  {
+    id: "presidents-anciens", cat: "histoire", q: "Présidents de la République française avant 1959", people: true,
+    pieges: ["Georges Clemenceau|Clemenceau", "Philippe Pétain|Pétain", "Léon Gambetta|Gambetta", "Jean Jaurès|Jaurès"],
+    a: [
+      ["Louis-Napoléon Bonaparte|Louis-Napoléon|Napoléon III", "Raymond Poincaré|Poincaré"],
+      ["Adolphe Thiers|Thiers", "René Coty|Coty", "Vincent Auriol|Auriol", "Félix Faure"],
+      ["Mac Mahon|Patrice de Mac Mahon", "Sadi Carnot", "Paul Doumer|Doumer", "Albert Lebrun|Lebrun", "Jules Grévy|Grévy"],
+      ["Émile Loubet|Loubet", "Armand Fallières|Fallières", "Paul Deschanel|Deschanel", "Alexandre Millerand|Millerand", "Gaston Doumergue|Doumergue"],
+      ["Jean Casimir-Perier|Casimir-Perier"],
+    ],
+  },
+  {
+    id: "merveilles", cat: "histoire", q: "Les sept merveilles du monde (antiques et nouvelles de 2007)",
+    pieges: ["Tour Eiffel", "Statue de la Liberté", "Stonehenge", "Angkor", "Sagrada Família"],
+    a: [
+      ["Pyramide de Khéops|Pyramides de Gizeh|Pyramides", "Grande Muraille de Chine|Grande Muraille", "Taj Mahal", "Colisée"],
+      ["Machu Picchu", "Christ Rédempteur|Christ de Rio", "Petra|Pétra", "Colosse de Rhodes"],
+      ["Chichén Itzá|Chichen Itza", "Jardins suspendus de Babylone|Jardins de Babylone", "Phare d'Alexandrie"],
+      ["Statue de Zeus à Olympie|Statue de Zeus", "Temple d'Artémis à Éphèse|Temple d'Artémis"],
+      ["Mausolée d'Halicarnasse"],
+    ],
+  },
+  {
+    id: "lunes", cat: "sciences", q: "Lunes (satellites naturels) du Système solaire",
+    pieges: ["Mars", "Pluton", "Cérès", "Vesta", "Halley"],
+    a: [
+      ["Lune", "Titan", "Europe", "Io", "Ganymède"],
+      ["Phobos", "Déimos", "Callisto", "Encelade", "Triton", "Charon"],
+      ["Mimas", "Rhéa", "Japet", "Dioné", "Téthys", "Miranda", "Titania", "Obéron"],
+      ["Hypérion", "Phœbé|Phoebe", "Ariel", "Umbriel", "Néréide", "Amalthée", "Pan", "Atlas", "Prométhée", "Pandore", "Janus", "Épiméthée", "Protée"],
+      ["Puck", "Nix", "Hydre", "Dysnomie", "Hi'iaka", "Namaka", "Himalia", "Métis", "Thébé", "Adrastée", "Kerbéros", "Styx", "Daphnis", "Hélène", "Calypso", "Larissa", "Galatée", "Despina", "Naïade"],
+    ],
+  },
+  {
+    id: "dinosaures", cat: "sciences", q: "Dinosaures",
+    pieges: ["Ptéranodon", "Mosasaure", "Plésiosaure", "Mammouth", "Dimétrodon"],
+    a: [
+      ["Tyrannosaure|T-rex|Tyrannosaurus", "Tricératops", "Vélociraptor|Raptor", "Diplodocus", "Stégosaure"],
+      ["Brachiosaure", "Ankylosaure", "Spinosaure", "Allosaure", "Iguanodon", "Parasaurolophus", "Brontosaure|Apatosaure"],
+      ["Pachycéphalosaure", "Carnotaure", "Giganotosaure", "Gallimimus", "Compsognathus", "Dilophosaure", "Archéoptéryx", "Argentinosaure", "Baryonyx", "Oviraptor"],
+      ["Deinonychus", "Protocératops", "Microraptor", "Therizinosaure", "Edmontosaure", "Maiasaura", "Troodon", "Utahraptor", "Carcharodontosaure", "Suchomimus", "Styracosaure", "Camarasaure", "Coelophysis", "Plateosaurus", "Mégalosaure", "Kentrosaure", "Mamenchisaurus", "Amargasaurus", "Cératosaure", "Albertosaure", "Psittacosaure"],
+      ["Herrerasaurus", "Corythosaurus", "Majungasaurus", "Daspletosaure", "Tarbosaure", "Yutyrannus", "Mapusaurus", "Nodosaure", "Euoplocephalus", "Hadrosaure", "Lambeosaure", "Ouranosaure", "Saltasaure", "Dreadnoughtus", "Patagotitan", "Pachyrhinosaure", "Centrosaure", "Chasmosaure", "Torosaure", "Sinosauropteryx", "Dracorex"],
+    ],
+  },
+  {
+    id: "mammiferes-marins", cat: "sciences", q: "Mammifères marins",
+    pieges: ["Requin", "Raie manta", "Manchot", "Hippocampe", "Poisson-lune"],
+    a: [
+      ["Baleine", "Dauphin", "Orque", "Phoque"],
+      ["Otarie", "Morse", "Lamantin", "Cachalot", "Narval", "Béluga", "Baleine bleue", "Baleine à bosse|Mégaptère"],
+      ["Dugong", "Marsouin", "Rorqual", "Loutre de mer", "Ours polaire|Ours blanc", "Éléphant de mer", "Lion de mer", "Grand dauphin"],
+      ["Globicéphale", "Baleine franche", "Baleine grise", "Petit rorqual|Baleine de Minke", "Rorqual commun", "Baleine boréale", "Léopard de mer", "Phoque moine", "Veau marin|Phoque veau-marin", "Phoque gris", "Dauphin commun", "Baleine à bec"],
+      ["Hyperoodon", "Cachalot nain", "Boto|Dauphin de l'Amazone", "Baiji", "Vaquita|Marsouin du Pacifique", "Phoque à capuchon", "Phoque du Groenland", "Rorqual de Bryde", "Rorqual boréal", "Dauphin de Risso", "Ziphius", "Otarie à fourrure", "Lion de mer de Steller", "Phoque crabier"],
+    ],
+  },
+  {
+    id: "nordique", cat: "lettres", q: "Dieux et créatures de la mythologie nordique",
+    pieges: ["Zeus", "Râ", "Hercule", "Anubis", "Jupiter"],
+    a: [
+      ["Odin", "Thor", "Loki"],
+      ["Freya|Freyja", "Frigg", "Valkyries|Valkyrie", "Fenrir", "Baldr|Balder", "Heimdall", "Hel"],
+      ["Tyr|Týr", "Jörmungand|Jörmungandr|Serpent de Midgard", "Sleipnir", "Freyr", "Njord|Njörd", "Ymir", "Sif", "Idunn", "Bragi", "Mímir|Mimir", "Huginn", "Muninn"],
+      ["Surt|Surtr", "Skadi", "Vidar", "Vali", "Höd|Hödr", "Ratatosk", "Nidhogg", "Fafnir", "Forseti", "Ullr", "Hati", "Sköll|Skoll", "Gerd", "Angrboda"],
+      ["Sigyn", "Hermod", "Hœnir", "Kvasir", "Thrym", "Utgard-Loki", "Audhumla", "Eir", "Saga", "Gefjon", "Nanna", "Magni", "Modi", "Sól|Sol", "Máni|Mani"],
+    ],
+  },
+  {
+    id: "auteurs19", cat: "lettres", q: "Écrivains français du XIXe siècle", people: true,
+    pieges: ["Molière", "Voltaire", "Albert Camus|Camus", "Jean-Paul Sartre|Sartre", "Rabelais"],
+    a: [
+      ["Victor Hugo|Hugo", "Émile Zola|Zola", "Honoré de Balzac|Balzac", "Jules Verne|Verne", "Gustave Flaubert|Flaubert"],
+      ["Guy de Maupassant|Maupassant", "Stendhal", "Charles Baudelaire|Baudelaire", "Arthur Rimbaud|Rimbaud", "Paul Verlaine|Verlaine", "Alexandre Dumas|Dumas", "George Sand|Sand"],
+      ["Alfred de Musset|Musset", "Chateaubriand", "Lamartine", "Alfred de Vigny|Vigny", "Gérard de Nerval|Nerval", "Prosper Mérimée|Mérimée", "Stéphane Mallarmé|Mallarmé", "Alphonse Daudet|Daudet", "Comtesse de Ségur", "Edmond Rostand|Rostand", "Théophile Gautier|Gautier"],
+      ["Huysmans", "Lautréamont", "Leconte de Lisle", "Barbey d'Aurevilly", "Eugène Sue", "Jules Vallès|Vallès", "Labiche|Eugène Labiche", "Georges Feydeau|Feydeau", "Goncourt|Frères Goncourt", "Pierre Loti|Loti", "Anatole France", "Sainte-Beuve", "Jules Michelet|Michelet", "Tocqueville"],
+      ["Sully Prudhomme", "José-Maria de Heredia|Heredia", "Villiers de l'Isle-Adam", "Erckmann-Chatrian", "Jules Laforgue|Laforgue", "Tristan Corbière|Corbière", "Benjamin Constant", "Madame de Staël|Staël", "Xavier de Maistre", "Hector Malot|Malot", "Jules Renard", "Octave Mirbeau|Mirbeau", "Marceline Desbordes-Valmore", "Aloysius Bertrand", "Charles Nodier|Nodier"],
+    ],
+  },
+  {
+    id: "fables", cat: "lettres", q: "Fables de La Fontaine",
+    pieges: ["Le Petit Chaperon rouge", "Le Petit Prince", "Les Trois Petits Cochons", "La Chèvre de monsieur Seguin"],
+    a: [
+      ["Le Corbeau et le Renard", "La Cigale et la Fourmi", "Le Lièvre et la Tortue", "Le Loup et l'Agneau"],
+      ["La Grenouille qui se veut faire aussi grosse que le Bœuf|La Grenouille et le Bœuf", "Le Rat de ville et le Rat des champs", "Le Chêne et le Roseau", "Le Loup et le Chien", "Le Lion et le Rat", "La Laitière et le Pot au lait", "Le Renard et la Cigogne"],
+      ["Les Animaux malades de la peste", "Le Laboureur et ses Enfants", "La Mort et le Bûcheron", "Le Héron", "Le Coche et la Mouche", "Le Savetier et le Financier", "Le Meunier, son Fils et l'Âne", "Le Chat, la Belette et le Petit Lapin", "Les Deux Pigeons", "La Poule aux œufs d'or", "Le Pot de terre et le Pot de fer"],
+      ["Le Renard et les Raisins", "Le Corbeau voulant imiter l'Aigle", "Le Lion et le Moucheron", "La Colombe et la Fourmi", "Le Rat et l'Huître", "Le Loup devenu berger", "Le Cerf se voyant dans l'eau", "L'Âne et le Petit Chien", "Le Chat et un vieux Rat", "Le Gland et la Citrouille", "Le Renard et le Bouc", "Le Petit Poisson et le Pêcheur", "La Tortue et les Deux Canards"],
+      ["Les Deux Coqs", "Le Vieillard et les Trois Jeunes Hommes", "L'Ours et l'Amateur des jardins", "Le Lion amoureux", "Conseil tenu par les Rats", "Le Loup et la Cigogne", "Les Obsèques de la Lionne", "Le Lion devenu vieux", "La Besace", "Le Berger et la Mer"],
+    ],
+  },
+];
+
+return { CATEGORIES, QUESTIONS };
+})();
+const { MAX_TRIES, QUESTIONS_PER_GAME, LEVELS, normalize, distance, answersOf, matchAnswer, maxScore, shuffle, pickQuestions, newRound, roundScore, triesLeft, propose, giveUp, addGame, updateBest, checkBank, TRAP_POINTS, pickBoard, boardScore, toggleChecked, DEFAULT_PARTY, TEAM_COLORS, ROUND_CHOICES, SECONDS_CHOICES, normalizeParty, newParty, answering, holding, partyOver, endTurn, ranking } = (() => {
+// Culture G : logique du jeu, sans interface (testée dans tests/culture.test.js).
+// Une partie = QUESTIONS_PER_GAME questions ; pour chacune, MAX_TRIES propositions. Une bonne réponse rapporte
+// les points de son niveau (plus elle est pointue, plus elle rapporte) ; une fausse ne rapporte rien et use un essai.
+
+/** 9 propositions par question. */
+const MAX_TRIES = 9;
+const QUESTIONS_PER_GAME = 5;
+/** Points par niveau, du plus évident au plus pointu. */
+const LEVELS = [
+  { points: 1, label: 'Évident' },
+  { points: 2, label: 'Facile' },
+  { points: 3, label: 'Moyen' },
+  { points: 5, label: 'Difficile' },
+  { points: 8, label: 'Expert' },
+];
+
+const ARTICLES = /^(le|la|les|l|the|un|une|des|du|de la|el)\s+/;
+
+/** « L'École des Femmes ! » → « ecole des femmes » : minuscules, sans accents ni ponctuation ni article de tête. */
+function normalize(s) {
+  return String(s ?? '')
+    .toLowerCase()
+    .replace(/œ/g, 'oe').replace(/æ/g, 'ae').replace(/&/g, ' et ')
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim()
+    .replace(/\bst\b/g, 'saint')
+    .replace(ARTICLES, '')
+    .trim();
+}
+
+/** Distance d'édition (insertion, suppression, remplacement, inversion de deux lettres voisines). */
+function distance(a, b) {
+  if (a === b) return 0;
+  const m = a.length;
+  const n = b.length;
+  let prev2 = null;
+  let prev = Array.from({ length: n + 1 }, (_, j) => j);
+  for (let i = 1; i <= m; i++) {
+    const cur = [i];
+    for (let j = 1; j <= n; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + cost);
+      if (prev2 && i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) cur[j] = Math.min(cur[j], prev2[j - 2] + 1);
+    }
+    prev2 = prev;
+    prev = cur;
+  }
+  return prev[n];
+}
+
+/** Fautes de frappe tolérées selon la longueur du mot : aucune sous 5 lettres, 1 jusqu'à 8, 2 au-delà. */
+const tolerance = (len) => (len < 5 ? 0 : len < 9 ? 1 : 2);
+const digits = (s) => s.replace(/\D/g, '');
+
+/** Les réponses d'une question, à plat : { id, label, level, points, keys }. */
+function answersOf(question) {
+  const out = [];
+  question.a.forEach((list, level) => {
+    for (const raw of list) {
+      const names = raw.split('|');
+      const keys = [...new Set(names.map(normalize).filter(Boolean))];
+      out.push({ id: keys[0], label: names[0], level, points: LEVELS[level].points, keys });
+    }
+  });
+  return out;
+}
+
+/**
+ * La réponse de la question qui correspond à ce qui a été tapé, ou null.
+ * Ordre : écrit exactement (aux accents et à la casse près), puis nom de famille seul pour les personnes
+ * (« Abraham Lincoln » → Lincoln), puis faute de frappe la plus petite (sans jamais changer un nombre).
+ */
+function matchAnswer(question, input, answers = answersOf(question)) {
+  const typed = normalize(input);
+  if (!typed) return null;
+  const exact = answers.find((a) => a.keys.includes(typed));
+  if (exact) return exact;
+  if (question.people) {
+    const last = answers.find((a) => a.keys.some((k) => k.length >= 4 && (typed.endsWith(` ${k}`))));
+    if (last) return last;
+  }
+  let best = null;
+  let bestDist = Infinity;
+  for (const a of answers) {
+    for (const k of a.keys) {
+      const tol = Math.min(tolerance(k.length), tolerance(typed.length));
+      if (!tol || digits(k) !== digits(typed) || Math.abs(k.length - typed.length) > tol) continue;
+      const d = distance(typed, k);
+      if (d <= tol && d < bestDist) {
+        best = a;
+        bestDist = d;
+      }
+    }
+  }
+  return best;
+}
+
+/** Score maximal d'une question : les MAX_TRIES réponses les plus pointues. */
+function maxScore(question) {
+  return answersOf(question).map((a) => a.points).sort((x, y) => y - x).slice(0, MAX_TRIES).reduce((s, p) => s + p, 0);
+}
+
+/** Mélange (Fisher-Yates), rng injectable pour les tests. */
+function shuffle(list, rng = Math.random) {
+  const out = [...list];
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
+/**
+ * Tire les questions d'une partie : de la catégorie choisie (ou toutes), celles jouées récemment en dernier.
+ * @param {object[]} bank
+ * @param {{ cat?: string, count?: number, recent?: string[], rng?: () => number }} opts
+ */
+function pickQuestions(bank, { cat = '', count = QUESTIONS_PER_GAME, recent = [], rng = Math.random } = {}) {
+  const pool = shuffle(bank.filter((q) => !cat || q.cat === cat), rng);
+  const fresh = pool.filter((q) => !recent.includes(q.id));
+  const old = recent.map((id) => pool.find((q) => q.id === id)).filter(Boolean);
+  return [...fresh, ...old].slice(0, count);
+}
+
+/** Nouvel état pour une question. */
+function newRound(question) {
+  return { question, answers: answersOf(question), tries: [], done: false };
+}
+
+const roundScore = (round) => round.tries.reduce((s, t) => s + (t.answer?.points ?? 0), 0);
+const triesLeft = (round) => MAX_TRIES - round.tries.length;
+
+/**
+ * Une proposition. Renvoie { status, answer?, round } sans modifier l'état reçu :
+ * 'empty' (rien tapé), 'dup' (déjà trouvée : l'essai n'est pas compté), 'ok', 'wrong', 'over' (plus d'essai).
+ */
+function propose(round, input) {
+  if (round.done || triesLeft(round) <= 0) return { status: 'over', round };
+  if (!normalize(input)) return { status: 'empty', round };
+  const answer = matchAnswer(round.question, input, round.answers);
+  if (answer && round.tries.some((t) => t.answer?.id === answer.id)) return { status: 'dup', answer, round };
+  const tries = [...round.tries, { input: String(input).trim(), answer }];
+  const next = { ...round, tries, done: tries.length >= MAX_TRIES };
+  return { status: answer ? 'ok' : 'wrong', answer, round: next };
+}
+
+/** Arrêter la question avant d'avoir utilisé les 9 essais. */
+const giveUp = (round) => ({ ...round, done: true });
+
+/** Ajoute une partie terminée à l'historique (30 dernières, la plus récente en tête). */
+function addGame(history, game) {
+  return [game, ...(history || [])].slice(0, 30);
+}
+
+/** Record (meilleur total) par catégorie ('' = toutes). */
+function updateBest(best, cat, total) {
+  const b = { ...(best || {}) };
+  if (!(b[cat] >= total)) b[cat] = total;
+  return b;
+}
+
+/** Vérifie la banque : ids uniques, catégories connues, au moins 9 réponses, pas deux réponses identiques. */
+function checkBank(bank, categories) {
+  const problems = [];
+  const ids = new Set();
+  const cats = new Set(categories.map((c) => c.id));
+  for (const q of bank) {
+    if (ids.has(q.id)) problems.push(`${q.id} : id en double`);
+    ids.add(q.id);
+    if (!cats.has(q.cat)) problems.push(`${q.id} : catégorie inconnue ${q.cat}`);
+    if (q.a.length !== LEVELS.length) problems.push(`${q.id} : ${q.a.length} niveaux au lieu de ${LEVELS.length}`);
+    const answers = answersOf(q);
+    if (answers.length < MAX_TRIES) problems.push(`${q.id} : seulement ${answers.length} réponses`);
+    if ((q.pieges?.length ?? 0) < 2) problems.push(`${q.id} : moins de 2 pièges`);
+    const answerIds = answers.map((a) => a.id);
+    for (const [i, id] of answerIds.entries()) if (answerIds.indexOf(id) !== i) problems.push(`${q.id} : « ${id} » en double`);
+    const seen = new Map();
+    for (const a of answers) {
+      for (const k of a.keys) {
+        if (seen.has(k) && seen.get(k) !== a.id) problems.push(`${q.id} : « ${k} » accepté pour deux réponses`);
+        seen.set(k, a.id);
+      }
+    }
+    for (const t of q.pieges ?? []) {
+      for (const k of t.split('|').map(normalize)) if (seen.has(k)) problems.push(`${q.id} : le piège « ${t} » est une bonne réponse`);
+    }
+  }
+  return problems;
+}
+
+// ---------- mode équipes (un seul téléphone, l'autre équipe coche les réponses dites à voix haute) ----------
+
+const TRAP_POINTS = -5;
+/** Réponses montrées par niveau (Évident → Expert) : 9 au total, complétées par les niveaux voisins s'il en manque. */
+const BOARD_MIX = [2, 2, 2, 2, 1];
+
+/**
+ * Les 9 réponses d'une manche, tirées dans la longue liste de la question selon BOARD_MIX, plus un piège si demandé.
+ * Rangées par ordre alphabétique : la place d'une réponse ne trahit pas sa difficulté.
+ * @returns {{ id, label, level, points, trap?: true }[]}
+ */
+function pickBoard(question, { trap = true, rng = Math.random } = {}) {
+  const byLevel = LEVELS.map((_, level) => shuffle(answersOf(question).filter((a) => a.level === level), rng));
+  const want = [...BOARD_MIX];
+  const picked = [];
+  // D'abord la répartition voulue, puis ce qui manque est pris au niveau le plus proche (le plus facile d'abord).
+  want.forEach((n, level) => picked.push(...byLevel[level].splice(0, n)));
+  for (let missing = MAX_TRIES - picked.length, d = 1; missing > 0 && d < LEVELS.length * 2; d++) {
+    for (let level = 0; level < LEVELS.length && missing > 0; level++) {
+      for (const l of [level - d, level + d]) {
+        if (missing > 0 && byLevel[l]?.length && want[level] > 0) {
+          picked.push(byLevel[l].shift());
+          missing--;
+        }
+      }
+    }
+  }
+  const board = picked.slice(0, MAX_TRIES).map(({ keys, ...a }) => a);
+  if (trap && question.pieges?.length) {
+    const t = question.pieges[Math.floor(rng() * question.pieges.length)].split('|')[0];
+    board.push({ id: `piege:${normalize(t)}`, label: t, level: null, points: TRAP_POINTS, trap: true });
+  }
+  return board.sort((x, y) => x.label.localeCompare(y.label, 'fr'));
+}
+
+/** Points d'une manche : les réponses cochées (le piège retire des points). */
+const boardScore = (board, checked) => board.filter((a) => checked.includes(a.id)).reduce((s, a) => s + a.points, 0);
+
+/** Coche / décoche une réponse. */
+const toggleChecked = (checked, id) => (checked.includes(id) ? checked.filter((x) => x !== id) : [...checked, id]);
+
+const DEFAULT_PARTY = { teams: [{ name: 'Équipe 1', color: 0 }, { name: 'Équipe 2', color: 1 }], rounds: 3, seconds: 60, trap: true, cats: [] };
+const TEAM_COLORS = 4;
+const ROUND_CHOICES = [1, 2, 3, 5, 8];
+const SECONDS_CHOICES = [30, 45, 60, 90, 0];
+
+/** Réglages lus du stockage : valeurs inconnues ramenées aux défauts, 2 à 4 équipes. */
+function normalizeParty(raw) {
+  const r = raw && typeof raw === 'object' ? raw : {};
+  const teams = (Array.isArray(r.teams) ? r.teams : DEFAULT_PARTY.teams).slice(0, 4).map((t, i) => ({
+    name: String(t?.name ?? '').trim().slice(0, 24) || `Équipe ${i + 1}`,
+    color: Number.isInteger(t?.color) && t.color >= 0 && t.color < TEAM_COLORS ? t.color : i % TEAM_COLORS,
+  }));
+  while (teams.length < 2) teams.push({ name: `Équipe ${teams.length + 1}`, color: teams.length });
+  return {
+    teams,
+    rounds: ROUND_CHOICES.includes(r.rounds) ? r.rounds : DEFAULT_PARTY.rounds,
+    seconds: SECONDS_CHOICES.includes(r.seconds) ? r.seconds : DEFAULT_PARTY.seconds,
+    trap: r.trap === undefined ? true : Boolean(r.trap),
+    cats: Array.isArray(r.cats) ? r.cats.filter((c) => typeof c === 'string') : [],
+  };
+}
+
+/**
+ * Nouvelle partie en équipes : chaque équipe répond à `rounds` questions, à tour de rôle.
+ * La liste des questions est tirée d'avance (thèmes cochés, ou tous si aucun) ; on boucle s'il n'y en a pas assez.
+ */
+function newParty(settings, bank, { recent = [], rng = Math.random } = {}) {
+  const s = normalizeParty(settings);
+  const pool = bank.filter((q) => !s.cats.length || s.cats.includes(q.cat));
+  const turns = s.rounds * s.teams.length;
+  const order = pickQuestions(pool.length ? pool : bank, { count: Infinity, recent, rng });
+  const questions = Array.from({ length: turns }, (_, i) => order[i % order.length]);
+  return { settings: s, questions, turn: 0, scores: s.teams.map(() => 0), log: [] };
+}
+
+/** Équipe qui répond à ce tour, et celle qui tient le téléphone (la suivante). */
+const answering = (party) => party.turn % party.settings.teams.length;
+const holding = (party) => (party.turn + 1) % party.settings.teams.length;
+const partyOver = (party) => party.turn >= party.questions.length;
+
+/** Fin d'un tour : ajoute les points à l'équipe qui a répondu et passe au tour suivant. */
+function endTurn(party, board, checked) {
+  const team = answering(party);
+  const points = boardScore(board, checked);
+  const scores = party.scores.map((v, i) => (i === team ? v + points : v));
+  const log = [...party.log, { team, id: party.questions[party.turn].id, points, found: board.filter((a) => !a.trap && checked.includes(a.id)).length }];
+  return { ...party, scores, log, turn: party.turn + 1 };
+}
+
+/** Classement final : [{ team, score, rank }], ex æquo au même rang. */
+function ranking(party) {
+  const rows = party.settings.teams.map((t, i) => ({ team: i, name: t.name, score: party.scores[i] })).sort((a, b) => b.score - a.score);
+  rows.forEach((r, i) => { r.rank = i && r.score === rows[i - 1].score ? rows[i - 1].rank : i + 1; });
+  return rows;
+}
+
+return { MAX_TRIES, QUESTIONS_PER_GAME, LEVELS, normalize, distance, answersOf, matchAnswer, maxScore, shuffle, pickQuestions, newRound, roundScore, triesLeft, propose, giveUp, addGame, updateBest, checkBank, TRAP_POINTS, pickBoard, boardScore, toggleChecked, DEFAULT_PARTY, TEAM_COLORS, ROUND_CHOICES, SECONDS_CHOICES, normalizeParty, newParty, answering, holding, partyOver, endTurn, ranking };
+})();
+const { createParty } = (() => {
+// Culture G, mode équipes : un seul téléphone. À chaque tour, une équipe répond à voix haute ; l'équipe suivante tient
+// le téléphone, lit la question et coche les réponses dites. La liste montre 9 réponses (et parfois un piège) avec
+// leurs points ; une bonne réponse absente de la liste ne rapporte rien. Chrono, manches, thèmes au choix.
+// Écrans : réglages → passage du téléphone → question à cocher → scores → … → classement. Bouton principal en bas.
+
+const esc = (v) => escapeHtml(String(v ?? ''));
+const signed = (n) => `${n > 0 ? '+' : ''}${n}`;
+const catLabel = (id) => CATEGORIES.find((c) => c.id === id)?.label ?? '';
+
+/**
+ * @param {HTMLElement} main  zone de la page où dessiner
+ * @param {{ setScore: (html: string) => void }} deps  texte à droite de la barre du haut
+ */
+function createParty(main, { setScore }) {
+  let settings = normalizeParty(readJSON('culture-equipes', null));
+  let screen = 'setup'; // setup | handoff | board | scores | final
+  let party = null;
+  let board = [];
+  let checked = [];
+  let deadline = 0; // fin du chrono (ms), 0 = sans chrono
+  let timeUp = false;
+  let ticker = null;
+  let lastPoints = 0;
+  let active = false;
+
+  const save = () => writeJSON('culture-equipes', settings);
+  const team = (i) => (party ? party.settings : settings).teams[i];
+  const chip = (i) => `<b class="cg-team cg-t${team(i).color}">${esc(team(i).name)}</b>`;
+
+  // ---------- écrans ----------
+  function stepper(label, key, values, value, fmt) {
+    const i = values.indexOf(value);
+    return `<div class="cg-set"><span>${label}</span>
+      <span class="cg-step">
+        <button type="button" data-cg-step="${key}:-1" ${i <= 0 ? 'disabled' : ''} aria-label="Moins">−</button>
+        <b>${fmt(value)}</b>
+        <button type="button" data-cg-step="${key}:1" ${i >= values.length - 1 ? 'disabled' : ''} aria-label="Plus">+</button>
+      </span></div>`;
+  }
+
+  function setupHTML() {
+    const s = settings;
+    return `
+      <h1 class="cg-h1">Les équipes</h1>
+      <div class="cg-card cg-teams">
+        ${s.teams.map((t, i) => `
+          <div class="cg-teamrow">
+            <button type="button" class="cg-swatch cg-t${t.color}" data-cg-color="${i}" aria-label="Changer la couleur"></button>
+            <input class="cg-teamname" id="cg-team-${i}" data-cg-teamname="${i}" value="${esc(t.name)}" maxlength="20"
+              aria-label="Nom de l'équipe ${i + 1}" autocomplete="off" />
+            ${s.teams.length > 2 ? `<button type="button" class="cg-x" data-cg-delteam="${i}" aria-label="Retirer ${esc(t.name)}">×</button>` : ''}
+          </div>`).join('')}
+        ${s.teams.length < 4 ? '<button type="button" class="cg-addteam" data-cg-addteam>+ Ajouter une équipe</button>' : ''}
+      </div>
+      <h2 class="cg-h2">Réglages</h2>
+      <div class="cg-card cg-sets">
+        ${stepper('Questions par équipe', 'rounds', ROUND_CHOICES, s.rounds, (v) => v)}
+        ${stepper('Chrono', 'seconds', SECONDS_CHOICES, s.seconds, (v) => (v ? `${v} s` : 'aucun'))}
+        <div class="cg-set"><span>Réponse piège <small>${TRAP_POINTS} si elle est dite</small></span>
+          <button type="button" class="cg-switch ${s.trap ? 'is-on' : ''}" data-cg-trap role="switch" aria-checked="${s.trap}" aria-label="Réponse piège"><i></i></button></div>
+      </div>
+      <h2 class="cg-h2">Thèmes <small>${s.cats.length ? `${s.cats.length} choisi${s.cats.length > 1 ? 's' : ''}` : 'tous'}</small></h2>
+      <div class="cg-chips">
+        ${CATEGORIES.map((c) => `<button type="button" class="cg-chip ${s.cats.includes(c.id) ? 'is-on' : ''}" data-cg-pcat="${c.id}"
+          aria-pressed="${s.cats.includes(c.id)}">${esc(c.label)}</button>`).join('')}
+      </div>
+      <div class="cg-dock">${party ? '<button type="button" class="cg-btn cg-btn--ghost" data-cg-resume>Reprendre</button>' : ''}
+        <button type="button" class="cg-btn cg-btn--go" data-cg-go>${party ? 'Nouvelle partie' : `C'est parti · ${s.rounds * s.teams.length} tours`}</button></div>`;
+  }
+
+  function miniScores() {
+    return `<ul class="cg-mini">${party.settings.teams.map((t, i) => `
+      <li><i class="cg-t${t.color}"></i><span>${esc(t.name)}</span><b>${party.scores[i]}</b></li>`).join('')}</ul>`;
+  }
+
+  function handoffHTML() {
+    const q = party.questions[party.turn];
+    const a = answering(party);
+    const h = holding(party);
+    return `
+      <p class="cg-kicker cg-center">Tour ${party.turn + 1} sur ${party.questions.length} · ${esc(catLabel(q.cat))}</p>
+      <section class="cg-pass">
+        <div class="cg-pass__who cg-bg${team(a).color}"><small>Répond</small><b>${esc(team(a).name)}</b></div>
+        <div class="cg-pass__arrow" aria-hidden="true">Passe le téléphone à</div>
+        <div class="cg-pass__who cg-pass__who--hold cg-bg${team(h).color}"><small>Lit et coche</small><b>${esc(team(h).name)}</b></div>
+      </section>
+      ${miniScores()}
+      <div class="cg-dock"><button type="button" class="cg-btn cg-btn--go" data-cg-launch>Voir la question${party.settings.seconds ? ' · go chrono' : ''}</button></div>`;
+  }
+
+  function timerHTML() {
+    if (!party.settings.seconds) return '';
+    const left = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+    const ratio = Math.max(0, (deadline - Date.now()) / (party.settings.seconds * 1000));
+    return `<div class="cg-timer ${left <= 10 ? 'is-low' : ''}" data-cg-timer style="--p:${ratio}"><b data-cg-timer-n>${left}</b></div>`;
+  }
+
+  function boardHTML() {
+    const q = party.questions[party.turn];
+    const a = answering(party);
+    return `
+      <section class="cg-card cg-qcard cg-qcard--board">
+        <div class="cg-qcard__top">${chip(a)}${timerHTML()}</div>
+        <h1 class="cg-question">${esc(q.q)}</h1>
+        ${q.hint ? `<p class="cg-hint">${esc(q.hint)}</p>` : ''}
+      </section>
+      ${timeUp ? '<p class="cg-timeup" role="status">Temps écoulé ! Coche les dernières réponses puis valide.</p>' : ''}
+      <ul class="cg-list">${board.map((x) => {
+        const on = checked.includes(x.id);
+        return `<li><button type="button" class="cg-pick ${on ? 'is-on' : ''} ${x.trap ? 'cg-pick--trap' : ''}" data-cg-tick="${esc(x.id)}" aria-pressed="${on}">
+          <span class="cg-pick__name">${esc(x.label)}</span><span class="cg-pick__pts">${x.trap ? TRAP_POINTS : x.points}</span></button></li>`;
+      }).join('')}</ul>
+      <div class="cg-dock cg-dock--board">
+        <span class="cg-live"><small>Manche</small><b data-cg-live>${signed(boardScore(board, checked))}</b></span>
+        <button type="button" class="cg-btn cg-btn--go" data-cg-validate>Valider</button>
+      </div>`;
+  }
+
+  function scoresHTML() {
+    const last = party.log[party.log.length - 1];
+    const max = Math.max(1, ...party.scores.map((v) => Math.max(v, 0)));
+    return `
+      <section class="cg-result">
+        <p class="cg-kicker">${esc(team(last.team).name)}</p>
+        <p class="cg-result__big">${signed(lastPoints)}<small>points</small></p>
+        <p class="cg-result__sub">${last.found} bonne${last.found > 1 ? 's' : ''} réponse${last.found > 1 ? 's' : ''} sur 9</p>
+      </section>
+      <ul class="cg-card cg-bars">${party.settings.teams.map((t, i) => `
+        <li class="${i === last.team ? 'is-hl' : ''}"><span>${esc(t.name)}</span><b>${party.scores[i]}</b>
+          <span class="cg-bars__track"><i class="cg-t${t.color}" style="width:${Math.max(3, (Math.max(party.scores[i], 0) / max) * 100)}%"></i></span></li>`).join('')}
+      </ul>
+      <div class="cg-dock"><button type="button" class="cg-btn cg-btn--go" data-cg-nextturn>${partyOver(party) ? 'Classement final' : 'Tour suivant'}</button></div>`;
+  }
+
+  function finalHTML() {
+    const rows = ranking(party);
+    const winners = rows.filter((r) => r.rank === 1);
+    return `
+      <section class="cg-result">
+        <p class="cg-kicker">${winners.length > 1 ? 'Égalité' : 'Victoire'}</p>
+        <p class="cg-result__win">${winners.map((w) => esc(w.name)).join(' & ')}</p>
+      </section>
+      <ol class="cg-card cg-podium">${rows.map((r) => `<li><span class="cg-podium__rank">${r.rank}</span>
+        <i class="cg-t${team(r.team).color}"></i><span>${esc(r.name)}</span><b>${r.score}</b></li>`).join('')}</ol>
+      <div class="cg-dock cg-dock--two">
+        <button type="button" class="cg-btn cg-btn--ghost" data-cg-setup>Réglages</button>
+        <button type="button" class="cg-btn cg-btn--go" data-cg-go>Rejouer</button>
+      </div>`;
+  }
+
+  // ---------- chrono ----------
+  function stopTicker() {
+    clearInterval(ticker);
+    ticker = null;
+  }
+  function tick() {
+    if (screen !== 'board' || !deadline) return stopTicker();
+    const left = deadline - Date.now();
+    const t = main.querySelector('[data-cg-timer]');
+    if (t) {
+      main.querySelector('[data-cg-timer-n]').textContent = Math.max(0, Math.ceil(left / 1000));
+      t.style.setProperty('--p', Math.max(0, left / (party.settings.seconds * 1000)));
+      t.classList.toggle('is-low', left <= 10000);
+    }
+    if (left <= 0 && !timeUp) {
+      timeUp = true;
+      stopTicker();
+      try { navigator.vibrate?.([200, 100, 200]); } catch { /* pas de vibreur */ }
+      render({ keepScroll: true });
+    }
+  }
+
+  // ---------- actions ----------
+  function startParty() {
+    settings = normalizeParty(settings);
+    save();
+    const recent = (readJSON('culture-historique', []) || []).flatMap((g) => g.ids ?? []).slice(0, 20);
+    party = newParty(settings, QUESTIONS, { recent });
+    screen = 'handoff';
+    render();
+  }
+
+  function launch() {
+    board = pickBoard(party.questions[party.turn], { trap: party.settings.trap });
+    checked = [];
+    timeUp = false;
+    deadline = party.settings.seconds ? Date.now() + party.settings.seconds * 1000 : 0;
+    screen = 'board';
+    render();
+    if (deadline) {
+      stopTicker();
+      ticker = setInterval(tick, 200);
+    }
+  }
+
+  function validate() {
+    stopTicker();
+    lastPoints = boardScore(board, checked);
+    party = endTurn(party, board, checked);
+    screen = 'scores';
+    render();
+  }
+
+  function render({ keepScroll = false } = {}) {
+    main.innerHTML = { setup: setupHTML, handoff: handoffHTML, board: boardHTML, scores: scoresHTML, final: finalHTML }[screen]();
+    setScore(party && screen !== 'setup' && screen !== 'final' ? `Tour ${Math.min(party.turn + 1, party.questions.length)}/${party.questions.length}` : '');
+    if (!keepScroll) window.scrollTo(0, 0);
+  }
+
+  main.addEventListener('input', (e) => {
+    const i = e.target.dataset?.cgTeamname;
+    if (i === undefined || screen !== 'setup') return;
+    settings.teams[Number(i)].name = e.target.value;
+    save();
+  });
+
+  main.addEventListener('click', (e) => {
+    if (!active) return;
+    const el = (sel) => e.target.closest(sel);
+    if (screen === 'setup') {
+      if (el('[data-cg-color]')) {
+        const i = Number(el('[data-cg-color]').dataset.cgColor);
+        settings.teams[i].color = (settings.teams[i].color + 1) % TEAM_COLORS;
+      } else if (el('[data-cg-addteam]')) {
+        const used = settings.teams.map((x) => x.color);
+        settings.teams.push({ name: `Équipe ${settings.teams.length + 1}`, color: [0, 1, 2, 3].find((c) => !used.includes(c)) ?? 0 });
+      } else if (el('[data-cg-delteam]')) {
+        settings.teams.splice(Number(el('[data-cg-delteam]').dataset.cgDelteam), 1);
+      } else if (el('[data-cg-step]')) {
+        const [key, d] = el('[data-cg-step]').dataset.cgStep.split(':');
+        const values = key === 'rounds' ? ROUND_CHOICES : SECONDS_CHOICES;
+        const i = Math.min(values.length - 1, Math.max(0, values.indexOf(settings[key]) + Number(d)));
+        settings[key] = values[i];
+      } else if (el('[data-cg-trap]')) settings.trap = !settings.trap;
+      else if (el('[data-cg-pcat]')) {
+        const c = el('[data-cg-pcat]').dataset.cgPcat;
+        settings.cats = settings.cats.includes(c) ? settings.cats.filter((x) => x !== c) : [...settings.cats, c];
+      } else if (el('[data-cg-go]')) return startParty();
+      else if (el('[data-cg-resume]')) {
+        screen = partyOver(party) ? 'final' : 'handoff';
+        return render();
+      } else return;
+      settings = normalizeParty(settings);
+      save();
+      return render({ keepScroll: true });
+    }
+    if (el('[data-cg-launch]')) return launch();
+    const tickBtn = el('[data-cg-tick]');
+    if (tickBtn) {
+      checked = toggleChecked(checked, tickBtn.dataset.cgTick);
+      const on = checked.includes(tickBtn.dataset.cgTick);
+      tickBtn.classList.toggle('is-on', on);
+      tickBtn.setAttribute('aria-pressed', on);
+      main.querySelector('[data-cg-live]').textContent = signed(boardScore(board, checked));
+      try { navigator.vibrate?.(on && tickBtn.classList.contains('cg-pick--trap') ? 300 : 25); } catch { /* pas de vibreur */ }
+      return;
+    }
+    if (el('[data-cg-validate]')) return validate();
+    if (el('[data-cg-nextturn]')) {
+      screen = partyOver(party) ? 'final' : 'handoff';
+      return render();
+    }
+    if (el('[data-cg-go]')) return startParty();
+    if (el('[data-cg-setup]')) {
+      screen = 'setup';
+      render();
+    }
+  });
+
+  return {
+    show() {
+      active = true;
+      // Depuis l'accueil : une partie en cours reprend où elle en était ; sinon, les réglages.
+      render();
+      if (screen === 'board' && deadline && !timeUp) {
+        stopTicker();
+        ticker = setInterval(tick, 200);
+      }
+    },
+    hide() {
+      active = false;
+      stopTicker();
+    },
+    /** Une partie est en cours (l'accueil propose de la reprendre). */
+    get playing() { return Boolean(party) && screen !== 'final' && screen !== 'setup'; },
+  };
+}
+
+return { createParty };
+})();
+const { createCultureApp } = (() => {
+// Culture G : une question, 9 réponses, des points selon la difficulté de chaque bonne réponse.
+// Pensé pour le téléphone : un écran à la fois, une barre du haut (retour, titre, score) et le bouton principal en bas,
+// sous le pouce. Deux modes : En équipes (un téléphone, l'autre équipe coche les réponses dites, voir party.js) et
+// Seul (on tape ses 9 propositions ; thème → 5 questions → bilan). Tout reste dans le navigateur.
+
+const esc = (v) => escapeHtml(String(v ?? ''));
+const catLabel = (id) => CATEGORIES.find((c) => c.id === id)?.label ?? 'Tout mélangé';
+const pts = (n) => `${n} pt${n > 1 ? 's' : ''}`;
+const plural = (n, word) => `${n} ${word}${n > 1 ? 's' : ''}`;
+
+const ICON = {
+  back: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>',
+  team: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="3.2" /><circle cx="16.5" cy="9" r="2.6" /><path d="M2.5 19c.6-3.4 2.8-5.2 5.5-5.2s4.9 1.8 5.5 5.2M13.5 14.3c.9-.6 1.9-.9 3-.9 2.3 0 4.1 1.5 4.6 4.6" /></svg>',
+  solo: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.6" /><path d="M5 20c.7-4 3.3-6.2 7-6.2s6.3 2.2 7 6.2" /></svg>',
+};
+
+/**
+ * @param {HTMLElement} root  section vide (#culture)
+ * @param {{ onSwitchApp: () => void }} deps
+ */
+function createCultureApp(root, { onSwitchApp }) {
+  root.innerHTML = `
+    <header class="cg-bar">
+      <button type="button" class="cg-bar__back" data-cg-back aria-label="Retour">${ICON.back}</button>
+      <span class="cg-bar__title" data-cg-title></span>
+      <span class="cg-bar__score" data-cg-score hidden></span>
+      <button type="button" class="cg-bar__switch" data-cg-switch>Autres jeux</button>
+    </header>
+    <main class="cg-main" data-cg-main></main>`;
+  const main = root.querySelector('[data-cg-main]');
+  const titleEl = root.querySelector('[data-cg-title]');
+  const scoreEl = root.querySelector('[data-cg-score]');
+
+  let cat = readJSON('culture-categorie', '') || '';
+  let game = null; // { cat, questions, index, round, rounds: [{ id, q, score, max, found }], over }
+  let feedback = null; // { kind, text }
+  let mode = 'home'; // home | solo-setup | solo | party
+  const party = createParty(main, { setScore: (html) => setScore(html) });
+
+  const history = () => readJSON('culture-historique', []) || [];
+  const best = () => readJSON('culture-records', {}) || {};
+  const total = () => (game ? game.rounds.reduce((s, r) => s + r.score, 0) + (game.round && !game.round.done ? roundScore(game.round) : 0) : 0);
+
+  function setScore(html) {
+    scoreEl.hidden = !html;
+    scoreEl.innerHTML = html || '';
+  }
+
+  // ---------- accueil ----------
+  function homeHTML() {
+    const records = Object.values(best());
+    const top = records.length ? Math.max(...records) : 0;
+    return `
+      <section class="cg-home">
+        <div class="cg-logo" aria-label="Culture 9"><span class="cg-logo__word">Culture</span><span class="cg-logo__nine">9</span></div>
+        <p class="cg-tagline">Une question, 9 réponses à trouver.<br />Plus elle est rare, plus elle rapporte.</p>
+        <div class="cg-modes">
+          <button type="button" class="cg-mode cg-mode--party" data-cg-party>
+            <span class="cg-mode__icon">${ICON.team}</span>
+            <span class="cg-mode__text"><b>${party.playing ? 'Reprendre la partie' : 'En équipes'}</b>
+              <small>${party.playing ? 'la partie en cours vous attend' : 'un seul téléphone, 2 à 4 équipes'}</small></span>
+          </button>
+          <button type="button" class="cg-mode cg-mode--solo" data-cg-solo>
+            <span class="cg-mode__icon">${ICON.solo}</span>
+            <span class="cg-mode__text"><b>Seul</b><small>tape tes 9 réponses</small></span>
+          </button>
+        </div>
+        <details class="cg-rules">
+          <summary>Comment on joue ?</summary>
+          <p><b>En équipes :</b> une équipe répond à voix haute, l'équipe suivante tient le téléphone et coche les réponses données
+            parmi les 9 de la liste. Une bonne réponse qui n'est pas dans la liste ne rapporte rien. Attention à la réponse piège : −5.</p>
+          <p><b>Seul :</b> 9 propositions par question, une réponse fausse use un essai. Les fautes de frappe légères sont pardonnées.</p>
+          <p class="cg-rules__levels">${LEVELS.map((l, i) => `<span class="cg-lv cg-lv--${i}">${l.label} ${l.points}</span>`).join('')}</p>
+        </details>
+        <p class="cg-foot">${QUESTIONS.length} questions${top ? ` · meilleur score seul : ${top}` : ''}</p>
+      </section>`;
+  }
+
+  // ---------- seul : choix du thème ----------
+  function soloSetupHTML() {
+    const records = best();
+    const tiles = [{ id: '', label: 'Tout mélanger' }, ...CATEGORIES];
+    return `
+      <h1 class="cg-h1">Choisis un thème</h1>
+      <div class="cg-tiles" role="group" aria-label="Thème">
+        ${tiles.map((c) => {
+          const n = c.id ? QUESTIONS.filter((q) => q.cat === c.id).length : QUESTIONS.length;
+          return `<button type="button" class="cg-tile ${c.id === cat ? 'is-on' : ''} ${c.id ? '' : 'cg-tile--wide'}" data-cg-cat="${c.id}"
+            aria-pressed="${c.id === cat}"><b>${esc(c.label)}</b><small>${n} questions${records[c.id] ? ` · record ${records[c.id]}` : ''}</small></button>`;
+        }).join('')}
+      </div>
+      <div class="cg-dock"><button type="button" class="cg-btn cg-btn--go" data-cg-start>Jouer · ${QUESTIONS_PER_GAME} questions</button></div>`;
+  }
+
+  // ---------- seul : partie ----------
+  function slotHTML(t, i, isNew) {
+    if (!t) return `<li class="cg-slot cg-slot--empty">${i + 1}</li>`;
+    if (!t.answer) return `<li class="cg-slot cg-slot--wrong ${isNew ? 'is-new' : ''}"><span>${esc(t.input)}</span></li>`;
+    return `<li class="cg-slot cg-slot--ok cg-lv--${t.answer.level} ${isNew ? 'is-new' : ''}"><span>${esc(t.answer.label)}</span><b>+${t.answer.points}</b></li>`;
+  }
+
+  function revealHTML(round) {
+    const found = new Set(round.tries.filter((t) => t.answer).map((t) => t.answer.id));
+    const isLast = game.index + 1 >= game.questions.length;
+    return `
+      <section class="cg-card cg-reveal">
+        <h2>${plural(found.size, 'trouvée')} · ${pts(roundScore(round))} <small>sur ${maxScore(round.question)}</small></h2>
+        ${LEVELS.map((l, level) => {
+          const list = round.answers.filter((a) => a.level === level);
+          if (!list.length) return '';
+          return `<div class="cg-reveal__row"><h3 class="cg-lv--${level}">${l.label} · ${pts(l.points)}</h3>
+            <p>${list.map((a) => `<span class="cg-ans ${found.has(a.id) ? 'is-found' : ''}">${esc(a.label)}</span>`).join('')}</p></div>`;
+        }).join('')}
+      </section>
+      <div class="cg-dock"><button type="button" class="cg-btn cg-btn--go" data-cg-next>${isLast ? 'Voir le bilan' : 'Question suivante'}</button></div>`;
+  }
+
+  function playHTML() {
+    const { round } = game;
+    const q = round.question;
+    const left = triesLeft(round);
+    return `
+      <section class="cg-card cg-qcard">
+        <p class="cg-kicker">${esc(catLabel(q.cat))}</p>
+        <h1 class="cg-question">${esc(q.q)}</h1>
+        ${q.hint ? `<p class="cg-hint">${esc(q.hint)}</p>` : ''}
+      </section>
+      ${round.done ? '' : `
+        <form class="cg-form" data-cg-form autocomplete="off">
+          <input class="cg-input" id="cg-answer" data-cg-input type="text" placeholder="Ta réponse" aria-label="Ta réponse"
+            spellcheck="false" autocapitalize="off" autocorrect="off" enterkeyhint="send" />
+          <button type="submit" class="cg-btn cg-btn--go cg-btn--send" aria-label="Valider">OK</button>
+        </form>
+        <div class="cg-status">
+          <span class="cg-dots" aria-label="${plural(left, 'essai')} restant${left > 1 ? 's' : ''}">${Array.from({ length: MAX_TRIES }, (_, i) => `<i class="${i < round.tries.length ? 'is-used' : ''}"></i>`).join('')}</span>
+          <button type="button" class="cg-link" data-cg-giveup>Passer</button>
+        </div>
+        <output class="cg-feedback ${feedback ? `cg-feedback--${feedback.kind}` : ''}" aria-live="polite">${feedback ? esc(feedback.text) : ''}</output>`}
+      <ol class="cg-slots">${Array.from({ length: MAX_TRIES }, (_, i) => slotHTML(round.tries[i], i, feedback && feedback.kind !== 'dup' && i === round.tries.length - 1)).join('')}</ol>
+      ${round.done ? revealHTML(round) : ''}`;
+  }
+
+  function endHTML() {
+    const t = game.rounds.reduce((s, r) => s + r.score, 0);
+    const max = game.rounds.reduce((s, r) => s + r.max, 0);
+    const record = best()[game.cat] ?? 0;
+    return `
+      <section class="cg-result">
+        <p class="cg-kicker">${esc(catLabel(game.cat))}</p>
+        <p class="cg-result__big">${t}<small>points</small></p>
+        <p class="cg-result__sub">${game.newRecord ? 'Nouveau record !' : `Record : ${record} · maximum possible : ${max}`}</p>
+      </section>
+      <ul class="cg-card cg-recap">${game.rounds.map((r) => `
+        <li><span>${esc(r.q)}</span><b>${r.score}</b></li>`).join('')}</ul>
+      <div class="cg-dock cg-dock--two">
+        <button type="button" class="cg-btn cg-btn--ghost" data-cg-solo>Thème</button>
+        <button type="button" class="cg-btn cg-btn--go" data-cg-start>Rejouer</button>
+      </div>`;
+  }
+
+  function render({ focus = false } = {}) {
+    root.dataset.screen = mode;
+    root.querySelector('[data-cg-back]').hidden = mode === 'home';
+    root.querySelector('[data-cg-switch]').hidden = mode !== 'home';
+    if (mode === 'party') {
+      titleEl.textContent = 'En équipes';
+      return party.show();
+    }
+    party.hide();
+    if (mode === 'home') {
+      titleEl.textContent = '';
+      setScore('');
+      main.innerHTML = homeHTML();
+    } else if (mode === 'solo-setup') {
+      titleEl.textContent = 'Seul';
+      setScore('');
+      main.innerHTML = soloSetupHTML();
+    } else if (game.over) {
+      titleEl.textContent = 'Bilan';
+      setScore('');
+      main.innerHTML = endHTML();
+    } else {
+      titleEl.textContent = `Question ${game.index + 1}/${game.questions.length}`;
+      setScore(`${total()} pts`);
+      main.innerHTML = playHTML();
+    }
+    if (focus) main.querySelector('[data-cg-input]')?.focus();
+    window.scrollTo(0, 0);
+  }
+
+  // ---------- actions ----------
+  function start() {
+    const recent = history().flatMap((g) => g.ids ?? []).slice(0, 30);
+    const questions = pickQuestions(QUESTIONS, { cat, recent });
+    if (!questions.length) return;
+    game = { cat, questions, index: 0, round: newRound(questions[0]), rounds: [], over: false };
+    feedback = null;
+    mode = 'solo';
+    render({ focus: true });
+  }
+
+  function finishRound() {
+    const { round } = game;
+    game.rounds.push({
+      id: round.question.id, q: round.question.q, score: roundScore(round), max: maxScore(round.question),
+      found: round.tries.filter((t) => t.answer).length,
+    });
+  }
+
+  function next() {
+    game.index += 1;
+    feedback = null;
+    if (game.index >= game.questions.length) {
+      const t = game.rounds.reduce((s, r) => s + r.score, 0);
+      const max = game.rounds.reduce((s, r) => s + r.max, 0);
+      game.newRecord = t > 0 && !(best()[game.cat] >= t);
+      writeJSON('culture-records', updateBest(best(), game.cat, t));
+      writeJSON('culture-historique', addGame(history(), { date: Date.now(), cat: game.cat, total: t, max, ids: game.rounds.map((r) => r.id) }));
+      game.over = true;
+    } else {
+      game.round = newRound(game.questions[game.index]);
+    }
+    render({ focus: true });
+  }
+
+  function submit(value) {
+    const res = propose(game.round, value);
+    if (res.status === 'empty' || res.status === 'over') return;
+    if (res.status === 'dup') feedback = { kind: 'dup', text: `${res.answer.label} : déjà trouvée` };
+    else if (res.status === 'ok') feedback = { kind: 'ok', text: `${res.answer.label} : +${pts(res.answer.points)}` };
+    else feedback = { kind: 'wrong', text: `« ${String(value).trim()} » n'est pas dans la liste` };
+    game.round = res.round;
+    if (game.round.done) finishRound();
+    render({ focus: !game.round.done });
+  }
+
+  root.addEventListener('submit', (e) => {
+    if (!e.target.closest('[data-cg-form]')) return;
+    e.preventDefault();
+    submit(main.querySelector('[data-cg-input]').value);
+  });
+
+  root.addEventListener('click', (e) => {
+    const t = e.target;
+    if (t.closest('[data-cg-switch]')) return onSwitchApp();
+    if (t.closest('[data-cg-back]')) {
+      // Retour : d'une partie seul → choix du thème ; du reste → accueil (une partie en équipes reste en mémoire).
+      mode = mode === 'solo' && !game?.over ? 'solo-setup' : 'home';
+      return render();
+    }
+    if (mode === 'party') return; // le mode équipes gère ses propres boutons
+    if (t.closest('[data-cg-party]')) {
+      mode = 'party';
+      return render();
+    }
+    if (t.closest('[data-cg-solo]')) {
+      mode = 'solo-setup';
+      return render();
+    }
+    const c = t.closest('[data-cg-cat]');
+    if (c) {
+      cat = c.dataset.cgCat;
+      writeJSON('culture-categorie', cat);
+      for (const b of main.querySelectorAll('[data-cg-cat]')) {
+        b.classList.toggle('is-on', b === c);
+        b.setAttribute('aria-pressed', b === c);
+      }
+      return;
+    }
+    if (t.closest('[data-cg-start]')) return start();
+    if (t.closest('[data-cg-next]')) return next();
+    if (t.closest('[data-cg-giveup]')) {
+      game.round = giveUp(game.round);
+      finishRound();
+      feedback = null;
+      render();
+    }
+  });
+
+  return {
+    show() {
+      root.hidden = false;
+      render();
+    },
+    hide() {
+      root.hidden = true;
+      party.hide();
+    },
+    /** Entrée lance la partie depuis le choix du thème et le bilan (clavier d'ordinateur). */
+    onKey(e) {
+      if (root.hidden || e.key !== 'Enter' || e.target.closest('input, textarea, select, button')) return false;
+      if (mode === 'solo-setup' || (mode === 'solo' && game?.over)) {
+        e.preventDefault();
+        start();
+        return true;
+      }
+      if (mode === 'solo' && game?.round.done) {
+        e.preventDefault();
+        next();
+        return true;
+      }
+      return false;
+    },
+  };
+}
+
+return { createCultureApp };
+})();
+const app = createCultureApp(document.getElementById('culture'), { onSwitchApp() {} });
+app.show();
+document.addEventListener('keydown', (e) => app.onKey(e));
+if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+</script>
+
+</body>
+</html>
